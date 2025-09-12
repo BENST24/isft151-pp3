@@ -1,1 +1,1 @@
-# Sistema-Inteligente-de-Gesti-n-de-Turnos-Automatizado
+# Sistema-Inteligente-de-Gestion-de-Turnos-Automatizado
