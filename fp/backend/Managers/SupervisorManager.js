@@ -5,13 +5,13 @@ class SupervisorManager
     constructor()
     {}
 
-    createSupervisor(id, username, password)
+    createSupervisor(username, password)
     {}
 
     deleteSupervisor(id)
     {}
 
-    updateSupervisor(id, username, password)
+    modifySupervisor(username, password)
     {}
 
     searchSupervisor(id)
