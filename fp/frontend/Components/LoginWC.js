@@ -1,15 +1,21 @@
+//import { LoginController } from "../Controllers/LoginController.js";
+//import { APIModelAccess } from "../../backend/Backend.js";
 class LoginWC extends HTMLElement
 {
-    constructor()
+    constructor(apiInstance)
     {
         super();
+        
+        this.controller = new LoginController(this,apiInstance);
         const shadow = this.attachShadow({mode : 'open'});
 
         const style = document.createElement('style');
         style.textContent = `
-            :host
+            .body-content
             {
-
+                min-lenght: 100vh;
+                margin: 0;
+                back
             }
 
             .main-title
@@ -27,7 +33,9 @@ class LoginWC extends HTMLElement
             
             }
         `;
-
+        this.bodyContainer = document.createElement('body');
+        this.bodyContainer.className ='body-content';
+        
         this.titleMain = document.createElement('h2');
         this.titleMain.textContent = 'Gestor de Turnos';
         this.titleMain.className = 'main-title';
@@ -46,6 +54,7 @@ class LoginWC extends HTMLElement
         this.userInput = document.createElement('input');
         this.userInput.placeholder = 'Ingrese su nombre de usuario';
         this.userInput.className = 'user-input';
+        this.userInput.name = 'username';
         this.userInput.id = 'userId';
         this.userInput.required = 'true';
         this.userInput.minLength = '3';
@@ -60,6 +69,7 @@ class LoginWC extends HTMLElement
         this.passwordInput = document.createElement('input');
         this.passwordInput.placeholder = 'Ingrese su contraseña';
         this.passwordInput.className = 'password-input';
+        this.passwordInput.name = 'password';
         this.passwordInput.id = 'passwordId';
         this.passwordInput.required = 'true';
         this.passwordInput.minLength = '8';
@@ -82,13 +92,25 @@ class LoginWC extends HTMLElement
         this.container.appendChild(this.userContainer);
         this.container.appendChild(this.passwordContainer);
         this.container.appendChild(this.loginButtonContainer);
-        
-        
+
+        this.bodyContainer.appendChild(this.container);
+
+        shadow.appendChild(style);
         shadow.appendChild(this.titleMain);
         shadow.appendChild(this.container);
+        shadow.appendChild(this.bodyContainer);
         
+    }
 
+    connectedCallback()
+    {
+        this.loginButtonContent.onclick = this.controller.onLoginButtonClick.bind(this.controller);
+    }
 
+    disconnectedCallback()
+    {
+        this.loginButtonContent = null;
+        this.controller.release();
     }
 }
 
