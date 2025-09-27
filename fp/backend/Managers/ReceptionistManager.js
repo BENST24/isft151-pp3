@@ -5,16 +5,16 @@ class ReceptionistManager
     constructor()
     {}
 
-    createReceptionist(id, username, password)
+    createReceptionist(username, password)
     {}
 
-    deleteReceptionist(id)
+    deleteReceptionist(username)
     {}  
 
-    updateReceptionist(id, username, password)
+    modifyReceptionist(username, password)
     {}
 
-    searchReceptionist(id)
+    searchReceptionist(username)
     {}
     
     listReceptionists()
