@@ -1,5 +1,5 @@
-//import { LoginController } from "../Controllers/LoginController.js";
-//import { APIModelAccess } from "../../backend/Backend.js";
+import { LoginController } from "../Controllers/LoginController.js";
+import { APIModelAccess } from "../../backend/Backend.js";
 class LoginWC extends HTMLElement
 {
     constructor(apiInstance)
