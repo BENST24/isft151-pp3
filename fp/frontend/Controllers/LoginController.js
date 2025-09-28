@@ -33,7 +33,7 @@ class LoginController
         this.api.authenticateUser(username, password);
     }
 
-    onSuccessLogin()
+    onAuthenticationRequestResponse()
     {
         
     }
