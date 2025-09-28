@@ -41,25 +41,13 @@ class LoginController
     onAuthenticationRequestResponse(apiResponse)
     {
         if(apiResponse.status){
-            this.onLoginSuccess(apiResponse.type, apiResponse.result);
+            this.viewInstance.onLoginSuccess(apiResponse.type, apiResponse.result);
         }else{
-            this.onLoginError(apiResponse.result);
+            this.viewInstance.onLoginError(apiResponse.result);
         }
     }
 
-    onLoginSuccess(userType)
-    {
-        let username = this.viewInstance.userInput.value;
-        if(this.viewInstance.parentNode)
-        {
-            this.viewInstance.removeChild(this.viewInstance);
-        }
-        
-        let dashboardInstance = new DashboardWC();
-
-        document.body.appendChild(dashboardInstance);
-
-    }
+    
 }
 
 
