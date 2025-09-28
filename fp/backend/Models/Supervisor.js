@@ -1,5 +1,3 @@
-import { ReceptionistManager } from "../Managers/ReceptionistManager";
-
 class Supervisor
 {
     constructor(id, username, password)
