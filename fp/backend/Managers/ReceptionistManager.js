@@ -1,4 +1,4 @@
-import { Receptionist } from "../Models/Receptionist";
+import { Receptionist } from "../Models/Receptionist.js";
 
 class ReceptionistManager
 {

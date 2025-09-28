@@ -1,8 +1,6 @@
 import { SupervisorManager } from './Managers/SupervisorManager.js';
 import { ReceptionistManager } from './Managers/ReceptionistManager.js';
 
-import Supervisor from './Supervisor.js';
-import Receptionist from './Receptionist.js';
 
 class APIModelAccess
 {
@@ -10,14 +8,7 @@ class APIModelAccess
     {
         this.supervisorManager = new SupervisorManager();
         this.receptionistManager = new ReceptionistManager();
-
-        this._userData = new Map();
         this._maxLoginFailedAttempts = 3;
-
-        this._userData.set(new Supervisor(1, 'supervisor', 123456));
-        this._userData.set(new Supervisor(1, 'supervisor2', 123456));
-        this._userData.set(new Receptionist(2, 'receptionist', 123456));
-        this._userData.set(new Receptionist(2, 'receptionist2', 123456));
     }
 
     // --------------------------------------------------------------------------
@@ -35,7 +26,7 @@ class APIModelAccess
 
 		if (username && password) 
 		{
-			let user = this._userData.get(username);
+			let user = this.supervisorManager.searchSupervisor(username) || this.receptionistManager.searchReceptionist(username);
 
 			if (user) 
 			{
