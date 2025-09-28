@@ -68,6 +68,7 @@ class LoginWC extends HTMLElement
         this.passwordTitle.className ='password-title';
         this.passwordInput = document.createElement('input');
         this.passwordInput.placeholder = 'Ingrese su contraseña';
+        this.passwordInput.type = 'password';
         this.passwordInput.className = 'password-input';
         this.passwordInput.name = 'password';
         this.passwordInput.id = 'passwordId';
