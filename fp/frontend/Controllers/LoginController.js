@@ -1,3 +1,4 @@
+import { DashboardWC } from "../Components/DashboardWC.js";
 class LoginController
 {
     constructor(_viewInstance, _modelInstance)
@@ -15,7 +16,8 @@ class LoginController
     
     release()
     {
-
+        this.viewInstance = null;
+        this.modelInstance = null;
     }
 
     run()
@@ -30,13 +32,36 @@ class LoginController
 
     onLoginButtonClick()
     {
-        this.api.authenticateUser(username, password);
+        let username = this.viewInstance.userInput.value;
+        let password = this.viewInstance.passwordInput.value;
+        let result=this.modelInstance.authenticateUserAPI(username, password);
+        this.onAuthenticationRequestResponse(result);
     }
 
-    onAuthenticationRequestResponse()
+    onAuthenticationRequestResponse(apiResponse)
     {
+        if(apiResponse.status){
+            this.onLoginSuccess(apiResponse.type, apiResponse.result);
+        }else{
+            this.onLoginError(apiResponse.result);
+        }
+    }
+
+    onLoginSuccess(userType)
+    {
+        let username = this.viewInstance.userInput.value;
+        if(this.viewInstance.parentNode)
+        {
+            this.viewInstance.removeChild(this.viewInstance);
+        }
         
+        let dashboardInstance = new DashboardWC();
+
+        document.body.appendChild(dashboardInstance);
+
     }
 }
+
+
 
 export{LoginController}
