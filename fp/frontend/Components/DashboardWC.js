@@ -10,11 +10,27 @@ class DashboardWC extends HTMLElement
         style.textContent = `
             :host
             {
-                background-color: rgba(177, 180, 216, 1)
+                background-color: rgba(59, 59, 59, 1);
+                min-height: 100vh;
+                display: block;
+                margin: 0;
+                padding: 0;
+                width: 100%;
             }
         `;
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.minHeight = '100vh';
         
+        
+        document.documentElement.style.margin = '0';
+        document.documentElement.style.padding = '0';
         shadow.appendChild(style);
+    }
+
+    connectedCallback()
+    {
+        
     }
 }
 

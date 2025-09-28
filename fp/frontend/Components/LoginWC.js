@@ -103,6 +103,25 @@ class LoginWC extends HTMLElement
         
     }
 
+    onLoginSuccess(userType)
+    {
+        let username = this.viewInstance.userInput.value;
+        if(this.viewInstance.parentNode)
+        {
+            this.viewInstance.removeChild(this.viewInstance);
+        }
+        
+        let dashboardInstance = new DashboardWC();
+
+        document.body.appendChild(dashboardInstance);
+
+    }
+
+    onLoginError()
+    {
+        
+    }
+
     connectedCallback()
     {
         this.loginButtonContent.onclick = this.controller.onLoginButtonClick.bind(this.controller);
