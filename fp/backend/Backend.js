@@ -233,6 +233,22 @@ class APIModelAccess
         }
     } 
 
+    listUserAPI(currentUsername)
+    {
+        if (this.isAuthorizedUser(currentUsername))
+        {
+            let supervisors = this.supervisorManager.listSupervisors();
+            let receptionists = this.receptionistManager.listReceptionists();
+            
+            let allUsers = {
+                supervisors: supervisors,
+                receptionists: receptionists
+            }
+
+            return { status: true, result: allUsers };
+        }    
+    }
 
 }
+
 export { APIModelAccess };

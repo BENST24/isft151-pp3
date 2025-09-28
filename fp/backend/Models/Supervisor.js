@@ -41,22 +41,20 @@ class Supervisor
         this.password = password;
     }
 
-    loadEmployee()
-    {
-        
-    }
+    // loadEmployee()
+    // {}
     
-    modifyEmployee()
-    {}
+    // modifyEmployee()
+    // {}
 
-    deleteEmployee()
-    {}
+    // deleteEmployee()
+    // {}
 
-    listEmploye()
-    {}
+    // listEmploye()
+    // {}
 
-    searchEmployee()
-    {}
+    // searchEmployee()
+    // {}
 
     loadAppointment()
     {}
