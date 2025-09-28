@@ -1,5 +1,6 @@
 import { LoginController } from "../Controllers/LoginController.js";
 import { APIModelAccess } from "../../backend/Backend.js";
+import { DashboardWC } from "./DashboardWC.js";
 class LoginWC extends HTMLElement
 {
     constructor(apiInstance)
@@ -105,10 +106,10 @@ class LoginWC extends HTMLElement
 
     onLoginSuccess(userType)
     {
-        let username = this.viewInstance.userInput.value;
-        if(this.viewInstance.parentNode)
+        let username = this.userInput.value;
+        if(this.parentNode)
         {
-            this.viewInstance.removeChild(this.viewInstance);
+            this.parentNode.removeChild(this);
         }
         
         let dashboardInstance = new DashboardWC();
