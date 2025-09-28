@@ -38,9 +38,9 @@ class SupervisorManager
 
     deleteSupervisor(username)
     {
-        for (let i = 0; i < this.receptionists.length; i++)
+        for (let i = 0; i < this.supervisors.length; i++)
         {
-            if (this.receptionists[i].username === username)
+            if (this.supervisors[i].username === username)
             {
                 this.supervisors.splice(i, 1);
             }
