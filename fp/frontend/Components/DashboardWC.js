@@ -135,7 +135,7 @@ class DashboardWC extends HTMLElement
         this.list00.className = 'upper-list';
         
         this.aOption00 = document.createElement('a');
-        this.aOption00.href='';
+        this.aOption00.href='#';
         this.aOption00.textContent = 'Gestionar Empleados';
         this.aOption00.className = 'upper-a-list';
 
@@ -143,7 +143,7 @@ class DashboardWC extends HTMLElement
         this.list01.className = 'upper-list';
         
         this.aOption01 = document.createElement('a');
-        this.aOption01.href='';
+        this.aOption01.href='#';
         this.aOption01.textContent = 'Gestionar Actividades';
         this.aOption01.className = 'upper-a-list';
 
@@ -162,7 +162,7 @@ class DashboardWC extends HTMLElement
         this.leftList00.className = 'left-list';
         
         this.aLeftOption00 = document.createElement('a');
-        this.aLeftOption00.href='';
+        this.aLeftOption00.href='#';
         this.aLeftOption00.textContent = 'Añadir Empleado';
         this.aLeftOption00.className = 'left-a-list';
 
@@ -170,7 +170,7 @@ class DashboardWC extends HTMLElement
         this.leftList01.className = 'left-list';
         
         this.aLeftOption01 = document.createElement('a');
-        this.aLeftOption01.href='';
+        this.aLeftOption01.href='#';
         this.aLeftOption01.textContent = 'Eliminar Empleado';
         this.aLeftOption01.className = 'left-a-list';
 
@@ -178,7 +178,7 @@ class DashboardWC extends HTMLElement
         this.leftList02.className = 'left-list';
         
         this.aLeftOption02 = document.createElement('a');
-        this.aLeftOption02.href='';
+        this.aLeftOption02.href='#';
         this.aLeftOption02.textContent = 'Modificar Empleado';
         this.aLeftOption02.className = 'left-a-list';
 
@@ -186,7 +186,7 @@ class DashboardWC extends HTMLElement
         this.leftList03.className = 'left-list';
         
         this.aLeftOption03 = document.createElement('a');
-        this.aLeftOption03.href='';
+        this.aLeftOption03.href='#';
         this.aLeftOption03.textContent = 'Buscar Empleado';
         this.aLeftOption03.className = 'left-a-list';
 
@@ -194,7 +194,7 @@ class DashboardWC extends HTMLElement
         this.leftList04.className = 'left-list';
         
         this.aLeftOption04 = document.createElement('a');
-        this.aLeftOption04.href='';
+        this.aLeftOption04.href='#';
         this.aLeftOption04.textContent = 'Listar Empleados';
         this.aLeftOption04.className = 'left-a-list';
 
