@@ -6,6 +6,7 @@ class Supervisor
         this.username = username;
         this.password = password;
         this.type = 'SUPERVISOR';
+        this.failedLoginCounter = 0;
         this.isLocked = false;
     }
 

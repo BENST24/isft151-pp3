@@ -64,11 +64,12 @@ class APIModelAccess
 
     incrementFailedLogin(user) 
 	{
-		user.failedLoginCounter++;
-		if (user.failedLoginCounter >= this._maxLoginFailedAttempts) 
-		{
-			user.isLocked = true;
-		}
+		// user.failedLoginCounter++;
+        this.supervisorManager.incrementFailedLogin(user.username);
+		// if (user.failedLoginCounter >= this._maxLoginFailedAttempts) 
+		// {
+		// 	user.isLocked = true;
+		// }
 	}
 
     // --------------------------------------------------------------------------

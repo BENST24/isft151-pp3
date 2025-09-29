@@ -75,6 +75,19 @@ class ReceptionistManager
     {
         return this.receptionists;
     }
+
+    incrementFailedLogin(username)
+    {
+        const receptionist = this.searchReceptionist(username);
+        if (receptionist)
+        {
+            receptionist.failedLoginCounter++;
+            if (receptionist.failedLoginCounter >= 3)
+            {
+                receptionist.isLocked = true;
+            }
+        }
+    }
 }
 
 export { ReceptionistManager };

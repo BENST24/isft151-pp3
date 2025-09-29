@@ -6,6 +6,7 @@ class Receptionist
         this.username = username;
         this.password = password;
         this.type = 'RECEPTIONIST';
+        this.failedLoginCounter = 0;
         this.isLocked = false;
     }
 
