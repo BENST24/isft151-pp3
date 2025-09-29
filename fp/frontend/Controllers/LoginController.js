@@ -35,7 +35,7 @@ class LoginController
         let username = this.viewInstance.userInput.value;
         let password = this.viewInstance.passwordInput.value;
         let result=this.modelInstance.authenticateUserAPI(username, password);
-        this.onAuthenticationRequestResponse(result);
+        this.onAuthenticationRequestResponse(result);  
     }
 
     onAuthenticationRequestResponse(apiResponse)
@@ -46,8 +46,6 @@ class LoginController
             this.viewInstance.onLoginError(apiResponse.result);
         }
     }
-
-    
 }
 
 
