@@ -75,6 +75,19 @@ class SupervisorManager
     {
         return this.supervisors;
     }
+
+    incrementFailedLogin(username)
+    {
+        const supervisor = this.searchSupervisor(username);
+        if (supervisor)
+        {
+            supervisor.failedLoginCounter++;
+            if (supervisor.failedLoginCounter >= 3)
+            {
+                supervisor.isLocked = true;
+            }
+        }
+    }
 }
 
 export { SupervisorManager };
