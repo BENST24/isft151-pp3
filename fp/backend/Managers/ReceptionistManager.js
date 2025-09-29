@@ -76,7 +76,7 @@ class ReceptionistManager
         return this.receptionists;
     }
 
-    incrementFailedLogin(username)
+    incrementFailedLoginCounter(username)
     {
         const receptionist = this.searchReceptionist(username);
         if (receptionist)
@@ -86,6 +86,16 @@ class ReceptionistManager
             {
                 receptionist.isLocked = true;
             }
+        }
+    }
+
+    resetFailedloginCounter(username)
+    {
+        const receptionist = this.searchReceptionist(username);
+        if (receptionist)
+        {
+            receptionist.failedLoginCounter = 0;
+            receptionist.isLocked = false;
         }
     }
 }
