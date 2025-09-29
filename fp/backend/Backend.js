@@ -9,6 +9,8 @@ class APIModelAccess
         this.supervisorManager = new SupervisorManager();
         this.receptionistManager = new ReceptionistManager();
         this._maxLoginFailedAttempts = 3;
+
+        this.supervisorManager.createSupervisor('admin', 'Admin123');
     }
 
     // --------------------------------------------------------------------------
