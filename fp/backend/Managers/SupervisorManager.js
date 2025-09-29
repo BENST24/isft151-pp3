@@ -76,7 +76,7 @@ class SupervisorManager
         return this.supervisors;
     }
 
-    incrementFailedLogin(username)
+    incrementFailedLoginCounter(username)
     {
         const supervisor = this.searchSupervisor(username);
         if (supervisor)
@@ -86,6 +86,16 @@ class SupervisorManager
             {
                 supervisor.isLocked = true;
             }
+        }
+    }
+
+    resetFailedloginCounter(username)
+    {
+        const supervisor = this.searchSupervisor(username);
+        if (supervisor)
+        {
+            supervisor.failedLoginCounter = 0;
+            supervisor.isLocked = false;
         }
     }
 }
