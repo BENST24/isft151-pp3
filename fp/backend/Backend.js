@@ -36,6 +36,7 @@ class APIModelAccess
 				{
 					if (this.isPasswordCorrect(user, password))
 					{
+                        this.resetFailedloginCounter(user);
 						api_return.status = true;
                         api_return.type =  user.type;
 					} else 
@@ -64,13 +65,26 @@ class APIModelAccess
 
     incrementFailedLogin(user) 
 	{
-		// user.failedLoginCounter++;
-        this.supervisorManager.incrementFailedLogin(user.username);
-		// if (user.failedLoginCounter >= this._maxLoginFailedAttempts) 
-		// {
-		// 	user.isLocked = true;
-		// }
+        if (user.type === 'SUPERVISOR')
+        {
+            this.supervisorManager.incrementFailedLoginCounter(user.username);
+        }else
+        {
+            this.receptionistManager.incrementFailedLoginCounter(user.username);
+        }
 	}
+
+    resetFailedloginCounter(user)
+    {
+        if(user.type === 'SUPERVISOR')
+        {
+            this.supervisorManager.resetFailedloginCounter(user.username);
+
+        }else
+        {
+            this.receptionistManager.resetFailedloginCounter(user.username);
+        }
+    }
 
     // --------------------------------------------------------------------------
 
@@ -114,6 +128,26 @@ class APIModelAccess
         return hasUpper && hasDigit && specialCounter >= 2;
     }
 
+    enableBlockedUserAPI(currentUsername, username, type)
+    {
+        if (this.isAuthorizedUser(currentUsername))
+        {
+            if (type === 'SUPERVISOR')
+            {
+                this.supervisorManager.resetFailedloginCounter(username);
+            }else
+            {
+                this.receptionistManager.resetFailedloginCounter(username);
+            }
+            return { status: true, result: 'USER_ENABLED' };
+        }
+        else
+        {
+            return { status: false, result: 'USER_NOT_AUTHORIZED' };
+        }
+        
+    }
+
     createUserAPI(currentUsername, username, password, type)
     {
 
@@ -131,7 +165,7 @@ class APIModelAccess
                     {
                         this.receptionistManager.createReceptionist(username, password);
                     }
-                    return { status: true };
+                    return { status: true, result: 'USER_CREATED' };
                 }
                 else
                 {
