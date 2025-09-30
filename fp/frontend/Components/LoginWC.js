@@ -16,17 +16,33 @@ class LoginWC extends HTMLElement
             {
                 min-lenght: 100vh;
                 margin: 0;
-                back
+                background-color: rgba(104, 93, 82, 1);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-content: center;
+
             }
 
             .main-title
             {
-            
+                min-lenght: 100vh;
+                margin: 0;
+                background-color: rgba(91, 107, 76, 1);
+                display: block;
+                justify-content: center;
+                align-content: center;
             }
 
             .login-container
             {
-
+                min-lenght: 100vh;
+                margin: 0;
+                background-color: rgba(171, 177, 226, 1);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-content: center;
             }
 
             .user-container
@@ -34,6 +50,13 @@ class LoginWC extends HTMLElement
             
             }
         `;
+
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.minHeight = '100vh';
+        document.documentElement.style.margin = '0';
+        document.documentElement.style.padding = '0';
+
         this.bodyContainer = document.createElement('body');
         this.bodyContainer.className ='body-content';
         
@@ -86,10 +109,10 @@ class LoginWC extends HTMLElement
 
 
         this.loginButtonContainer.appendChild(this.loginButtonContent);
-        this.passwordContainer.appendChild(this.passwordInput);
         this.passwordContainer.appendChild(this.passwordTitle);
-        this.userContainer.appendChild(this.userInput);
+        this.passwordContainer.appendChild(this.passwordInput);
         this.userContainer.appendChild(this.userTitle);
+        this.userContainer.appendChild(this.userInput);
 
         this.container.appendChild(this.userContainer);
         this.container.appendChild(this.passwordContainer);

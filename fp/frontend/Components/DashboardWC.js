@@ -128,6 +128,13 @@ class DashboardWC extends HTMLElement
         this.upperListContainer = document.createElement('div');
         this.upperListContainer.className = 'upper-list-container';
 
+        this.welcomeContainer = document.createElement('div');
+        this.welcomeContainer.className ='welcome-container';
+
+        this.welcomeTitle = document.createElement('h2');
+        this.welcomeTitle.className = 'welcome-Title';
+        this.welcomeTitle.textContent = 'Bienvenido';
+
         this.uUpperList00 = document.createElement('ul');
         this.uUpperList00.className = 'upper-u-list';
 
@@ -146,6 +153,12 @@ class DashboardWC extends HTMLElement
         this.aOption01.href='#';
         this.aOption01.textContent = 'Gestionar Actividades';
         this.aOption01.className = 'upper-a-list';
+
+
+        this.logOutButton = document.createElement('a');
+        this.logOutButton.href='';
+        this.logOutButton.textContent = 'Cerrar Sesion';
+        this.logOutButton.className ='log-out-button';
 
         /*---------------------NAV VERTICAL--------------------------*/
         this.leftNav =document.createElement('nav');
@@ -204,13 +217,17 @@ class DashboardWC extends HTMLElement
 
         /*--------------------------------------------*/ 
 
+        this. welcomeContainer.appendChild(this.welcomeTitle);
+
         this.list00.appendChild(this.aOption00);
         this.list01.appendChild(this.aOption01);
         
         this.uUpperList00.appendChild(this.list00);
         this.uUpperList00.appendChild(this.list01);
-        
+
+        this.upperListContainer.appendChild(this.welcomeTitle);
         this.upperListContainer.appendChild(this.uUpperList00);
+        this.upperListContainer.appendChild(this.logOutButton);
         this.upperNav.appendChild(this.upperListContainer);
 
         /*---AppendChild left nav*/
