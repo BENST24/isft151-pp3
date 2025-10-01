@@ -211,9 +211,9 @@ class LoginWC extends HTMLElement
 
     }
 
-    onLoginError()
+    onLoginError(textAlert)
     {
-        window.alert('Login incorrecto');
+        window.alert(textAlert);
     }
 
     connectedCallback()

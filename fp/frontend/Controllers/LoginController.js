@@ -43,7 +43,8 @@ class LoginController
         if(apiResponse.status){
             this.viewInstance.onLoginSuccess(apiResponse.type, apiResponse.result);
         }else{
-            this.viewInstance.onLoginError(apiResponse.result);
+            let textAlert = apiResponse.result;
+            this.viewInstance.onLoginError(textAlert);
         }
     }
 }
