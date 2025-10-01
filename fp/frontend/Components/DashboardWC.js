@@ -1,6 +1,6 @@
 class DashboardWC extends HTMLElement
 {
-    constructor()
+    constructor(userType)
     {
         super();
         
@@ -131,9 +131,10 @@ class DashboardWC extends HTMLElement
         this.welcomeContainer = document.createElement('div');
         this.welcomeContainer.className ='welcome-container';
 
+        const user = userType;
         this.welcomeTitle = document.createElement('h2');
         this.welcomeTitle.className = 'welcome-Title';
-        this.welcomeTitle.textContent = 'Bienvenido';
+        this.welcomeTitle.textContent = `Bienvenido ${user}`;
 
         this.uUpperList00 = document.createElement('ul');
         this.uUpperList00.className = 'upper-u-list';

@@ -222,7 +222,7 @@ class LoginWC extends HTMLElement
             this.parentNode.removeChild(this);
         }
         
-        let dashboardInstance = new DashboardWC(userType);
+        let dashboardInstance = new DashboardWC(username);
 
         document.body.appendChild(dashboardInstance);
 
