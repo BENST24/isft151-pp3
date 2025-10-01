@@ -41,7 +41,8 @@ class LoginController
     onAuthenticationRequestResponse(apiResponse)
     {
         if(apiResponse.status){
-            this.viewInstance.onLoginSuccess(apiResponse.type, apiResponse.result);
+            let success = apiResponse.result;
+            this.viewInstance.onLoginSuccess(apiResponse.type, success);
         }else{
             let textAlert = apiResponse.result;
             this.viewInstance.onLoginError(textAlert);
