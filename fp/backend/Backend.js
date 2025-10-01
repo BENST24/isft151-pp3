@@ -38,6 +38,7 @@ class APIModelAccess
 					{
                         this.resetFailedloginCounter(user);
 						api_return.status = true;
+                        api_return.result = 'USER_AUTHENTICATED';
                         api_return.type =  user.type;
 					} else 
 					{
@@ -274,9 +275,11 @@ class APIModelAccess
             }
 
             return { status: true, result: allUsers };
-        }    
+        }else
+        {
+            return { status: false, result: 'USER_NOT_AUTHORIZED' };
+        }
     }
-
 }
 
 export { APIModelAccess };
