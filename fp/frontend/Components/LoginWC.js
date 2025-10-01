@@ -213,15 +213,16 @@ class LoginWC extends HTMLElement
         shadow.appendChild(style);
     }
 
-    onLoginSuccess(userType)
+    onLoginSuccess(userType, success)
     {
+        window.alert(success);
         let username = this.userInput.value;
         if(this.parentNode)
         {
             this.parentNode.removeChild(this);
         }
         
-        let dashboardInstance = new DashboardWC();
+        let dashboardInstance = new DashboardWC(userType);
 
         document.body.appendChild(dashboardInstance);
 
