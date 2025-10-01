@@ -12,23 +12,34 @@ class LoginWC extends HTMLElement
 
         const style = document.createElement('style');
         style.textContent = `
-            .body-content
+            :host
             {
-                min-lenght: 100vh;
+                background: linear-gradient(rgba( 77, 85, 145, 1), rgba(47, 53, 100, 1), rgba(22, 25, 49, 1));
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                min-height: 100vh;
+                display: block;
                 margin: 0;
-                background-color: rgba(104, 93, 82, 1);
+                padding: 0;
+                width: 100%;
+            }
+            
+            .title-container
+            {
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
+                align-text: center;
                 justify-content: center;
-                align-content: center;
-
+                padding: 20px;
             }
 
             .main-title
             {
                 min-lenght: 100vh;
                 margin: 0;
-                background-color: rgba(91, 107, 76, 1);
+                color: white;
+                font-size: 60px;
                 display: block;
                 justify-content: center;
                 align-content: center;
@@ -36,18 +47,77 @@ class LoginWC extends HTMLElement
 
             .login-container
             {
-                min-lenght: 100vh;
-                margin: 0;
-                background-color: rgba(171, 177, 226, 1);
-                display: flex;
+                margin: 700px;
+                margin-top: 100px;
+                padding: 20px;
+                background: linear-gradient(rgba(98, 98, 255, 1), rgba(74, 74, 206, 1), rgba(53, 53, 148, 1));
+                border-radius: 20px;
+                display: block;
                 flex-direction: column;
                 justify-content: center;
-                align-content: center;
+                align-text: center;
             }
 
             .user-container
             {
-            
+                font-size: 30px;
+                font-weight: 700;
+                color: white;
+                margin: 10px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-text: center;
+            }
+
+            .password-container
+            {
+                font-size: 30px;
+                font-weight: 700;
+                color: white;
+                margin: 10px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-text: center;
+            }
+
+            .button-container
+            {
+                margin: 10px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-text: center;
+            }
+
+            .login-button
+            {
+                font-size: 20px;
+                font-weight: 700;
+                margin: 10px;
+                padding: 20px;
+                width: 400px;
+                color: white;
+                background: rgba(77, 130, 165, 1);
+                border-radius: 20px;
+                border-color: rgba(98, 98, 255, 1);
+            }
+
+            .login-button:hover
+            {
+                background: rgba(5, 5, 5, 1);
+            }
+
+            input
+            {
+                height: 20px;
+                width: 400px;
+                border-radius: 20px;
+                border-color: rgba(0, 0, 0, 1);
             }
         `;
 
@@ -57,17 +127,18 @@ class LoginWC extends HTMLElement
         document.documentElement.style.margin = '0';
         document.documentElement.style.padding = '0';
 
-        this.bodyContainer = document.createElement('body');
-        this.bodyContainer.className ='body-content';
         
-        this.titleMain = document.createElement('h2');
+        this.titleContainer = document.createElement('div');
+        this.titleContainer.className = 'title-container';
+
+        this.titleMain = document.createElement('h1');
         this.titleMain.textContent = 'Gestor de Turnos';
         this.titleMain.className = 'main-title';
         
 
         /*Contenedor login*/ 
-        this.container = document.createElement('div');
-        this.container.className = 'login-container';
+        this.logContainer = document.createElement('div');
+        this.logContainer.className = 'login-container';
 
         /*Casilla Usuario*/ 
         this.userContainer = document.createElement('div');
@@ -79,8 +150,9 @@ class LoginWC extends HTMLElement
         this.userInput.placeholder = 'Ingrese su nombre de usuario';
         this.userInput.className = 'user-input';
         this.userInput.name = 'username';
+        this.userInput.type = 'text';
         this.userInput.id = 'userId';
-        this.userInput.required = 'true';
+        this.userInput.required = true;
         this.userInput.minLength = '3';
 
 
@@ -96,7 +168,7 @@ class LoginWC extends HTMLElement
         this.passwordInput.className = 'password-input';
         this.passwordInput.name = 'password';
         this.passwordInput.id = 'passwordId';
-        this.passwordInput.required = 'true';
+        this.passwordInput.required = true;
         this.passwordInput.minLength = '8';
 
 
@@ -114,17 +186,15 @@ class LoginWC extends HTMLElement
         this.userContainer.appendChild(this.userTitle);
         this.userContainer.appendChild(this.userInput);
 
-        this.container.appendChild(this.userContainer);
-        this.container.appendChild(this.passwordContainer);
-        this.container.appendChild(this.loginButtonContainer);
+        this.titleContainer.appendChild(this.titleMain);
 
-        this.bodyContainer.appendChild(this.container);
+        this.logContainer.appendChild(this.userContainer);
+        this.logContainer.appendChild(this.passwordContainer);
+        this.logContainer.appendChild(this.loginButtonContainer);
 
+        shadow.appendChild(this.titleContainer);
+        shadow.appendChild(this.logContainer);
         shadow.appendChild(style);
-        shadow.appendChild(this.titleMain);
-        shadow.appendChild(this.container);
-        shadow.appendChild(this.bodyContainer);
-        
     }
 
     onLoginSuccess(userType)
