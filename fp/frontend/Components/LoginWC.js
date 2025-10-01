@@ -45,6 +45,15 @@ class LoginWC extends HTMLElement
                 align-content: center;
             }
 
+            .form-container
+            {
+                display: flex;
+                flex-direction: row;
+                align-text: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
             .login-container
             {
                 margin: 700px;
@@ -116,9 +125,12 @@ class LoginWC extends HTMLElement
             {
                 height: 20px;
                 width: 400px;
+                padding: 8px;
                 border-radius: 20px;
                 border-color: rgba(0, 0, 0, 1);
+                text-indent: 10px;
             }
+            
         `;
 
         document.body.style.margin = '0';
@@ -136,6 +148,9 @@ class LoginWC extends HTMLElement
         this.titleMain.className = 'main-title';
         
 
+        this.formContainer = document.createElement('div');
+        this.formContainer.className = 'form-container';
+        
         /*Contenedor login*/ 
         this.logContainer = document.createElement('div');
         this.logContainer.className = 'login-container';
@@ -185,15 +200,16 @@ class LoginWC extends HTMLElement
         this.passwordContainer.appendChild(this.passwordInput);
         this.userContainer.appendChild(this.userTitle);
         this.userContainer.appendChild(this.userInput);
-
+        
         this.titleContainer.appendChild(this.titleMain);
 
         this.logContainer.appendChild(this.userContainer);
         this.logContainer.appendChild(this.passwordContainer);
         this.logContainer.appendChild(this.loginButtonContainer);
-
+        this.formContainer.appendChild(this.logContainer);
+        
         shadow.appendChild(this.titleContainer);
-        shadow.appendChild(this.logContainer);
+        shadow.appendChild(this.formContainer);
         shadow.appendChild(style);
     }
 
