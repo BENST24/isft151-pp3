@@ -1,4 +1,4 @@
-class UpperUlWC extends  HTMLElement
+class UpperNavListWC extends  HTMLElement
 {
     constructor()
     {
@@ -86,6 +86,6 @@ class UpperUlWC extends  HTMLElement
     }
 }
 
-customElements.define('u-upper-ul', UpperUlWC);
+customElements.define('u-upper-ul', UpperNavListWC);
 
-export{UpperUlWC}
+export{UpperNavListWC}
