@@ -7,7 +7,14 @@ class LeftNavListWC extends HTMLElement
 
         const style = document.createElement('style');
         style.textContent = `
-                
+            
+            .left-u-list
+            {
+                margin-top: 100px;
+                margin-left: 10px;
+                padding-left: 0;
+            }
+
             .left-list
             {
                 background-color: rgba(255, 255, 255, 1);
@@ -18,6 +25,7 @@ class LeftNavListWC extends HTMLElement
                 padding-left: 0;
                 border-radius: 20px;
             }
+
 
             .left-a-list
             {
