@@ -13,21 +13,27 @@ class UpperUlWC extends  HTMLElement
                 margin-left: 500px;
                 margin-right: 500px;
                 padding: 20px;
-                width: 40%;
-                margin-top: 40px;
+                width: 30%;
+                margin-top: 50px;
                 background-color: rgba(255, 255, 255, 1);
                 border-radius: 20px;
             }
 
             .upper-list
             {
-                
                 display: flex;
                 flex-direction: row;
-                margin-right:0px;
+                justify-content: center;
+                margin: 20px;
                 border-color 2px solid black;
                 padding-left: 0px;
-                margin-top: 5px;
+                margin-top: 0px;
+            }
+
+            .upper-list:hover
+            {
+                background-color:rgba(146, 146, 146, 1); 
+                border-radius: 5px;
             }
 
             .upper-a-list
@@ -35,6 +41,12 @@ class UpperUlWC extends  HTMLElement
                 font-size: 20px;
                 text-decoration: none;
                 color: rgba(77, 130, 165, 1);
+                text-align: center;
+            }
+            
+            .upper-a-list:hover
+            {
+                color:rgba(0, 0, 0, 1);
             }
         `;
         document.body.style.margin = '0';

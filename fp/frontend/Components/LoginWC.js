@@ -28,14 +28,12 @@ class LoginWC extends HTMLElement
             {
                 display: flex;
                 flex-direction: row;
-                align-text: center;
                 justify-content: center;
                 padding: 20px;
             }
 
             .main-title
             {
-                min-lenght: 100vh;
                 margin: 0;
                 color: white;
                 font-size: 60px;
@@ -55,7 +53,6 @@ class LoginWC extends HTMLElement
 
             .login-container
             {
-                margin: 200px;
                 margin-top: 100px;
                 padding: 20px;
                 background: linear-gradient(rgba(98, 98, 255, 1), rgba(74, 74, 206, 1), rgba(53, 53, 148, 1));
@@ -167,7 +164,7 @@ class LoginWC extends HTMLElement
         this.userInput.type = 'text';
         this.userInput.id = 'userId';
         this.userInput.required = true;
-        this.userInput.minLength = '3';
+        this.userInput.minLength = 3;
 
 
 
@@ -183,7 +180,7 @@ class LoginWC extends HTMLElement
         this.passwordInput.name = 'password';
         this.passwordInput.id = 'passwordId';
         this.passwordInput.required = true;
-        this.passwordInput.minLength = '8';
+        this.passwordInput.minLength = 8;
 
 
         this.loginButtonContainer = document.createElement('a');

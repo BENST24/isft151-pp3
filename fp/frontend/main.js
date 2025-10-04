@@ -2,7 +2,7 @@ import { LoginWC } from "./Components/LoginWC.js";
 
 function main()
 {
-    let index = new LoginWC(model);
+    let index = new LoginWC();
     document.body.appendChild(index);
 }
 

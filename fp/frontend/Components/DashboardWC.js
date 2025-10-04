@@ -28,7 +28,7 @@ class DashboardWC extends HTMLElement
 
             .upper-nav
             {
-                background: linear-gradient( rgba(91, 109, 245, 1),rgba(51, 56, 97, 1));
+                background: linear-gradient(rgba( 77, 85, 145, 1),rgba(51, 56, 97, 1));
                 display: flex;
                 display-direction: row;
                 height: 100px;
@@ -50,18 +50,24 @@ class DashboardWC extends HTMLElement
             .left-nav
             {
                 margin: 0;
-                background-color: rgba( 77, 85, 145, 1);
+                background: linear-gradient(rgba( 77, 85, 145, 1),rgba(51, 56, 97, 1) ,rgba( 77, 85, 145, 1), rgba(91, 109, 245, 1));
                 min-height: calc(100vh - 100px);
                 width: 20%;
             }
             
+            .left-list-container
+            {
+                margin-top: 60px;
+                padding: 0;
+            }
             .left-list
             {
                 background-color: rgba(255, 255, 255, 1);
                 display: flex;
                 flex-direction: column;
                 margin: 10px;
-                padding: 15px;
+                padding: 10px;
+                padding-left: 0;
                 border-radius: 20px;
             }
 
@@ -70,6 +76,7 @@ class DashboardWC extends HTMLElement
                 color: rgba(77, 130, 165, 1);
                 font-size: 20px;
                 text-decoration: none;
+                text-align: center;
             }
 
             .div-displayer
@@ -84,7 +91,7 @@ class DashboardWC extends HTMLElement
         document.body.style.minHeight = '100vh';
         document.documentElement.style.margin = '0';
         document.documentElement.style.padding = '0';
-
+        //rgba(51, 56, 97, 1)  rgba(91, 109, 245, 1)
         this.divMain00 = document.createElement('div');
         this.divMain00.className ='div-main00';
 
