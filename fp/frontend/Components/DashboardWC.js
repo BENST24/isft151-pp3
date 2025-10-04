@@ -26,88 +26,90 @@ class DashboardWC extends HTMLElement
 
             .upper-nav
             {
-                background-color: rgba(126, 126, 126, 1);
+                background: linear-gradient( rgba(91, 109, 245, 1),rgba(51, 56, 97, 1));
                 display: flex;
                 display-direction: row;
-                margin: 0;
-                padding: 0;
                 height: 100px;
+                font-size: 20px;
             }
+            
 
-            .upper-list-container
+            .upper-u-list
             {
-                background-color: rgba(136, 99, 99, 1);
                 display: flex;
                 display-direction: row;
-                margin-left: 40%;
+                margin-left: 500px;
+                margin-right: 400px;
+                padding: 0px;
+                width: 30%;
+            }
+            
+            .welcome-title
+            {
+                margin-top: 50px;
+                margin-left: 30px;
+                color: rgba(255, 255, 255, 1);
+            }
+            
+            .upper-list
+            {
+                display: flex;
+                flex-direction: row;
+                margin-top: 10px;
+                margin-right: 0px;
+                padding-left: 70px;
+                border-radius: 20px;
+                border-color 2px solid black;
             }
 
             .upper-u-list
             {
-                background-color: rgba(172, 76, 76, 1);
-                display: flex;
-                display-direction: row;
-                margin: 10px;
-                padding: 10px;
+                margin-top: 40px;
+                background-color: rgba(255, 255, 255, 1);
+                border-radius: 20px;
             }
-
-            .upper-list
-            {
-                background-color: rgba(172, 166, 76, 1);
-                display: flex;
-                flex-direction: row;
-                margin: 10px;
-                padding: 10px;
-            }
-
             .upper-a-list
             {
                 font-size: 20px;
                 text-decoration: none;
+                color: rgba(77, 130, 165, 1);
+            }
+        
+            .log-out-button
+            {
+                margin-top: 50px;
             }
 
             .left-nav
             {
                 margin: 0;
-                background-color: rgba(174, 240, 143, 1);
-                min-height: 100vh;
+                background-color: rgba( 77, 85, 145, 1);
+                min-height: calc(100vh - 100px);
                 width: 20%;
             }
-
-            .left-list-container
-            {
-                background-color: rgba(115, 156, 180, 1);
-                
-            }
-
-            .left-u-list
-            {
-                background-color: rgba(111, 70, 187, 1);
-            }
-
+            
             .left-list
             {
-                background-color: rgba(172, 52, 102, 1);
+                background-color: rgba(255, 255, 255, 1);
                 display: flex;
                 flex-direction: column;
                 margin: 10px;
-                padding: 10px;
+                padding: 15px;
+                border-radius: 20px;
             }
 
             .left-a-list
             {
+                color: rgba(77, 130, 165, 1);
                 font-size: 20px;
                 text-decoration: none;
             }
 
             .div-displayer
             {
-                background-color: rgba(172, 116, 52, 1);
-                width: 40%;
-                min-height: calc(80vh - 200px);
-                
-                padding: 20%;
-                
+                background-color: rgba(146, 146, 146, 1);
+                width: 80%;
+                min-height: calc(80vh - 800px);
             }
         `;
         document.body.style.margin = '0';
@@ -125,15 +127,10 @@ class DashboardWC extends HTMLElement
         this.upperNav = document.createElement('nav');
         this.upperNav.className = 'upper-nav';
 
-        this.upperListContainer = document.createElement('div');
-        this.upperListContainer.className = 'upper-list-container';
-
-        this.welcomeContainer = document.createElement('div');
-        this.welcomeContainer.className ='welcome-container';
 
         const user = userType;
         this.welcomeTitle = document.createElement('h2');
-        this.welcomeTitle.className = 'welcome-Title';
+        this.welcomeTitle.className = 'welcome-title';
         this.welcomeTitle.textContent = `Bienvenido ${user}`;
 
         this.uUpperList00 = document.createElement('ul');
@@ -218,18 +215,16 @@ class DashboardWC extends HTMLElement
 
         /*--------------------------------------------*/ 
 
-        this. welcomeContainer.appendChild(this.welcomeTitle);
 
         this.list00.appendChild(this.aOption00);
         this.list01.appendChild(this.aOption01);
-        
+
+    
         this.uUpperList00.appendChild(this.list00);
         this.uUpperList00.appendChild(this.list01);
-
-        this.upperListContainer.appendChild(this.welcomeTitle);
-        this.upperListContainer.appendChild(this.uUpperList00);
-        this.upperListContainer.appendChild(this.logOutButton);
-        this.upperNav.appendChild(this.upperListContainer);
+        this.upperNav.appendChild(this.welcomeTitle);
+        this.upperNav.appendChild(this.uUpperList00);
+        this.upperNav.appendChild(this.logOutButton);
 
         /*---AppendChild left nav*/
         this.leftList00.appendChild(this.aLeftOption00);

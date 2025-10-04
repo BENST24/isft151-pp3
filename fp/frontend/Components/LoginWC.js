@@ -56,7 +56,7 @@ class LoginWC extends HTMLElement
 
             .login-container
             {
-                margin: 700px;
+                margin: 200px;
                 margin-top: 100px;
                 padding: 20px;
                 background: linear-gradient(rgba(98, 98, 255, 1), rgba(74, 74, 206, 1), rgba(53, 53, 148, 1));
