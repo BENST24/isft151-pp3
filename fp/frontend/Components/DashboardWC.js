@@ -1,4 +1,5 @@
-import { UpperUlWC } from "./UpperNavBarWC.js";
+import { UpperNavListWC } from "./UpperNavListWC.js";
+import { LeftNavListWC } from "./LeftNavListWC.js";
 
 class DashboardWC extends HTMLElement
 {
@@ -60,24 +61,6 @@ class DashboardWC extends HTMLElement
                 margin-top: 60px;
                 padding: 0;
             }
-            .left-list
-            {
-                background-color: rgba(255, 255, 255, 1);
-                display: flex;
-                flex-direction: column;
-                margin: 10px;
-                padding: 10px;
-                padding-left: 0;
-                border-radius: 20px;
-            }
-
-            .left-a-list
-            {
-                color: rgba(77, 130, 165, 1);
-                font-size: 20px;
-                text-decoration: none;
-                text-align: center;
-            }
 
             .div-displayer
             {
@@ -91,7 +74,7 @@ class DashboardWC extends HTMLElement
         document.body.style.minHeight = '100vh';
         document.documentElement.style.margin = '0';
         document.documentElement.style.padding = '0';
-        //rgba(51, 56, 97, 1)  rgba(91, 109, 245, 1)
+
         this.divMain00 = document.createElement('div');
         this.divMain00.className ='div-main00';
 
@@ -100,7 +83,6 @@ class DashboardWC extends HTMLElement
 
         this.upperNav = document.createElement('nav');
         this.upperNav.className = 'upper-nav';
-
 
         const user = userType;
         this.welcomeTitle = document.createElement('h2');
@@ -116,53 +98,6 @@ class DashboardWC extends HTMLElement
         this.leftNav =document.createElement('nav');
         this.leftNav.className ='left-nav';
 
-        this.leftListContainer = document.createElement('div');
-        this.leftListContainer.className = 'left-list-container';
-
-        this.uLeftList00 = document.createElement('ul');
-        this.uLeftList00.className = 'left-u-list';
-
-        
-        this.leftList00 = document.createElement('li');
-        this.leftList00.className = 'left-list';
-        
-        this.aLeftOption00 = document.createElement('a');
-        this.aLeftOption00.href='#';
-        this.aLeftOption00.textContent = 'Añadir Empleado';
-        this.aLeftOption00.className = 'left-a-list';
-
-        this.leftList01 = document.createElement('li');
-        this.leftList01.className = 'left-list';
-        
-        this.aLeftOption01 = document.createElement('a');
-        this.aLeftOption01.href='#';
-        this.aLeftOption01.textContent = 'Eliminar Empleado';
-        this.aLeftOption01.className = 'left-a-list';
-
-        this.leftList02 = document.createElement('li');
-        this.leftList02.className = 'left-list';
-        
-        this.aLeftOption02 = document.createElement('a');
-        this.aLeftOption02.href='#';
-        this.aLeftOption02.textContent = 'Modificar Empleado';
-        this.aLeftOption02.className = 'left-a-list';
-
-        this.leftList03 = document.createElement('li');
-        this.leftList03.className = 'left-list';
-        
-        this.aLeftOption03 = document.createElement('a');
-        this.aLeftOption03.href='#';
-        this.aLeftOption03.textContent = 'Buscar Empleado';
-        this.aLeftOption03.className = 'left-a-list';
-
-        this.leftList04 = document.createElement('li');
-        this.leftList04.className = 'left-list';
-        
-        this.aLeftOption04 = document.createElement('a');
-        this.aLeftOption04.href='#';
-        this.aLeftOption04.textContent = 'Listar Empleados';
-        this.aLeftOption04.className = 'left-a-list';
-
         this.divDisplayer = document.createElement('div');
         this.divDisplayer.className= 'div-displayer';
 
@@ -171,26 +106,17 @@ class DashboardWC extends HTMLElement
 
 
         this.uUpperList = document.createElement('u-upper-ul');
+        this.uLeftList = document.createElement('u-left-ul');
 
         this.upperNav.appendChild(this.welcomeTitle);
         this.upperNav.appendChild(this.uUpperList);
         this.upperNav.appendChild(this.logOutButton);
 
         /*---AppendChild left nav*/
-        this.leftList00.appendChild(this.aLeftOption00);
-        this.leftList01.appendChild(this.aLeftOption01);
-        this.leftList02.appendChild(this.aLeftOption02);
-        this.leftList03.appendChild(this.aLeftOption03);
-        this.leftList04.appendChild(this.aLeftOption04);
+        
 
-        this.uLeftList00.appendChild(this.leftList00);
-        this.uLeftList00.appendChild(this.leftList01);
-        this.uLeftList00.appendChild(this.leftList02);
-        this.uLeftList00.appendChild(this.leftList03);
-        this.uLeftList00.appendChild(this.leftList04);
-
-        this.leftListContainer.appendChild(this.uLeftList00);
-        this.leftNav.appendChild(this.leftListContainer);
+        
+        this.leftNav.appendChild(this.uLeftList);
 
         this.divMain00.appendChild(this.upperNav);
         this.divMain01.appendChild(this.leftNav);
