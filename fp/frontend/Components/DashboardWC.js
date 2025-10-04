@@ -58,8 +58,9 @@ class DashboardWC extends HTMLElement
             
             .left-list-container
             {
-                margin-top: 60px;
+                margin-top: 40px;
                 padding: 0;
+                margin-left: 30px;
             }
 
             .div-displayer
