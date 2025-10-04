@@ -1,13 +1,12 @@
 import { LoginController } from "../Controllers/LoginController.js";
-import { APIModelAccess } from "../../backend/Backend.js";
 import { DashboardWC } from "./DashboardWC.js";
 class LoginWC extends HTMLElement
 {
-    constructor(apiInstance)
+    constructor()
     {
         super();
         
-        this.controller = new LoginController(this,apiInstance);
+        this.controller = new LoginController(this);
         const shadow = this.attachShadow({mode : 'open'});
 
         const style = document.createElement('style');

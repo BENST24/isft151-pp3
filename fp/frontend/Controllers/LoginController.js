@@ -1,11 +1,9 @@
 import { DashboardWC } from "../Components/DashboardWC.js";
 class LoginController
 {
-    constructor(_viewInstance, _modelInstance)
+    constructor(_viewInstance)
     {
-        
         this.viewInstance = _viewInstance;
-        this.modelInstance = _modelInstance;
 
     }
 
@@ -17,7 +15,7 @@ class LoginController
     release()
     {
         this.viewInstance = null;
-        this.modelInstance = null;
+        
     }
 
     run()
@@ -30,12 +28,32 @@ class LoginController
 
     }
 
-    onLoginButtonClick()
+    async onLoginButtonClick()
     {
         let username = this.viewInstance.userInput.value;
         let password = this.viewInstance.passwordInput.value;
-        let result=this.modelInstance.authenticateUserAPI(username, password);
-        this.onAuthenticationRequestResponse(result);  
+        
+        try {
+        const response = await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+        this.onAuthenticationRequestResponse(result);
+        
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            this.onAuthenticationRequestResponse({
+                status: false,
+                result: "SERVER_ERROR"
+            });
+        }
+        // let result=this.modelInstance.authenticateUserAPI(username, password);
+        // this.onAuthenticationRequestResponse(result);  
     }
 
     onAuthenticationRequestResponse(apiResponse)
