@@ -4,18 +4,22 @@ class LoginController
     constructor(_viewInstance)
     {
         this.viewInstance = _viewInstance;
-
+        this.translation = new Map();
+        this.init();
     }
 
     init()
     {
-
+        this.translation.set('USER_AUTHENTICATED','Usuario autenticado correctamente');
+        this.translation.set('BLOCKED_USER','Usuario bloqueado');
+        this.translation.set('USER_PASSWORD_FAILED','Contraseña incorrecta');
+        this.translation.set('USER_NOT_FOUND','Usuario no encontrado');
+        this.translation.set('null','Error desconocido');
     }
     
     release()
     {
         this.viewInstance = null;
-        
     }
 
     run()
@@ -59,11 +63,13 @@ class LoginController
     onAuthenticationRequestResponse(apiResponse)
     {
         if(apiResponse.status){
-            let success = apiResponse.result;
-            this.viewInstance.onLoginSuccess(apiResponse.type, success);
+            let successKey = apiResponse.result;
+            let successMessage = this.translation.get(successKey) || this.translation.get('null');
+            this.viewInstance.onLoginSuccess(apiResponse.type, successMessage);
         }else{
-            let textAlert = apiResponse.result;
-            this.viewInstance.onLoginError(textAlert);
+            let errorKey = apiResponse.result;
+            let errorMessage = this.translation.get(errorKey) || this.translation.get('null');
+            this.viewInstance.onLoginError(errorMessage);
         }
     }
 }

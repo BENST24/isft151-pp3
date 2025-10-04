@@ -8,7 +8,6 @@ class LoginWC extends HTMLElement
         
         this.controller = new LoginController(this);
         const shadow = this.attachShadow({mode : 'open'});
-
         const style = document.createElement('style');
         style.textContent = `
             :host
@@ -166,8 +165,6 @@ class LoginWC extends HTMLElement
         this.userInput.required = true;
         this.userInput.minLength = 3;
 
-
-
         this.passwordContainer = document.createElement('div');
         this.passwordContainer.className = 'password-container';
         this.passwordTitle = document.createElement('label');
@@ -182,14 +179,12 @@ class LoginWC extends HTMLElement
         this.passwordInput.required = true;
         this.passwordInput.minLength = 8;
 
-
         this.loginButtonContainer = document.createElement('a');
         this.loginButtonContainer.className = 'button-container';
         this.loginButtonContent = document.createElement('button');
         this.loginButtonContent.className = 'login-button';
         this.loginButtonContent.textContent = 'Iniciar Sesion';
         this.loginButtonContent.id = 'loginButtonId';
-
 
         this.loginButtonContainer.appendChild(this.loginButtonContent);
         this.passwordContainer.appendChild(this.passwordTitle);
@@ -209,9 +204,9 @@ class LoginWC extends HTMLElement
         shadow.appendChild(style);
     }
 
-    onLoginSuccess(userType, success)
+    onLoginSuccess(userType, successMessage)
     {
-        window.alert(success);
+        window.alert(successMessage);
         let username = this.userInput.value;
         if(this.parentNode)
         {
@@ -224,9 +219,9 @@ class LoginWC extends HTMLElement
 
     }
 
-    onLoginError(textAlert)
+    onLoginError(errorMessage)
     {
-        window.alert(textAlert);
+        window.alert(errorMessage);
     }
 
     connectedCallback()
