@@ -1,18 +1,18 @@
-import { UserManager } from "./UserManager.js";
+import { UserService } from "../Services/UserService.js";
 
 class AuthModel
 {
     constructor()
     {
-        this.userManager = new UserManager();
-        this._maxLoginFailedAttempts = 3;
+		this.userService = new UserService();
+        // this._maxLoginFailedAttempts = 3;
     }
 
     // --------------------------------------------------------------------------
     // Metodos para el Login
     // --------------------------------------------------------------------------
 
-    authenticateUser(username, password) 
+    async authenticateUser(username, password) 
 	{
 		let api_return = 
 		{
@@ -23,7 +23,7 @@ class AuthModel
 
 		if (username && password) 
 		{
-			let user = this.userManager.searchUser(username);
+			let user = await this.userService.getUserByName(username);
 
 			if (user) 
 			{
@@ -31,13 +31,13 @@ class AuthModel
 				{
 					if (this.#isPasswordCorrect(user, password))
 					{
-                        this.#resetFailedloginCounter(user);
+                        // this.#resetFailedloginCounter(user);
 						api_return.status = true;
                         api_return.result = 'USER_AUTHENTICATED';
                         api_return.type =  user.type;
 					} else 
 					{
-						this.#incrementFailedLogin(user);
+						// this.#incrementFailedLogin(user);
 						api_return.status = false;
 						api_return.result = user.isLocked ? 'BLOCKED_USER' : 'USER_PASSWORD_FAILED';
 					}
@@ -65,12 +65,13 @@ class AuthModel
 
     #incrementFailedLogin(user) 
 	{
-        this.userManager.incrementFailedLoginCounter(user.username)
+
+        this.userService.incrementFailedLoginCounterUser(user.username, user.failedLoginCounter++);
 	}
 
     #resetFailedloginCounter(user)
     {
-        this.userManager.resetFailedloginCounter(user.username)
+        this.userService.resetFailedloginCounterUser(user.username);
     }
 }
 

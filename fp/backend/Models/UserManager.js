@@ -1,113 +1,161 @@
-import { Supervisor } from './Supervisor.js';
-import { Receptionist } from './Receptionist.js';
-
-class UserManager 
+class UserManager
 {
     constructor()
     {
-        this.users = [];
-        this.nextId = this.calculateNextId();
-
-        this.users.push(new Supervisor(this.nextId, 'admin', 'Admin123'));
+        
     }
 
-    calculateNextId()
+    // --------------------------------------------------------------------------
+    // Metodos para la gestion de usuarios
+    // --------------------------------------------------------------------------
+
+    isAuthorizedUser(currentUsername)
     {
-        if (this.users.length === 0) 
+        let user = this.userManager.searchUser(currentUsername);
+        
+        if(user.type === 'SUPERVISOR')
         {
-            return 1;
-        }
-
-        let maxId = this.users[0].id;
-
-        for (let i = 1; i < this.users.length; i++)
-        {
-            if (this.users[i].id > maxId)
-            {
-                maxId = this.users[i].id;
-            }
-        }
-
-        return maxId + 1;
-    }
-
-    createUser(username, password, type)
-    {
-        if(type === 'SUPERVISOR')
-        {
-            const newUser = new Supervisor(this.nextId, username, password);
-            this.users.push(newUser);
-            this.nextId++;
+            return true;
         }else
         {
-            const newUser = new Receptionist(this.nextId, username, password);
-            this.users.push(newUser);
-            this.nextId++;
+            return false;
         }
     }
 
-    deleteUser(username)
+    // metodo para validar la contraseña
+    validatePass(pass) 
     {
-        for (let i = 0; i < this.users.length; i++)
+        let specialCounter = 0;
+        let hasUpper = false;
+        let hasDigit = false;
+
+        if (pass.length < 8 || pass.length > 16) 
         {
-            if (this.users[i].username === username)
+            return false;
+        }
+
+        for (let i = 0; i < pass.length; i++) 
+        {
+            const c = pass[i];
+
+            if (c >= 'A' && c <= 'Z') hasUpper = true;
+            if (c >= '0' && c <= '9') hasDigit = true;
+            if (!/[a-zA-Z0-9]/.test(c)) specialCounter++;
+        }
+
+        return hasUpper && hasDigit && specialCounter >= 2;
+    }
+
+    enableBlockedUserAPI(currentUsername, username)
+    {
+        if (this.isAuthorizedUser(currentUsername))
+        {
+            this.userManager.resetFailedloginCounter(username);
+            return { status: true, result: 'USER_ENABLED' };
+        }
+        else
+        {
+            return { status: false, result: 'USER_NOT_AUTHORIZED' };
+        }
+        
+    }
+
+    createUser(currentUsername, username, password, type)
+    {
+        if (this.isAuthorizedUser(currentUsername))
+        {
+            if (!this.userManager.searchUser(username))
             {
-                this.users.splice(i, 1);
+                if(this.validatePass(password))
+                {
+                    this.userManager.createUser(username, password, type);
+                    return { status: true, result: 'USER_CREATED' };
+                } else
+                {
+                    return { status: false, result: 'INVALID_PASSWORD' };
+                }
+            } else 
+            {
+                return { status: false, result: 'USER_ALREADY_EXISTS' };
+            }
+        }
+        else
+        {
+            return { status: false, result: 'USER_NOT_AUTHORIZED' };
+        }
+    }
+    
+    deleteUser(currentUsername, username)
+    {
+        if (this.isAuthorizedUser(currentUsername))
+        {
+            let user = this.userManager.searchUser(username);
+
+            if (user)
+            {
+                this.userManager.deleteUser(username);
+                return { status: true, result: 'USER_DELETED' };
+            }
+            else
+            {
+                return { status: false, result: 'USER_NOT_FOUND' };
             }
         }
     }
 
-    modifyUser(username, password)
+    modifyUser(currentUsername, username, newPassword)
     {
-        for (let i = 0; i < this.users.length; i++)
+        if (this.isAuthorizedUser(currentUsername))
         {
-            if (this.users[i].username === username)
+            let user = this.userManager.searchUser(username);
+
+            if (user)
             {
-                this.users[i].password = password;
+                if(this.validatePass(newPassword))
+                {
+                    this.userManager.modifyUser(username, password)
+                    return { status: true, result: 'USER_UPDATED' };
+                } else
+                {
+                    return { status: false, result: 'INVALID_PASSWORD' };
+                }
+            } else
+            {
+                return { status: false, result: 'USER_NOT_FOUND' };
             }
+        }
+    }
+
+    searchUser(currentUsername ,username)
+    {
+        if (this.isAuthorizedUser(currentUsername))
+        {   
+            let user = this.userManager.searchUser(username)
+
+            if (user)
+            {
+                return { status: true, result: user };
+            } else
+            {
+                return { status: false, result: 'USER_NOT_FOUND' };
+            }
+        } else
+        {
+            return { status: false, result: 'USER_NOT_AUTHORIZED' };
         }
     } 
 
-    searchUser(username)
+    listUserAPI(currentUsername)
     {
-        for (let i = 0; i < this.users.length; i++)
+        if (this.isAuthorizedUser(currentUsername))
         {
-            if (this.users[i].username === username)
-            {
-                return this.users[i];
-            }
-        }
-
-        return null;
-    }
-
-    listUsers()
-    {
-        return this.users;
-    }
-
-    incrementFailedLoginCounter(username)
-    {
-        const user = this.searchUser(username);
-        if (user)
+            let allUsers = this.userManager.listUsers();
+            return { status: true, result: allUsers };
+        } else
         {
-            user.failedLoginCounter++;
-            if (user.failedLoginCounter >= 3)
-            {
-                user.isLocked = true;
-            }
-        }
-    }
-
-    resetFailedloginCounter(username)
-    {
-        const user = this.searchUser(username);
-        if (user)
-        {
-            user.failedLoginCounter = 0;
-            user.isLocked = false;
+            return { status: false, result: 'USER_NOT_AUTHORIZED' };
         }
     }
 }
 
-export { UserManager };
+export { AuthenticatedUserManager }
