@@ -1,4 +1,4 @@
-class LeftNavListWC extends HTMLElement
+class ActivityListWC extends HTMLElement
 {
     constructor()
     {
@@ -51,7 +51,7 @@ class LeftNavListWC extends HTMLElement
         
         this.aLeftOption00 = document.createElement('a');
         this.aLeftOption00.href='#';
-        this.aLeftOption00.textContent = 'Añadir Empleado';
+        this.aLeftOption00.textContent = 'Añadir Actividad';
         this.aLeftOption00.className = 'left-a-list';
 
         this.leftList01 = document.createElement('li');
@@ -59,7 +59,7 @@ class LeftNavListWC extends HTMLElement
         
         this.aLeftOption01 = document.createElement('a');
         this.aLeftOption01.href='#';
-        this.aLeftOption01.textContent = 'Eliminar Empleado';
+        this.aLeftOption01.textContent = 'Eliminar Actividad';
         this.aLeftOption01.className = 'left-a-list';
 
         this.leftList02 = document.createElement('li');
@@ -67,7 +67,7 @@ class LeftNavListWC extends HTMLElement
         
         this.aLeftOption02 = document.createElement('a');
         this.aLeftOption02.href='#';
-        this.aLeftOption02.textContent = 'Modificar Empleado';
+        this.aLeftOption02.textContent = 'Modificar Actividad';
         this.aLeftOption02.className = 'left-a-list';
 
         this.leftList03 = document.createElement('li');
@@ -75,7 +75,7 @@ class LeftNavListWC extends HTMLElement
         
         this.aLeftOption03 = document.createElement('a');
         this.aLeftOption03.href='#';
-        this.aLeftOption03.textContent = 'Buscar Empleado';
+        this.aLeftOption03.textContent = 'Buscar Actividad';
         this.aLeftOption03.className = 'left-a-list';
 
         this.leftList04 = document.createElement('li');
@@ -83,7 +83,7 @@ class LeftNavListWC extends HTMLElement
         
         this.aLeftOption04 = document.createElement('a');
         this.aLeftOption04.href='#';
-        this.aLeftOption04.textContent = 'Listar Empleados';
+        this.aLeftOption04.textContent = 'Listar Actividades';
         this.aLeftOption04.className = 'left-a-list';
 
         this.leftList00.appendChild(this.aLeftOption00);
@@ -108,6 +108,6 @@ class LeftNavListWC extends HTMLElement
     }
 }
 
-customElements.define('u-left-ul', LeftNavListWC);
+customElements.define('u-activity-ul', ActivityListWC);
 
-export{LeftNavListWC}
+export{ActivityListWC}

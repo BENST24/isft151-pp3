@@ -65,6 +65,7 @@ class UpperNavListWC extends  HTMLElement
         this.aOption00.href='#';
         this.aOption00.textContent = 'Gestionar Empleados';
         this.aOption00.className = 'upper-a-list';
+        this.aOption00.id ='manage-employees';
 
         this.list01 = document.createElement('li');
         this.list01.className = 'upper-list';
@@ -73,6 +74,7 @@ class UpperNavListWC extends  HTMLElement
         this.aOption01.href='#';
         this.aOption01.textContent = 'Gestionar Actividades';
         this.aOption01.className = 'upper-a-list';
+        this.aOption01.id ='manage-activities';
 
         this.list00.appendChild(this.aOption00);
         this.list01.appendChild(this.aOption01);

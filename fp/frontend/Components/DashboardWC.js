@@ -1,14 +1,19 @@
 import { UpperNavListWC } from "./UpperNavListWC.js";
-import { LeftNavListWC } from "./LeftNavListWC.js";
+import { RecepcionistListWC } from "./RecepcionistListWC.js";
+import { ActivityListWC } from "./ActivityListWC .js";
+import { DashboardController } from "../Controllers/DashboardController.js";
 
 class DashboardWC extends HTMLElement
 {
     constructor(userType)
     {
         super();
-        
+        this.controller = new DashboardController();
+        this.upperNavComponent = new UpperNavListWC();
+        this.uRecepcionistList = new RecepcionistListWC();
+        this.uActivityList = new ActivityListWC();
+        const user = userType;
         const shadow = this.attachShadow({mode: 'open'});
-
         const style = document.createElement('style');
         style.textContent = `
             :host
@@ -85,7 +90,6 @@ class DashboardWC extends HTMLElement
         this.upperNav = document.createElement('nav');
         this.upperNav.className = 'upper-nav';
 
-        const user = userType;
         this.welcomeTitle = document.createElement('h2');
         this.welcomeTitle.className = 'welcome-title';
         this.welcomeTitle.textContent = `Bienvenido ${user}`;
@@ -101,23 +105,17 @@ class DashboardWC extends HTMLElement
 
         this.divDisplayer = document.createElement('div');
         this.divDisplayer.className= 'div-displayer';
-
-
         /*--------------------------------------------*/ 
-
-
-        this.uUpperList = document.createElement('u-upper-ul');
-        this.uLeftList = document.createElement('u-left-ul');
+        
+        this.uRecepcionistList.style.display= 'none';
+        this.uActivityList.style.display= 'none';
 
         this.upperNav.appendChild(this.welcomeTitle);
-        this.upperNav.appendChild(this.uUpperList);
+        this.upperNav.appendChild(this.upperNavComponent);
         this.upperNav.appendChild(this.logOutButton);
 
-        /*---AppendChild left nav*/
-        
-
-        
-        this.leftNav.appendChild(this.uLeftList);
+        this.leftNav.appendChild(this.uRecepcionistList);
+        this.leftNav.appendChild(this.uActivityList);
 
         this.divMain00.appendChild(this.upperNav);
         this.divMain01.appendChild(this.leftNav);
@@ -131,6 +129,13 @@ class DashboardWC extends HTMLElement
     connectedCallback()
     {
         
+        this.upperNavComponent.aOption00.onclick = this.controller.onManageEmployees.bind(this.controller);
+        this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
+    }
+
+    disconnectedCallback()
+    {
+
     }
 }
 
