@@ -1,3 +1,5 @@
 ~$I_Documentation.docx
 
 node_modules/
+package.json
+fp/backend/DB/db.js
