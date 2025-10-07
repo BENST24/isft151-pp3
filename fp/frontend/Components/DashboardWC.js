@@ -8,10 +8,8 @@ class DashboardWC extends HTMLElement
     constructor(userType)
     {
         super();
-        this.controller = new DashboardController();
+        this.controller = new DashboardController(this);
         this.upperNavComponent = new UpperNavListWC();
-        this.uRecepcionistList = new RecepcionistListWC();
-        this.uActivityList = new ActivityListWC();
         const user = userType;
         const shadow = this.attachShadow({mode: 'open'});
         const style = document.createElement('style');
@@ -106,7 +104,9 @@ class DashboardWC extends HTMLElement
         this.divDisplayer = document.createElement('div');
         this.divDisplayer.className= 'div-displayer';
         /*--------------------------------------------*/ 
-        
+        this.uRecepcionistList = new RecepcionistListWC(this.divDisplayer);
+        this.uActivityList = new ActivityListWC(this.divDisplayer);    
+            
         this.uRecepcionistList.style.display= 'none';
         this.uActivityList.style.display= 'none';
 
@@ -129,7 +129,7 @@ class DashboardWC extends HTMLElement
     connectedCallback()
     {
         
-        this.upperNavComponent.aOption00.onclick = this.controller.onManageEmployees.bind(this.controller);
+        this.upperNavComponent.aOption00.onclick = this.controller.onManageRecepcionist.bind(this.controller);
         this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
     }
 
