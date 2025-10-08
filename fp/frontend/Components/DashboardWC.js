@@ -71,6 +71,8 @@ class DashboardWC extends HTMLElement
                 background-color: rgba(146, 146, 146, 1);
                 width: 80%;
                 min-height: calc(80vh - 800px);
+                padding-left: 20%;
+                padding-top: 10%;
             }
         `;
         document.body.style.margin = '0';

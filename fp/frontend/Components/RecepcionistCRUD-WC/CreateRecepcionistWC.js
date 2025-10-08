@@ -11,23 +11,25 @@ class CreateRecepcionistWC extends HTMLElement
         style.textContent =`
             :host
             {
-                background-color: rgba(4, 215, 243, 1);
-                min-height: 100vh;
-                width: 100%;
+                background-color: rgba(233, 231, 231, 0.79);
+                min-height: 60vh;
+                width: 60%;
                 margin: 0;
                 padding: 0;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
                 align-items: center;
+                border-radius: 20px;
+                box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
                 
             }
             
             .title-main 
             {
-                margin: 0;
-                padding: 30px;
-                color: rgba(255, 255, 255, 1);
+                margin: 20px;
+                padding: 0;
+                color: rgba(51, 51, 51, 1);
+                text-shadow: 2px 2px 4px rgba(255, 255, 255, 1);
                 font-size: 40px;
                 font-weight: 700;
             }
