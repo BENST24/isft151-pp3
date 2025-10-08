@@ -1,12 +1,11 @@
-import { UpperNavListWC } from "../Components/UpperNavListWC.js";
+import { ActivityListWC } from "../Components/ActivityListWC .js";
 import { RecepcionistListWC } from "../Components/RecepcionistListWC.js";
 class DashboardController
 {
-    constructor(_dashboardInstance,_upperNavInstance, _leftNavInstance)
+    constructor(_dashboardInstance)
     {
         this.dashboardInstance = _dashboardInstance;
-        this.upperNavInstance = _upperNavInstance;
-        this.leftNavInstance = _leftNavInstance;
+        this.currenLeftNav = null;
     }
 
     init()
@@ -16,8 +15,7 @@ class DashboardController
     release()
     {
         this.dashboardInstance = null;
-        this.upperNavInstance = null;
-        this.leftNavInstance = null;
+        this.currenLeftNav = null;
     }
 
     run()
@@ -30,18 +28,37 @@ class DashboardController
 
     }
 
-    onManageEmployees()
+    onManageRecepcionist(event)
     {
+        if(event)
+        {
+            this.clearLeftNav();
 
+            let recepcionist = new RecepcionistListWC(this.dashboardInstance.divDisplayer);
+            this.dashboardInstance.leftNav.appendChild(recepcionist);
+            this.currenLeftNav = recepcionist;
+        }
     }
 
-    onManageActivities()
+    onManageActivities(event)
     {
+        if(event)
+        {
+            this.clearLeftNav();
 
+            let activity = new ActivityListWC();
+            this.dashboardInstance.leftNav.appendChild(activity);
+            this.currenLeftNav = activity;
+        }
+    }
+
+    clearLeftNav()
+    {
+        while(this.dashboardInstance.leftNav.firstChild){
+            this.dashboardInstance.leftNav.removeChild(this.dashboardInstance.leftNav.firstChild);
+        }
+        this.currenLeftNav = null;
     }
 }
-
-
-
 
 export{DashboardController}

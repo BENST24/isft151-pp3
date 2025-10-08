@@ -1,10 +1,11 @@
+import { RecepcionistListController } from "../Controllers/RecepcionistListController.js";
 class RecepcionistListWC extends HTMLElement
 {
-    constructor()
+    constructor(divDisplayer)
     {
         super();
         const shadow = this.attachShadow({mode: 'open'});
-
+        this.controller = new RecepcionistListController(this, divDisplayer);
         const style = document.createElement('style');
         style.textContent = `
             
@@ -104,8 +105,22 @@ class RecepcionistListWC extends HTMLElement
 
     connectedCallback()
     {
-
+        this.leftList00.onclick = this.controller.onAddRecepcionist.bind(this.controller);
+        this.leftList01.onclick = this.controller.onDeleteRecepcionist.bind(this.controller);
+        this.leftList02.onclick = this.controller.onModifyRecepcionist.bind(this.controller);
+        this.leftList03.onclick = this.controller.onSearchRecepcionist.bind(this.controller);
+        this.leftList04.onclick = this.controller.onListRecepcionists.bind(this.controller);
     }
+
+    disconnectedCallback()
+    {
+        this.leftList00.onclick = null;
+        this.leftList01.onclick = null;
+        this.leftList02.onclick = null;
+        this.leftList03.onclick = null;
+        this.leftList04.onclick = null;
+    }
+    
 }
 
 customElements.define('u-recepcionist-ul', RecepcionistListWC);
