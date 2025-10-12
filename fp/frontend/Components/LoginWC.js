@@ -1,12 +1,9 @@
-import { LoginController } from "../Controllers/LoginController.js";
-import { DashboardWC } from "./DashboardWC.js";
 class LoginWC extends HTMLElement
 {
     constructor()
     {
         super();
         
-        this.controller = new LoginController(this);
         const shadow = this.attachShadow({mode : 'open'});
         const style = document.createElement('style');
         style.textContent = `
@@ -207,16 +204,14 @@ class LoginWC extends HTMLElement
     onLoginSuccess(userType, successMessage)
     {
         window.alert(successMessage);
-        let username = this.userInput.value;
-        if(this.parentNode)
-        {
-            this.parentNode.removeChild(this);
-        }
         
-        let dashboardInstance = new DashboardWC(username);
-
-        document.body.appendChild(dashboardInstance);
-
+        this.dispatchEvent(new CustomEvent('loginRequest',{
+            detail:{
+                username: this.userInput.value,
+                password: this.passwordInput.value,
+                type: userType
+            }
+        }));
     }
 
     onLoginError(errorMessage)
@@ -226,13 +221,26 @@ class LoginWC extends HTMLElement
 
     connectedCallback()
     {
-        this.loginButtonContent.onclick = this.controller.onLoginButtonClick.bind(this.controller);
+        this.loginButtonContent.onclick = this.onLoginButtonClick.bind(this);
     }
 
     disconnectedCallback()
     {
         this.loginButtonContent = null;
-        this.controller.release();
+    }
+
+    onLoginButtonClick()
+    {
+        let username = this.userInput.value;
+        let password = this.passwordInput.value;
+        if(!username || !password){
+            this.onLoginError('Por favor complete todos los campos');
+            return;
+        }
+
+        this.dispatchEvent(new CustomEvent('loginRequest',{
+            detail: {username, password}
+        }));
     }
 }
 

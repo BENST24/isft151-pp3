@@ -5,12 +5,12 @@ import { DashboardController } from "../Controllers/DashboardController.js";
 
 class DashboardWC extends HTMLElement
 {
-    constructor(userType)
+    constructor(username, userType)
     {
         super();
         this.controller = new DashboardController(this);
         this.upperNavComponent = new UpperNavListWC();
-        const user = userType;
+        this.userType = userType;
         const shadow = this.attachShadow({mode: 'open'});
         const style = document.createElement('style');
         style.textContent = `
@@ -92,7 +92,7 @@ class DashboardWC extends HTMLElement
 
         this.welcomeTitle = document.createElement('h2');
         this.welcomeTitle.className = 'welcome-title';
-        this.welcomeTitle.textContent = `Bienvenido ${user}`;
+        this.welcomeTitle.textContent = `Bienvenido ${username}`;
 
         this.logOutButton = document.createElement('a');
         this.logOutButton.href='';
@@ -133,6 +133,9 @@ class DashboardWC extends HTMLElement
         
         this.upperNavComponent.aOption00.onclick = this.controller.onManageRecepcionist.bind(this.controller);
         this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
+        this.logOutButton.onclick = function(event){
+            this.dispatchEvent(new CustomEvent('logoutRequest'));
+        };
     }
 
     disconnectedCallback()
