@@ -1,161 +1,397 @@
-class UserManager
+import { authenticateUser } from "./AuthModel.js";
+import { resetFailedloginCounterUser } from "../Services/UserService.js";
+import { getUserByName } from "../Services/UserService.js";
+import { createUserDB } from "../Services/UserService.js";
+import { deleteUserDB } from "../Services/UserService.js";
+import { updatePasswordUser } from "../Services/UserService.js";
+import { updateTypeUser } from "../Services/UserService.js";
+import { updateUser } from "../Services/UserService.js";
+import { getAllUsers } from "../Services/UserService.js";
+
+
+// --------------------------------------------------------------------------
+// Metodos para la gestion de usuarios
+// --------------------------------------------------------------------------
+
+function isAuthorizedUser(currentUsername)
 {
-    constructor()
-    {
-        
-    }
-
-    // --------------------------------------------------------------------------
-    // Metodos para la gestion de usuarios
-    // --------------------------------------------------------------------------
-
-    isAuthorizedUser(currentUsername)
-    {
-        let user = this.userManager.searchUser(currentUsername);
-        
-        if(user.type === 'SUPERVISOR')
-        {
-            return true;
-        }else
-        {
-            return false;
-        }
-    }
-
-    // metodo para validar la contraseña
-    validatePass(pass) 
-    {
-        let specialCounter = 0;
-        let hasUpper = false;
-        let hasDigit = false;
-
-        if (pass.length < 8 || pass.length > 16) 
-        {
-            return false;
-        }
-
-        for (let i = 0; i < pass.length; i++) 
-        {
-            const c = pass[i];
-
-            if (c >= 'A' && c <= 'Z') hasUpper = true;
-            if (c >= '0' && c <= '9') hasDigit = true;
-            if (!/[a-zA-Z0-9]/.test(c)) specialCounter++;
-        }
-
-        return hasUpper && hasDigit && specialCounter >= 2;
-    }
-
-    enableBlockedUserAPI(currentUsername, username)
-    {
-        if (this.isAuthorizedUser(currentUsername))
-        {
-            this.userManager.resetFailedloginCounter(username);
-            return { status: true, result: 'USER_ENABLED' };
-        }
-        else
-        {
-            return { status: false, result: 'USER_NOT_AUTHORIZED' };
-        }
-        
-    }
-
-    createUser(currentUsername, username, password, type)
-    {
-        if (this.isAuthorizedUser(currentUsername))
-        {
-            if (!this.userManager.searchUser(username))
-            {
-                if(this.validatePass(password))
-                {
-                    this.userManager.createUser(username, password, type);
-                    return { status: true, result: 'USER_CREATED' };
-                } else
-                {
-                    return { status: false, result: 'INVALID_PASSWORD' };
-                }
-            } else 
-            {
-                return { status: false, result: 'USER_ALREADY_EXISTS' };
-            }
-        }
-        else
-        {
-            return { status: false, result: 'USER_NOT_AUTHORIZED' };
-        }
-    }
+    let user = getUserByName(currentUsername);
     
-    deleteUser(currentUsername, username)
+    if(user.type === 'SUPERVISOR')
     {
-        if (this.isAuthorizedUser(currentUsername))
-        {
-            let user = this.userManager.searchUser(username);
-
-            if (user)
-            {
-                this.userManager.deleteUser(username);
-                return { status: true, result: 'USER_DELETED' };
-            }
-            else
-            {
-                return { status: false, result: 'USER_NOT_FOUND' };
-            }
-        }
-    }
-
-    modifyUser(currentUsername, username, newPassword)
+        return true;
+    }else
     {
-        if (this.isAuthorizedUser(currentUsername))
-        {
-            let user = this.userManager.searchUser(username);
-
-            if (user)
-            {
-                if(this.validatePass(newPassword))
-                {
-                    this.userManager.modifyUser(username, password)
-                    return { status: true, result: 'USER_UPDATED' };
-                } else
-                {
-                    return { status: false, result: 'INVALID_PASSWORD' };
-                }
-            } else
-            {
-                return { status: false, result: 'USER_NOT_FOUND' };
-            }
-        }
-    }
-
-    searchUser(currentUsername ,username)
-    {
-        if (this.isAuthorizedUser(currentUsername))
-        {   
-            let user = this.userManager.searchUser(username)
-
-            if (user)
-            {
-                return { status: true, result: user };
-            } else
-            {
-                return { status: false, result: 'USER_NOT_FOUND' };
-            }
-        } else
-        {
-            return { status: false, result: 'USER_NOT_AUTHORIZED' };
-        }
-    } 
-
-    listUserAPI(currentUsername)
-    {
-        if (this.isAuthorizedUser(currentUsername))
-        {
-            let allUsers = this.userManager.listUsers();
-            return { status: true, result: allUsers };
-        } else
-        {
-            return { status: false, result: 'USER_NOT_AUTHORIZED' };
-        }
+        return false;
     }
 }
 
-export { AuthenticatedUserManager }
+// metodo para validar la contraseña
+function validatePass(pass) 
+{
+    let specialCounter = 0;
+    let hasUpper = false;
+    let hasDigit = false;
+
+    if (pass.length < 8 || pass.length > 16) 
+    {
+        return false;
+    }
+
+    for (let i = 0; i < pass.length; i++) 
+    {
+        const c = pass[i];
+
+        if (c >= 'A' && c <= 'Z') hasUpper = true;
+        if (c >= '0' && c <= '9') hasDigit = true;
+        if (!/[a-zA-Z0-9]/.test(c)) specialCounter++;
+    }
+
+    return hasUpper && hasDigit && specialCounter >= 2;
+}
+
+export async function enableBlockedUser(currentUsername, currentUserPassword, username)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            await resetFailedloginCounterUser(username);
+            api_return.status = true; 
+            api_return.result = 'USER_ENABLED';
+        }
+        else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
+
+export async function createUser(currentUsername, currentUserPassword, username, password, type)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            if (! await getUserByName(username))
+            {
+                if(validatePass(password))
+                {
+                    await createUserDB(username, password, type);
+                    api_return.status = true; 
+                    api_return.result = 'USER_CREATED';
+                } else
+                {
+                    api_return.result = 'INVALID_PASSWORD';
+                }
+            } else 
+            {
+                api_return.result = 'USER_ALREADY_EXISTS';
+            }
+        }else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
+
+export async function deleteUser(currentUsername, currentUserPassword, username)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            let user = await getUserByName(username);
+
+            if (user)
+            {
+                await deleteUserDB(username);
+                api_return.status = true;
+                api_return.result = 'USER_DELETED';
+            }
+            else
+            {
+                api_return.result = 'USER_NOT_FOUND';
+            }
+        }else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
+
+export async function modifyUserPassword(currentUsername, currentUserPassword, username, newPassword)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            let user = await getUserByName(username);
+    
+            if (user)
+            {
+                if(validatePass(newPassword))
+                {
+                    await updatePasswordUser(username, password)
+                    api_return.status = true; 
+                    api_return.result = 'USER_UPDATED';
+                } else
+                {
+                    api_return.result = 'INVALID_PASSWORD';
+                }
+            } else
+            {
+                api_return.result = 'USER_NOT_FOUND';
+            }
+        } else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
+
+export async function modifyUserType(currentUsername, currentUserPassword, username, newType)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            let user = await getUserByName(username);
+
+            if (user)
+            {
+                if(newType == 'SUPERVISOR' || newType == 'RECEPTIONIST')
+                {                
+                    if(user.type != newType)
+                    {
+                        await updateTypeUser(username, newType)
+                        api_return.status = true; 
+                        api_return.result = 'USER_UPDATED';
+                    } else
+                    {
+                        api_return.result = 'TYPE_UNCHANGED';
+                    }
+                } else
+                {
+                    api_return.result = 'INVALID_TYPE';
+                }
+            }else
+            {
+                api_return.result = 'USER_NOT_FOUND';
+            }
+        }else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
+
+export async function modifyUser(currentUsername, currentUserPassword, username, newPassword, newType)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+        resultPassword: null,
+        resultType: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            let user = await getUserByName(username);
+
+            if (user)
+            {
+                if(newType == 'SUPERVISOR' || newType == 'RECEPTIONIST')
+                {                
+                    if(user.type != newType)
+                    {
+                        if(validatePass(newPassword))
+                        {
+                            await updateUser(username, newPassword, newType)
+                            api_return.status = true; 
+                            api_return.result = 'USER_UPDATED';
+                            api_return.resultPassword = 'PASSWORD_UPDATE';
+                            api_return.resultType = 'TYPE_UPDATE';
+                        } else
+                        {
+                            await updateTypeUser(username, newType)
+                            api_return.result = 'USER_UPDATED';
+                            api_return.resultType = 'TYPE_UPDATE';
+                            api_return.resultPassword = 'INVALID_PASSWORD';
+                        }
+                    } else
+                    {
+                        if(validatePass(newPassword))
+                        {
+                            await updatePasswordUser(username, newPassword)
+                            api_return.status = true;
+                            api_return.result = 'USER_UPDATED';
+                            api_return.resultPassword = 'PASSWORD_UPDATE';
+                            api_return.resultType = 'TYPE_UNCHANGED';
+                        } else
+                        {
+                            api_return.result = 'USER_NOT_UPDATED';
+                            api_return.resultPassword = 'INVALID_PASSWORD';
+                            api_return.resultType = 'TYPE_UNCHANGED';
+                        }
+                    }
+                } else
+                {
+                    api_return.result = 'USER_NOT_UPDATED';
+                    api_return.resultType = 'INVALID_TYPE';
+                }
+            }else
+            {
+                api_return.result = 'USER_NOT_FOUND';
+            }
+        }else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
+
+export async function searchUser(currentUsername, currentUserPassword, username)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+        response: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {   
+            let user = await getUserByName(username)
+
+            if (user)
+            {
+                api_return.status = true;
+                api_return.response = user;
+                api_return.result = 'REQUEST_SUCCESSFUL'
+            } else
+            {
+                api_return.result = 'USER_NOT_FOUND';
+            }
+        } else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+} 
+
+export async function listUser(currentUsername, currentUserPassword)
+{
+    let api_return = 
+    {
+        status: false,
+        result: null,
+        response: null,
+    };
+
+    let respond = await authenticateUser(currentUsername, currentUserPassword);
+
+    if(respond.status)
+    {
+        if (isAuthorizedUser(currentUsername))
+        {
+            let allUsers = await getAllUsers();
+            api_return.response = allUsers;
+            api_return.result = 'REQUEST_SUCCESSFUL'
+        } else
+        {
+            api_return.result = 'USER_NOT_AUTHORIZED';
+        }
+    }else
+    {
+        api_return.result = respond.result;
+    }
+
+    return api_return;
+}
