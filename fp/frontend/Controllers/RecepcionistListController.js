@@ -36,6 +36,24 @@ class RecepcionistListController
         {
             this.clearDivDisplayer();
             let create = new CreateRecepcionistWC();
+            function CreateRecepcionist(e)
+            {
+                let data = e.detail;
+                fetch('/user/create',{
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                .then(function(response){return response.json();})
+                .then(function(result){
+                    if(result.status){
+                        window.alert('Empleado creado correctamente');
+                    }else{
+                        window.alert('Error: '+ result.result);
+                    }
+                });
+            }
+            create.addEventListener('createRecepcionist', CreateRecepcionist);
             this.divDisplayer.appendChild(create);
             this.currentDivDisplayer = create;
         }
