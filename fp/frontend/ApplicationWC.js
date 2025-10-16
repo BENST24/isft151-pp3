@@ -20,7 +20,7 @@ class ApplicationWC extends HTMLElement
 
     changeViewToDashboard(userData)
     {
-        const newView = new DashboardWC(userData.username, userData.type);
+        const newView = new DashboardWC(userData);
         if(this.currentView && this.currentView.parentNode)
         {
             this.currentView.parentNode.replaceChild(newView, this.currentView);

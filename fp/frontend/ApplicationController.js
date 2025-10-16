@@ -27,7 +27,14 @@ class ApplicationController
     onUserLogged(event)
     {
         window.alert(event.detail.message);
-        this.view.changeViewToDashboard(event.detail);
+
+        const userData = {
+            username: event.detail.username,
+            type: event.detail.type,
+            message: event.detail.message,
+            password: event.detail.password || '',
+        };
+        this.view.changeViewToDashboard(userData);
     }
 
     onLoginError(event)

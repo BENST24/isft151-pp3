@@ -1,6 +1,6 @@
 class ActivityListWC extends HTMLElement
 {
-    constructor()
+    constructor(dashboardInstance, divDisplayer)
     {
         super();
         const shadow = this.attachShadow({mode: 'open'});

@@ -31,7 +31,7 @@ class ApplicationAPI extends EventTarget
 
             const result = await response.json();
 
-            this.onAuthenticationRequestResponse(result, username);
+            this.onAuthenticationRequestResponse(result, username,password);
         }catch(error){
             console.error("Error en la solicitud:", error);
             this.dispatchEvent(new CustomEvent('loginerror',{
@@ -40,7 +40,7 @@ class ApplicationAPI extends EventTarget
         }
     }
 
-    onAuthenticationRequestResponse(apiResponse, username)
+    onAuthenticationRequestResponse(apiResponse, username,password)
     {
         if(apiResponse.status){
             let successKey = apiResponse.result;
@@ -49,6 +49,7 @@ class ApplicationAPI extends EventTarget
             this.dispatchEvent(new CustomEvent('userlogged',{
                 detail:{
                     username: username,
+                    password: password,
                     type: apiResponse.type,
                     message: successMessage
                 }

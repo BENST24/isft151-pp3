@@ -1,11 +1,27 @@
 import { RecepcionistListController } from "../Controllers/RecepcionistListController.js";
 class RecepcionistListWC extends HTMLElement
 {
-    constructor(divDisplayer)
+    constructor( dashboardInstance, divDisplayer)
     {
         super();
         const shadow = this.attachShadow({mode: 'open'});
-        this.controller = new RecepcionistListController(this, divDisplayer);
+        this.dashboardInstance = dashboardInstance;
+        this.divDisplayer = divDisplayer;
+
+        console.log('🔍 RecepcionistListWC - Parámetros recibidos:', {
+            dashboardInstance: dashboardInstance,
+            divDisplayer: divDisplayer,
+            tieneDivDisplayer: !!divDisplayer
+        });
+        
+        this.dashboardInstance = dashboardInstance;
+        this.divDisplayer = divDisplayer;
+        
+        console.log('🔍 RecepcionistListWC - Antes de crear controller:', {
+            dashboardInstance: this.dashboardInstance,
+            divDisplayer: this.divDisplayer
+        });
+        this.controller = new RecepcionistListController(this.dashboardInstance, this.divDisplayer);
         const style = document.createElement('style');
         style.textContent = `
             
