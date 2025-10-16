@@ -1,3 +1,4 @@
+import { CreateRecepcionistController } from "../../Controllers/RecepcionistCRUDControllers/CreateRecepcionistController.js";
 
 class CreateRecepcionistWC extends HTMLElement
 {
@@ -6,7 +7,7 @@ class CreateRecepcionistWC extends HTMLElement
         super();
         
         const shadow = this.attachShadow({mode: 'open'});
-
+        this.controller = new CreateRecepcionistController(this);
         const style = document.createElement('style');
         style.textContent =`
             :host
@@ -113,6 +114,7 @@ class CreateRecepcionistWC extends HTMLElement
         this.inputPassword = document.createElement('input');
         this.inputPassword.className= 'input-password';
         this.inputPassword.placeholder ='Ingrese la contraseña';
+        this.inputPassword.type = 'password';
 
         this.saveButton = document.createElement('button');
         this.saveButton.className= 'save-button';
@@ -138,7 +140,7 @@ class CreateRecepcionistWC extends HTMLElement
 
     connectedCallback()
     {
-        
+        this.saveButton.onclick = this.controller.onSaveButtonClick.bind(this.controller); 
     }
 }
 
