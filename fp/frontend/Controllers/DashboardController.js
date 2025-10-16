@@ -5,7 +5,7 @@ class DashboardController
     constructor(_dashboardInstance)
     {
         this.dashboardInstance = _dashboardInstance;
-        this.currenLeftNav = null;
+        this.currentLeftNav = null;
     }
 
     init()
@@ -15,7 +15,7 @@ class DashboardController
     release()
     {
         this.dashboardInstance = null;
-        this.currenLeftNav = null;
+        this.currentLeftNav = null;
     }
 
     run()
@@ -34,9 +34,10 @@ class DashboardController
         {
             this.clearLeftNav();
 
-            let recepcionist = new RecepcionistListWC(this.dashboardInstance.divDisplayer);
-            this.dashboardInstance.leftNav.appendChild(recepcionist);
-            this.currenLeftNav = recepcionist;
+            this.dashboardInstance.uRecepcionistList.style.display = 'block';
+            this.dashboardInstance.uActivityList.style.display = 'none';
+
+            this.currentLeftNav = this.dashboardInstance.uRecepcionistList;
         }
     }
 
@@ -46,18 +47,16 @@ class DashboardController
         {
             this.clearLeftNav();
 
-            let activity = new ActivityListWC();
-            this.dashboardInstance.leftNav.appendChild(activity);
-            this.currenLeftNav = activity;
+            this.dashboardInstance.uRecepcionistList.style.display = 'none';
+            this.dashboardInstance.uActivityList.style.display = 'block';
+
+            this.currentLeftNav = this.dashboardInstance.uActivityList;
         }
     }
 
     clearLeftNav()
     {
-        while(this.dashboardInstance.leftNav.firstChild){
-            this.dashboardInstance.leftNav.removeChild(this.dashboardInstance.leftNav.firstChild);
-        }
-        this.currenLeftNav = null;
+        this.currentLeftNav = null;
     }
 }
 

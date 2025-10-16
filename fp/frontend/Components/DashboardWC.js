@@ -5,12 +5,14 @@ import { DashboardController } from "../Controllers/DashboardController.js";
 
 class DashboardWC extends HTMLElement
 {
-    constructor(username, userType)
+    constructor(userData)
     {
         super();
         this.controller = new DashboardController(this);
         this.upperNavComponent = new UpperNavListWC();
-        this.userType = userType;
+        this.currentUsername = userData.username;
+        this.currentUserType = userData.type;
+        this.currentPassword = userData.password;
         const shadow = this.attachShadow({mode: 'open'});
         const style = document.createElement('style');
         style.textContent = `
@@ -92,7 +94,7 @@ class DashboardWC extends HTMLElement
 
         this.welcomeTitle = document.createElement('h2');
         this.welcomeTitle.className = 'welcome-title';
-        this.welcomeTitle.textContent = `Bienvenido ${username}`;
+        this.welcomeTitle.textContent = `Bienvenido ${this.currentUsername}`;
 
         this.logOutButton = document.createElement('a');
         this.logOutButton.href='';
@@ -106,8 +108,16 @@ class DashboardWC extends HTMLElement
         this.divDisplayer = document.createElement('div');
         this.divDisplayer.className= 'div-displayer';
         /*--------------------------------------------*/ 
-        this.uRecepcionistList = new RecepcionistListWC(this.divDisplayer);
-        this.uActivityList = new ActivityListWC(this.divDisplayer);    
+
+        console.log('🔍 DashboardWC - divDisplayer creado:', this.divDisplayer);
+        console.log('🔍 DashboardWC - this:', this);
+        this.uRecepcionistList = new RecepcionistListWC(this, this.divDisplayer);
+        this.uActivityList = new ActivityListWC(this, this.divDisplayer);    
+
+        console.log('🔍 DashboardWC - Componentes creados:', {
+            recepcionistList: this.uRecepcionistList,
+            activityList: this.uActivityList
+        });
             
         this.uRecepcionistList.style.display= 'none';
         this.uActivityList.style.display= 'none';
@@ -134,8 +144,9 @@ class DashboardWC extends HTMLElement
         this.upperNavComponent.aOption00.onclick = this.controller.onManageRecepcionist.bind(this.controller);
         this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
         this.logOutButton.onclick = function(event){
+            event.preventDefault();
             this.dispatchEvent(new CustomEvent('logoutRequest'));
-        };
+        }.bind(this);
     }
 
     disconnectedCallback()

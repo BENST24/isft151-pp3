@@ -5,9 +5,20 @@ class RecepcionistListController
 {
     constructor(_dashboardInstance,_divDisplayer)
     {
+
+         console.log('🔍 RecepcionistListController - Constructor:', {
+            dashboardInstance: _dashboardInstance,
+            divDisplayer: _divDisplayer,
+            tieneDivDisplayer: !!_divDisplayer
+        });
         this.dashboardInstance = _dashboardInstance;
         this.divDisplayer = _divDisplayer;
         this.currentDivDisplayer = null;
+
+         console.log('🔍 RecepcionistListController - Después de asignar:', {
+            dashboardInstance: this.dashboardInstance,
+            divDisplayer: this.divDisplayer
+        });
     }
 
     init()
@@ -32,20 +43,26 @@ class RecepcionistListController
 
     onAddRecepcionist(event)
     {
+         console.log('🔍 onAddRecepcionist - divDisplayer:', this.divDisplayer);
+        console.log('🔍 onAddRecepcionist - dashboardInstance:', this.dashboardInstance);
         if(event)
         {
             this.clearDivDisplayer();
             let create = new CreateRecepcionistWC();
+            create.setAttribute('current-username', this.dashboardInstance.currentUsername);
+            create.setAttribute('current-userpassword', this.dashboardInstance.currentPassword);
             function CreateRecepcionist(e)
             {
                 let data = e.detail;
-                fetch('/user/create',{
+                console.log("Enviando datos a /api/user/create:", data);
+                fetch('http://localhost:3000/api/user/create',{
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(data)
                 })
                 .then(function(response){return response.json();})
                 .then(function(result){
+                    console.log("Respuesta del backend:", result);
                     if(result.status){
                         window.alert('Empleado creado correctamente');
                     }else{
