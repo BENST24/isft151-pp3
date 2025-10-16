@@ -84,7 +84,7 @@ router.delete("/user/delete", userModificationLimiter, async (req, res) => {
     }
 });
 
-router.patch("/user/:username/enable", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify/enable", userModificationLimiter, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword } = req.body;
 
@@ -105,7 +105,7 @@ router.patch("/user/:username/enable", userModificationLimiter, async (req, res)
     }
 });
 
-router.patch("/user/:username/password", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify/password", userModificationLimiter, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, newPassword } = req.body;
 
@@ -121,12 +121,12 @@ router.patch("/user/:username/password", userModificationLimiter, async (req, re
           res.status(401).json(result);
         }
     } catch (error) {
-        console.error("Error en /user/:username/password: ", error);
+        console.error("Error en /user/modify/password: ", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
 
-router.patch("/user/:username/type ", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify/type ", userModificationLimiter, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, newType } = req.body;
 
@@ -142,12 +142,12 @@ router.patch("/user/:username/type ", userModificationLimiter, async (req, res) 
           res.status(401).json(result);
         }
     } catch (error) {
-        console.error("Error en /user/:username/type: ", error);
+        console.error("Error en /user/modify/type: ", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
 
-router.patch("/user/:username", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify", userModificationLimiter, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, newPassword, newType } = req.body;
 
@@ -163,12 +163,12 @@ router.patch("/user/:username", userModificationLimiter, async (req, res) => {
           res.status(401).json(result);
         }
     } catch (error) {
-        console.error("Error en /user/:username: ", error);
+        console.error("Error en /user/modify: ", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
 
-router.get("/user/:username", async (req, res) => {
+router.get("/user/search", async (req, res) => {
     try {
         const currentUsername = req.headers["x-username"];
         const currentUserPassword = req.headers["x-password"];
@@ -182,13 +182,13 @@ router.get("/user/:username", async (req, res) => {
           res.status(401).json(result);
 
     } catch (error) {
-        console.error("Error en /user/:username:", error);
+        console.error("Error en /user/search: ", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
 
 
-router.get("/users", async (req, res) => {
+router.get("/user/list", async (req, res) => {
     try {
         const currentUsername = req.headers["x-username"];
         const currentUserPassword = req.headers["x-password"];
@@ -201,7 +201,7 @@ router.get("/users", async (req, res) => {
             res.status(401).json(result);
 
     } catch (error) {
-        console.error("Error en /users:", error);
+        console.error("Error en /user/list: ", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });

@@ -13,11 +13,9 @@ import { getAllUsers } from "../Services/UserService.js";
 // Metodos para la gestion de usuarios
 // --------------------------------------------------------------------------
 
-function isAuthorizedUser(currentUsername)
-{
-    let user = getUserByName(currentUsername);
-    
-    if(user.type === 'SUPERVISOR')
+function isAuthorizedUser(type)
+{   
+    if(type === 'SUPERVISOR')
     {
         return true;
     }else
@@ -62,7 +60,7 @@ export async function enableBlockedUser(currentUsername, currentUserPassword, us
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             await resetFailedloginCounterUser(username);
             api_return.status = true; 
@@ -92,7 +90,7 @@ export async function createUser(currentUsername, currentUserPassword, username,
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             if (! await getUserByName(username))
             {
@@ -133,7 +131,7 @@ export async function deleteUser(currentUsername, currentUserPassword, username)
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             let user = await getUserByName(username);
 
@@ -171,7 +169,7 @@ export async function modifyUserPassword(currentUsername, currentUserPassword, u
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             let user = await getUserByName(username);
     
@@ -214,7 +212,7 @@ export async function modifyUserType(currentUsername, currentUserPassword, usern
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             let user = await getUserByName(username);
 
@@ -266,7 +264,7 @@ export async function modifyUser(currentUsername, currentUserPassword, username,
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             let user = await getUserByName(username);
 
@@ -341,7 +339,7 @@ export async function searchUser(currentUsername, currentUserPassword, username)
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {   
             let user = await getUserByName(username)
 
@@ -379,7 +377,7 @@ export async function listUser(currentUsername, currentUserPassword)
 
     if(respond.status)
     {
-        if (isAuthorizedUser(currentUsername))
+        if (isAuthorizedUser(respond.type))
         {
             let allUsers = await getAllUsers();
             api_return.response = allUsers;
