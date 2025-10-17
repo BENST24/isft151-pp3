@@ -15,6 +15,7 @@ const globalLimiter = rateLimit({
     max: 200,
     message: { status: false, result: "TOO_MANY_REQUESTS_GLOBAL" }
 });
+
 app.use(globalLimiter);
 
 // Montar las rutas
