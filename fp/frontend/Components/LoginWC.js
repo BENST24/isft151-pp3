@@ -1,9 +1,12 @@
+import { LoginController } from "../Controllers/LoginController.js";
+
 class LoginWC extends HTMLElement
 {
-    constructor()
+    constructor(apiInstance)
     {
         super();
-        
+        this.apiInstance = apiInstance;
+        this.controller = new LoginController(this, this.apiInstance);
         const shadow = this.attachShadow({mode : 'open'});
         const style = document.createElement('style');
         style.textContent = `
@@ -205,28 +208,13 @@ class LoginWC extends HTMLElement
     {
         window.alert(successMessage);
         
-        this.dispatchEvent(new CustomEvent('loginRequest',{
-            detail:{
-                username: this.userInput.value,
-                password: this.passwordInput.value,
-                type: userType
-            }
-        }));
+        this.userInput.value ='';
+        this.passwordInput.value ='';
     }
 
     onLoginError(errorMessage)
     {
         window.alert(errorMessage);
-    }
-
-    connectedCallback()
-    {
-        this.loginButtonContent.onclick = this.onLoginButtonClick.bind(this);
-    }
-
-    disconnectedCallback()
-    {
-        this.loginButtonContent = null;
     }
 
     onLoginButtonClick()
@@ -241,6 +229,21 @@ class LoginWC extends HTMLElement
         this.dispatchEvent(new CustomEvent('loginRequest',{
             detail: {username, password}
         }));
+    }
+
+    connectedCallback()
+    {
+        this.loginButtonContent.onclick = this.onLoginButtonClick.bind(this);
+        this.controller.init();
+    }
+
+    disconnectedCallback()
+    {
+        if(this.controller && this.controller.release){
+            this.controller.release();
+        }
+        
+        this.loginButtonContent = null;
     }
 }
 

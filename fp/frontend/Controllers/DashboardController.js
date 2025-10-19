@@ -1,20 +1,26 @@
-import { ActivityListWC } from "../Components/ActivityListWC .js";
-import { RecepcionistListWC } from "../Components/RecepcionistListWC.js";
+
 class DashboardController
 {
-    constructor(_dashboardInstance)
+    constructor(dashboardInstance, apiInstance)
     {
-        this.dashboardInstance = _dashboardInstance;
+        this.dashboardInstance = dashboardInstance;
+        this.apiInstance = apiInstance;
         this.currentLeftNav = null;
+
+        this.onManageRecepcionist = this.onManageRecepcionist.bind(this);
+        this.onManageActivities = this.onManageActivities.bind(this);
+        this.onLogoutClick = this.onLogoutClick.bind(this);
     }
 
     init()
     {
+        
     }
     
     release()
     {
         this.dashboardInstance = null;
+        this.apiInstance = null;
         this.currentLeftNav = null;
     }
 
@@ -26,6 +32,11 @@ class DashboardController
     stop()
     {
 
+    }
+
+    onLogoutClick(event)
+    {
+        this.apiInstance.logout();
     }
 
     onManageRecepcionist(event)

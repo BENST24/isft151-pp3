@@ -31,35 +31,30 @@ class ApplicationAPI extends EventTarget
 
             const result = await response.json();
 
-            this.onAuthenticationRequestResponse(result, username,password);
+            if(result.status){
+                let successKey = result.result;
+                let successMessage = this.translation.get(successKey) || this.translation.get('null');
+
+                this.dispatchEvent(new CustomEvent('userlogged',{
+                    detail:{
+                        username: username,
+                        password: password,
+                        type: result.type,
+                        message: successMessage
+                    }
+                }));
+            }else{
+                let errorKey = result.result;
+                let errorMessage = this.translation.get(errorKey) || this.translation.get('null');
+
+                this.dispatchEvent(new CustomEvent('loginerror', {
+                    detail: errorMessage
+                }));
+            }
         }catch(error){
             console.error("Error en la solicitud:", error);
             this.dispatchEvent(new CustomEvent('loginerror',{
                 detail: "SERVER_ERROR"
-            }));
-        }
-    }
-
-    onAuthenticationRequestResponse(apiResponse, username,password)
-    {
-        if(apiResponse.status){
-            let successKey = apiResponse.result;
-            let successMessage = this.translation.get(successKey) || this.translation.get('null');
-
-            this.dispatchEvent(new CustomEvent('userlogged',{
-                detail:{
-                    username: username,
-                    password: password,
-                    type: apiResponse.type,
-                    message: successMessage
-                }
-            }));
-        }else{
-            let errorKey = apiResponse.result;
-            let errorMessage = this.translation.get(errorKey) || this.translation.get('null');
-
-            this.dispatchEvent(new CustomEvent('loginerror', {
-                detail: errorMessage
             }));
         }
     }

@@ -9,34 +9,39 @@ class ApplicationWC extends HTMLElement
     {
         super();
         this.apiInstance = new ApplicationAPI();
-        this.loginView = new LoginWC();
-        this.dashboardView = null;
         this.innerController = new ApplicationController(this, this.apiInstance);
-        this.currentView = this.loginView;
 
         const shadow = this.attachShadow({mode: 'open'});
+        this.currentView = new LoginWC(this.apiInstance);
+
         shadow.appendChild(this.currentView);
+
+        this.handleLoginRequest = this.handleLoginRequest.bind(this);
+        this.handleLogoutRequest = this.handleLogoutRequest.bind(this);
     }
 
     changeViewToDashboard(userData)
     {
-        const newView = new DashboardWC(userData);
+
+        const newView = new DashboardWC(this.apiInstance, userData);
+
         if(this.currentView && this.currentView.parentNode)
         {
             this.currentView.parentNode.replaceChild(newView, this.currentView);
         }else{
             this.shadowRoot.appendChild(newView);
         }
-
-        this.dashboardView = newView;
+    
         this.currentView = newView;
 
-        this.setupDashboardEvents();
+        this.currentView.addEventListener('logoutRequest', this.handleLogoutRequest);
+        
     }
 
     changeViewToLogin()
     {
-        const newView = new LoginWC();
+
+        const newView = new LoginWC(this.apiInstance);
 
         if(this.currentView && this.currentView.parentNode)
         {
@@ -44,39 +49,31 @@ class ApplicationWC extends HTMLElement
         }else{
             this.shadowRoot.appendChild(newView);
         }
-
-        this.loginView = newView;
+        
         this.currentView = newView;
-        this.dashboardView = null;
 
-        this.setupLoginEvents();
+        this.currentView.addEventListener('loginRequest', this.handleLoginRequest);
     }
-
-    setupLoginEvents()
+    
+    handleLoginRequest(event)
     {
-        this.loginView.addEventListener('loginRequest', function(event){
-            this.innerController.onLoginRequestEvent(event.detail);
-        }.bind(this));
+        this.innerController.onLoginRequestEvent(event);
     }
 
-    setupDashboardEvents()
+    handleLogoutRequest(event)
     {
-        this.dashboardView.addEventListener('logout', function(event){
-            this.innerController.onUserLogout();
-        }.bind(this));
+        this.innerController.onUserLogout();
     }
+
     connectedCallback()
     {
-        this.setupLoginEvents();
+        this.currentView.addEventListener('loginRequest', this.handleLoginRequest);
+
         this.innerController.init();
     }
 
     disconnectedCallback()
     {
-        if(this.dashboardView){
-            this.dashboardView = null;
-        }
-        this.loginView = null;
         this.innerController.release();
     }
 }
