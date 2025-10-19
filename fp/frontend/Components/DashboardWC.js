@@ -98,9 +98,9 @@ class DashboardWC extends HTMLElement
         this.welcomeTitle.className = 'welcome-title';
         this.welcomeTitle.textContent = `Bienvenido ${this.currentUsername}`;
 
-        this.logOutButton = document.createElement('a');
+        this.logOutButton = document.createElement('img');
         this.logOutButton.href='';
-        this.logOutButton.textContent = 'Cerrar Sesion';
+        this.logOutButton.src = '/fp/frontend/assets/cerrar-sesion.png';
         this.logOutButton.className ='log-out-button';
 
         /*---------------------NAV VERTICAL--------------------------*/

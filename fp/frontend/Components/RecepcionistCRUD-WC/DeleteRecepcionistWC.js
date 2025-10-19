@@ -63,41 +63,19 @@ class DeleteRecepcionistWC extends HTMLElement
         this.divMainTitle = document.createElement('div');
         this.divMainTitle.className = 'div-title';
 
-        this.divSearch = document.createElement('div');
-        this.divSearch.className = 'div-search';
-
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
         this.mainTitle.textContent = 'Eliminar Empleado';
-
-        this.labelSearch = document.createElement('label');
-        this.labelSearch.className = 'label-search';
-
-        this.inputSearch = document.createElement('input');
-        this.inputSearch.className = 'input-search';
-        this.inputSearch.placeholder ='Ingrese el nombre de usuario...';
-
-        this.spanSearch = document.createElement('span');
-        this.spanSearch.className = 'span-search';
-
-        this.searchIcon = document.createElement('img');
-        this.searchIcon.className = 'search-icon';
-        this.searchIcon.src = './assets/buscar.png';
-
+        
         this.deleteButton = document.createElement('button');
         this.deleteButton.className= 'delete-button';
         this.deleteButton.textContent ='Eliminar';
 
-        this.spanSearch.appendChild(this.searchIcon);
-        this.labelSearch.appendChild(this.spanSearch);
-        this.labelSearch.appendChild(this.inputSearch);
-        this.divSearch.appendChild(this.labelSearch);
         this.divMainTitle.appendChild(this.mainTitle);
 
         this.table = new TableWC();
         
         shadow.appendChild(this.divMainTitle);
-        shadow.appendChild(this.divSearch);
         shadow.appendChild(this.table);
         shadow.appendChild(this.deleteButton);
         shadow.appendChild(style);
@@ -105,7 +83,7 @@ class DeleteRecepcionistWC extends HTMLElement
 
     connectedCallback()
     {
-        this.spanSearch.onclick = this.table.loadData.bind(this.table);
+        
     }
 
     disconnectedCallback()

@@ -28,20 +28,70 @@ class TableWC extends HTMLElement{
                 border-bottom: 1px solid #eee;
                 color: black;
             }
+            
+            .input-search
+            {
+                height: 30px;
+            }
+
+            .span-search
+            {
+                margin: 20px;
+                width: 40px;
+                height: 40px;
+                background-color: rgba(204, 204, 204, 1);
+                color: black;
+            }
+
+            .search-icon
+            {
+                width: 40px;
+                height: 40px;
+                background-color: rgba(204, 204, 204, 1);
+                color: black;
+            }
         `;
+        
+        this.divSearch = document.createElement('div');
+        this.divSearch.className = 'div-search';
+
+        this.labelSearch = document.createElement('label');
+        this.labelSearch.className = 'label-search';
+
+        this.inputSearch = document.createElement('input');
+        this.inputSearch.className = 'input-search';
+        this.inputSearch.placeholder ='Ingrese el nombre de usuario...';
+
+        this.spanSearch = document.createElement('span');
+        this.spanSearch.className = 'span-search';
+
+        this.searchIcon = document.createElement('img');
+        this.searchIcon.className = 'search-icon';
+        this.searchIcon.src ='/fp/frontend/assets/buscar.png';
+
+        this.spanSearch.appendChild(this.searchIcon);
+        this.labelSearch.appendChild(this.spanSearch);
+        this.labelSearch.appendChild(this.inputSearch);
+        this.divSearch.appendChild(this.labelSearch);
 
         this.table = document.createElement('table');
         this.table.className = 'data-table';
 
+        shadow.appendChild(this.divSearch);
         shadow.appendChild(this.table);
         shadow.appendChild(style);
 
         this.fullData = null;
     }
 
+    connectedCallback()
+    {
+        this.spanSearch.onclick = this.loadData.bind(this.table);
+    }
+
     loadData(data){
         this.fullData = data;
-        this.clearTable();
+        //this.clearTable();
         
         if(!data || data.length === 0){
             this.showNoData();
@@ -52,7 +102,7 @@ class TableWC extends HTMLElement{
         let headerRow = document.createElement('tr');
         headerRow.className = 'data-table';
 
-        const customHeaders=['ID', 'Usuario'];
+        const customHeaders=['Usuario', 'Rol'];
 
         for(let i = 0 ; i < customHeaders.length; i++){
             let th = document.createElement('th');
@@ -61,7 +111,7 @@ class TableWC extends HTMLElement{
         }
 
         thead.appendChild(headerRow);
-        this.table.appendChild(thead);
+        this.appendChild(thead);
 
         let tbody = document.createElement('tbody');
 
@@ -81,15 +131,15 @@ class TableWC extends HTMLElement{
             tbody.appendChild(row);
         }
 
-        this.table.appendChild(tbody);
+        this.appendChild(tbody);
 
     }
 
     
 
     clearTable(){
-        while(this.table.firstChild){
-            this.table.removeChild(this.table.firstChild);
+        while(this.firstChild){
+            this.removeChild(this.firstChild);
         }
     }
 
