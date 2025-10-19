@@ -5,14 +5,16 @@ import { DashboardController } from "../Controllers/DashboardController.js";
 
 class DashboardWC extends HTMLElement
 {
-    constructor(userData)
+    constructor(apiInstance, userData)
     {
         super();
-        this.controller = new DashboardController(this);
+        this.apiInstance = apiInstance;
+        this.controller = new DashboardController(this, this.apiInstance);
         this.upperNavComponent = new UpperNavListWC();
         this.currentUsername = userData.username;
         this.currentUserType = userData.type;
         this.currentPassword = userData.password;
+
         const shadow = this.attachShadow({mode: 'open'});
         const style = document.createElement('style');
         style.textContent = `
@@ -109,16 +111,9 @@ class DashboardWC extends HTMLElement
         this.divDisplayer.className= 'div-displayer';
         /*--------------------------------------------*/ 
 
-        console.log('🔍 DashboardWC - divDisplayer creado:', this.divDisplayer);
-        console.log('🔍 DashboardWC - this:', this);
         this.uRecepcionistList = new RecepcionistListWC(this, this.divDisplayer);
         this.uActivityList = new ActivityListWC(this, this.divDisplayer);    
 
-        console.log('🔍 DashboardWC - Componentes creados:', {
-            recepcionistList: this.uRecepcionistList,
-            activityList: this.uActivityList
-        });
-            
         this.uRecepcionistList.style.display= 'none';
         this.uActivityList.style.display= 'none';
 
@@ -136,22 +131,37 @@ class DashboardWC extends HTMLElement
         shadow.appendChild(this.divMain00);
         shadow.appendChild(this.divMain01);
         shadow.appendChild(style);
+
+        this.onLogoutClick = this.onLogoutClick.bind(this);
     }
 
     connectedCallback()
     {
-        
         this.upperNavComponent.aOption00.onclick = this.controller.onManageRecepcionist.bind(this.controller);
         this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
-        this.logOutButton.onclick = function(event){
-            event.preventDefault();
-            this.dispatchEvent(new CustomEvent('logoutRequest'));
-        }.bind(this);
+        this.logOutButton.onclick = this.onLogoutClick;
+        this.controller.init();
     }
 
     disconnectedCallback()
     {
 
+        this.upperNavComponent.aOption00.onclick = null;
+        this.upperNavComponent.aOption01.onclick = null;
+        this.logOutButton.onclick = null;
+
+        if(this.controller && this.controller.release){
+            this.controller.release();
+        }
+
+        if(this.logOutButton){
+            this.logOutButton.onclick = null;
+        }
+    }
+
+    onLogoutClick()
+    {
+        this.dispatchEvent(new CustomEvent('logoutRequest'));
     }
 }
 

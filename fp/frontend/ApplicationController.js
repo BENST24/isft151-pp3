@@ -4,24 +4,34 @@ class ApplicationController
     {
         this.view= view;
         this.model = model;
+
+        this.onUserLogged = this.onUserLogged.bind(this);
+        this.onLoginError = this.onLoginError.bind(this);
+        this.onUserLogout = this.onUserLogout.bind(this);
+        this.onLoginRequestEvent = this.onLoginRequestEvent.bind(this);
     }
 
     init()
     {
-        this.model.addEventListener('userlogged', this.onUserLogged.bind(this));
-        this.model.addEventListener('loginerror', this.onLoginError.bind(this));
-        this.model.addEventListener('userlogout', this.onUserLogout.bind(this));
+        this.model.addEventListener('userlogged', this.onUserLogged);
+        this.model.addEventListener('loginerror', this.onLoginError);
+        this.model.addEventListener('userlogout', this.onUserLogout);
     }
 
     release()
     {
+        this.model.removeEventListener('userlogged', this.onUserLogged);
+        this.model.removeEventListener('loginerror', this.onLoginError);
+        this.model.removeEventListener('userlogout', this.onUserLogout);
         this.view = null;
         this.model = null;
     }
+    
 
     onUserLogout()
     {
         this.view.changeViewToLogin();
+        
     }
 
     onUserLogged(event)
@@ -42,9 +52,9 @@ class ApplicationController
         window.alert(event.detail);
     }
 
-    onLoginRequestEvent(loginData)
+    onLoginRequestEvent(event)
     {
-        this.model.login(loginData.username, loginData.password);
+        this.model.login(event.detail.username, event.detail.password);
     }
 }
 
