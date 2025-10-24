@@ -1,13 +1,13 @@
-import { CreateRecepcionistController } from "../../Controllers/RecepcionistCRUDControllers/CreateRecepcionistController.js";
+import { CreateUserController } from "../../Controllers/UserCRUDControllers/CreateUserController.js";
 
-class CreateRecepcionistWC extends HTMLElement
+class CreateUserWC extends HTMLElement
 {
     constructor()
     {
         super();
         
         const shadow = this.attachShadow({mode: 'open'});
-        this.controller = new CreateRecepcionistController(this);
+        this.controller = new CreateUserController(this);
         const style = document.createElement('style');
         style.textContent =`
             :host
@@ -90,7 +90,7 @@ class CreateRecepcionistWC extends HTMLElement
         document.documentElement.style.padding = '0';
 
         this.titleMain = document.createElement('h2');
-        this.titleMain.textContent = 'Añadir Empleado';
+        this.titleMain.textContent = 'Añadir Usuario';
         this.titleMain.className ='title-main';
 
         this.divUser = document.createElement('div');
@@ -116,6 +116,45 @@ class CreateRecepcionistWC extends HTMLElement
         this.inputPassword.placeholder ='Ingrese la contraseña';
         this.inputPassword.type = 'password';
 
+        this.divRole = document.createElement('div');
+        this.divRole.className = 'role-div';
+        
+        this.labelRole = document.createElement('label');
+        this.labelRole.className = 'label-role';
+        this.labelRole.textContent = 'Seleccionar rol:';
+
+        this.divRolOptions = document.createElement('div');
+        this.divRolOptions.className = 'rol-options-div';
+
+        /*----------------Opcion 1----------------*/ 
+        this.roleContainer00 = document.createElement('div');
+        this.roleContainer00.className = 'role-container';
+
+        this.roleLabelOption00 = document.createElement('label');
+        this.roleLabelOption00.className = 'role-option-name';
+        this.roleLabelOption00.textContent = 'Administrador';
+
+        this.roleInputOption00 = document.createElement('input');
+        this.roleInputOption00.className = 'role-option-radio';
+        this.roleInputOption00.type = 'radio';
+        this.roleInputOption00.name = 'userRole';
+        this.roleInputOption00.id = 'supervisor';
+
+
+        /*----------------Opcion 2----------------*/ 
+        this.roleContainer01 = document.createElement('div');
+        this.roleContainer01.className = 'role-container';
+    
+        this.roleLabelOption01 = document.createElement('label');
+        this.roleLabelOption01.className = 'role-option-name';
+        this.roleLabelOption01.textContent = 'Empleado';
+
+        this.roleInputOption01 = document.createElement('input');
+        this.roleInputOption01.className = 'role-option-radio';
+        this.roleInputOption01.type = 'radio';
+        this.roleInputOption01.name = 'userRole';
+        this.roleInputOption01.id = 'recepcionist';
+
         this.saveButton = document.createElement('button');
         this.saveButton.className= 'save-button';
         this.saveButton.textContent ='Guardar';
@@ -129,10 +168,22 @@ class CreateRecepcionistWC extends HTMLElement
 
         this.divPassword.appendChild(this.labelPassword);
         this.divPassword.appendChild(this.inputPassword);
-        
+
+        this.roleContainer00.appendChild(this.roleLabelOption00);
+        this.roleContainer00.appendChild(this.roleInputOption00);
+
+        this.roleContainer01.appendChild(this.roleLabelOption01);
+        this.roleContainer01.appendChild(this.roleInputOption01);
+
+        this.divRolOptions.appendChild(this.roleContainer00);
+        this.divRolOptions.appendChild(this.roleContainer01);
+
+        this.divRole.appendChild(this.divRolOptions);
+
         shadow.appendChild(this.titleMain);
         shadow.appendChild(this.divUser);
         shadow.appendChild(this.divPassword);
+        shadow.appendChild(this.divRole);
         shadow.appendChild(this.saveButton);
         shadow.appendChild(this.CancelButton);
         shadow.appendChild(style);
@@ -144,5 +195,5 @@ class CreateRecepcionistWC extends HTMLElement
     }
 }
 
-customElements.define('r-create', CreateRecepcionistWC);
-export{CreateRecepcionistWC}
+customElements.define('r-create', CreateUserWC);
+export{CreateUserWC}

@@ -1,5 +1,5 @@
-import { RecepcionistListController } from "../Controllers/RecepcionistListController.js";
-class RecepcionistListWC extends HTMLElement
+import { UserListController } from "../Controllers/UserListController.js";
+class UserListWC extends HTMLElement
 {
     constructor( dashboardInstance, divDisplayer)
     {
@@ -8,7 +8,7 @@ class RecepcionistListWC extends HTMLElement
         this.dashboardInstance = dashboardInstance;
         this.divDisplayer = divDisplayer;
 
-        console.log('🔍 RecepcionistListWC - Parámetros recibidos:', {
+        console.log('🔍 UserListWC - Parámetros recibidos:', {
             dashboardInstance: dashboardInstance,
             divDisplayer: divDisplayer,
             tieneDivDisplayer: !!divDisplayer
@@ -17,11 +17,11 @@ class RecepcionistListWC extends HTMLElement
         this.dashboardInstance = dashboardInstance;
         this.divDisplayer = divDisplayer;
         
-        console.log('🔍 RecepcionistListWC - Antes de crear controller:', {
+        console.log('🔍 UserListWC - Antes de crear controller:', {
             dashboardInstance: this.dashboardInstance,
             divDisplayer: this.divDisplayer
         });
-        this.controller = new RecepcionistListController(this.dashboardInstance, this.divDisplayer);
+        this.controller = new UserListController(this.dashboardInstance, this.divDisplayer);
         const style = document.createElement('style');
         style.textContent = `
             
@@ -68,7 +68,7 @@ class RecepcionistListWC extends HTMLElement
         
         this.aLeftOption00 = document.createElement('a');
         this.aLeftOption00.href='#';
-        this.aLeftOption00.textContent = 'Añadir Empleado';
+        this.aLeftOption00.textContent = 'Añadir Usuario';
         this.aLeftOption00.className = 'left-a-list';
 
         this.leftList01 = document.createElement('li');
@@ -76,7 +76,7 @@ class RecepcionistListWC extends HTMLElement
         
         this.aLeftOption01 = document.createElement('a');
         this.aLeftOption01.href='#';
-        this.aLeftOption01.textContent = 'Eliminar Empleado';
+        this.aLeftOption01.textContent = 'Eliminar Usuario';
         this.aLeftOption01.className = 'left-a-list';
 
         this.leftList02 = document.createElement('li');
@@ -84,7 +84,7 @@ class RecepcionistListWC extends HTMLElement
         
         this.aLeftOption02 = document.createElement('a');
         this.aLeftOption02.href='#';
-        this.aLeftOption02.textContent = 'Modificar Empleado';
+        this.aLeftOption02.textContent = 'Modificar Usuario';
         this.aLeftOption02.className = 'left-a-list';
 
         this.leftList03 = document.createElement('li');
@@ -92,7 +92,7 @@ class RecepcionistListWC extends HTMLElement
         
         this.aLeftOption03 = document.createElement('a');
         this.aLeftOption03.href='#';
-        this.aLeftOption03.textContent = 'Buscar Empleado';
+        this.aLeftOption03.textContent = 'Buscar Usuario';
         this.aLeftOption03.className = 'left-a-list';
 
         this.leftList04 = document.createElement('li');
@@ -100,7 +100,7 @@ class RecepcionistListWC extends HTMLElement
         
         this.aLeftOption04 = document.createElement('a');
         this.aLeftOption04.href='#';
-        this.aLeftOption04.textContent = 'Listar Empleados';
+        this.aLeftOption04.textContent = 'Listar Usuarios';
         this.aLeftOption04.className = 'left-a-list';
 
         this.leftList00.appendChild(this.aLeftOption00);
@@ -121,11 +121,11 @@ class RecepcionistListWC extends HTMLElement
 
     connectedCallback()
     {
-        this.leftList00.onclick = this.controller.onAddRecepcionist.bind(this.controller);
-        this.leftList01.onclick = this.controller.onDeleteRecepcionist.bind(this.controller);
-        this.leftList02.onclick = this.controller.onModifyRecepcionist.bind(this.controller);
-        this.leftList03.onclick = this.controller.onSearchRecepcionist.bind(this.controller);
-        this.leftList04.onclick = this.controller.onListRecepcionists.bind(this.controller);
+        this.leftList00.onclick = this.controller.onAddUser.bind(this.controller);
+        this.leftList01.onclick = this.controller.onDeleteUser.bind(this.controller);
+        this.leftList02.onclick = this.controller.onModifyUser.bind(this.controller);
+        this.leftList03.onclick = this.controller.onSearchUser.bind(this.controller);
+        this.leftList04.onclick = this.controller.onListUsers.bind(this.controller);
     }
 
     disconnectedCallback()
@@ -139,6 +139,6 @@ class RecepcionistListWC extends HTMLElement
     
 }
 
-customElements.define('u-recepcionist-ul', RecepcionistListWC);
+customElements.define('u-user-ul', UserListWC);
 
-export{RecepcionistListWC}
+export{UserListWC}

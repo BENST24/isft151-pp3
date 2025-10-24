@@ -1,5 +1,5 @@
 import { UpperNavListWC } from "./UpperNavListWC.js";
-import { RecepcionistListWC } from "./RecepcionistListWC.js";
+import { UserListWC } from "./UserListWC.js";
 import { ActivityListWC } from "./ActivityListWC .js";
 import { DashboardController } from "../Controllers/DashboardController.js";
 
@@ -111,17 +111,17 @@ class DashboardWC extends HTMLElement
         this.divDisplayer.className= 'div-displayer';
         /*--------------------------------------------*/ 
 
-        this.uRecepcionistList = new RecepcionistListWC(this, this.divDisplayer);
+        this.uUserList = new UserListWC(this, this.divDisplayer);
         this.uActivityList = new ActivityListWC(this, this.divDisplayer);    
 
-        this.uRecepcionistList.style.display= 'none';
+        this.uUserList.style.display= 'none';
         this.uActivityList.style.display= 'none';
 
         this.upperNav.appendChild(this.welcomeTitle);
         this.upperNav.appendChild(this.upperNavComponent);
         this.upperNav.appendChild(this.logOutButton);
 
-        this.leftNav.appendChild(this.uRecepcionistList);
+        this.leftNav.appendChild(this.uUserList);
         this.leftNav.appendChild(this.uActivityList);
 
         this.divMain00.appendChild(this.upperNav);
@@ -137,7 +137,7 @@ class DashboardWC extends HTMLElement
 
     connectedCallback()
     {
-        this.upperNavComponent.aOption00.onclick = this.controller.onManageRecepcionist.bind(this.controller);
+        this.upperNavComponent.aOption00.onclick = this.controller.onManageUser.bind(this.controller);
         this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
         this.logOutButton.onclick = this.onLogoutClick;
         this.controller.init();

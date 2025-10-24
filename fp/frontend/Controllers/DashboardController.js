@@ -7,7 +7,7 @@ class DashboardController
         this.apiInstance = apiInstance;
         this.currentLeftNav = null;
 
-        this.onManageRecepcionist = this.onManageRecepcionist.bind(this);
+        this.onManageUser = this.onManageUser.bind(this);
         this.onManageActivities = this.onManageActivities.bind(this);
         this.onLogoutClick = this.onLogoutClick.bind(this);
     }
@@ -39,16 +39,16 @@ class DashboardController
         this.apiInstance.logout();
     }
 
-    onManageRecepcionist(event)
+    onManageUser(event)
     {
         if(event)
         {
             this.clearLeftNav();
 
-            this.dashboardInstance.uRecepcionistList.style.display = 'block';
+            this.dashboardInstance.uUserList.style.display = 'block';
             this.dashboardInstance.uActivityList.style.display = 'none';
 
-            this.currentLeftNav = this.dashboardInstance.uRecepcionistList;
+            this.currentLeftNav = this.dashboardInstance.uUserList;
         }
     }
 
@@ -58,7 +58,7 @@ class DashboardController
         {
             this.clearLeftNav();
 
-            this.dashboardInstance.uRecepcionistList.style.display = 'none';
+            this.dashboardInstance.uUserList.style.display = 'none';
             this.dashboardInstance.uActivityList.style.display = 'block';
 
             this.currentLeftNav = this.dashboardInstance.uActivityList;
