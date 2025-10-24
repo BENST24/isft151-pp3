@@ -116,52 +116,54 @@ class CreateUserWC extends HTMLElement
         this.inputPassword.placeholder ='Ingrese la contraseña';
         this.inputPassword.type = 'password';
 
-        this.divRole = document.createElement('div');
-        this.divRole.className = 'role-div';
+        this.divType = document.createElement('div');
+        this.divType.className = 'type-div';
         
-        this.labelRole = document.createElement('label');
-        this.labelRole.className = 'label-role';
-        this.labelRole.textContent = 'Seleccionar rol:';
+        this.labelType = document.createElement('label');
+        this.labelType.className = 'label-type';
+        this.labelType.textContent = 'Seleccionar rol:';
 
-        this.divRolOptions = document.createElement('div');
-        this.divRolOptions.className = 'rol-options-div';
+        this.divTypeOptions = document.createElement('div');
+        this.divTypeOptions.className = 'type-options-div';
 
         /*----------------Opcion 1----------------*/ 
-        this.roleContainer00 = document.createElement('div');
-        this.roleContainer00.className = 'role-container';
+        this.typeContainer00 = document.createElement('div');
+        this.typeContainer00.className = 'type-container';
 
-        this.roleLabelOption00 = document.createElement('label');
-        this.roleLabelOption00.className = 'role-option-name';
-        this.roleLabelOption00.textContent = 'Administrador';
+        this.typeLabelOption00 = document.createElement('label');
+        this.typeLabelOption00.className = 'type-option-name';
+        this.typeLabelOption00.textContent = 'Administrador';
 
-        this.roleInputOption00 = document.createElement('input');
-        this.roleInputOption00.className = 'role-option-radio';
-        this.roleInputOption00.type = 'radio';
-        this.roleInputOption00.name = 'userRole';
-        this.roleInputOption00.id = 'supervisor';
+        this.typeInputOption00 = document.createElement('input');
+        this.typeInputOption00.className = 'type-option-radio';
+        this.typeInputOption00.type = 'radio';
+        this.typeInputOption00.name = 'userType';
+        this.typeInputOption00.id = 'SUPERVISOR';
+        this.typeInputOption00.value = 'SUPERVISOR';
 
 
         /*----------------Opcion 2----------------*/ 
-        this.roleContainer01 = document.createElement('div');
-        this.roleContainer01.className = 'role-container';
+        this.typeContainer01 = document.createElement('div');
+        this.typeContainer01.className = 'type-container';
     
-        this.roleLabelOption01 = document.createElement('label');
-        this.roleLabelOption01.className = 'role-option-name';
-        this.roleLabelOption01.textContent = 'Empleado';
+        this.typeLabelOption01 = document.createElement('label');
+        this.typeLabelOption01.className = 'type-option-name';
+        this.typeLabelOption01.textContent = 'Empleado';
 
-        this.roleInputOption01 = document.createElement('input');
-        this.roleInputOption01.className = 'role-option-radio';
-        this.roleInputOption01.type = 'radio';
-        this.roleInputOption01.name = 'userRole';
-        this.roleInputOption01.id = 'recepcionist';
+        this.typeInputOption01 = document.createElement('input');
+        this.typeInputOption01.className = 'type-option-radio';
+        this.typeInputOption01.type = 'radio';
+        this.typeInputOption01.name = 'userType';
+        this.typeInputOption01.id = 'RECEPCIONIST';
+        this.typeInputOption01.value = 'RECEPCIONIST';
 
         this.saveButton = document.createElement('button');
         this.saveButton.className= 'save-button';
         this.saveButton.textContent ='Guardar';
 
-        this.CancelButton = document.createElement('button');
-        this.CancelButton.className= 'cancel-button';
-        this.CancelButton.textContent ='Cancelar';
+        this.cancelButton = document.createElement('button');
+        this.cancelButton.className= 'cancel-button';
+        this.cancelButton.textContent ='Cancelar';
 
         this.divUser.appendChild(this.labelUser);
         this.divUser.appendChild(this.inputUser);
@@ -169,29 +171,32 @@ class CreateUserWC extends HTMLElement
         this.divPassword.appendChild(this.labelPassword);
         this.divPassword.appendChild(this.inputPassword);
 
-        this.roleContainer00.appendChild(this.roleLabelOption00);
-        this.roleContainer00.appendChild(this.roleInputOption00);
+        this.typeContainer00.appendChild(this.typeLabelOption00);
+        this.typeContainer00.appendChild(this.typeInputOption00);
 
-        this.roleContainer01.appendChild(this.roleLabelOption01);
-        this.roleContainer01.appendChild(this.roleInputOption01);
+        this.typeContainer01.appendChild(this.typeLabelOption01);
+        this.typeContainer01.appendChild(this.typeInputOption01);
 
-        this.divRolOptions.appendChild(this.roleContainer00);
-        this.divRolOptions.appendChild(this.roleContainer01);
+        this.divTypeOptions.appendChild(this.typeContainer00);
+        this.divTypeOptions.appendChild(this.typeContainer01);
 
-        this.divRole.appendChild(this.divRolOptions);
+        this.divType.appendChild(this.divTypeOptions);
 
         shadow.appendChild(this.titleMain);
         shadow.appendChild(this.divUser);
         shadow.appendChild(this.divPassword);
-        shadow.appendChild(this.divRole);
+        shadow.appendChild(this.divType);
         shadow.appendChild(this.saveButton);
-        shadow.appendChild(this.CancelButton);
+        shadow.appendChild(this.cancelButton);
         shadow.appendChild(style);
     }
 
     connectedCallback()
     {
-        this.saveButton.onclick = this.controller.onSaveButtonClick.bind(this.controller); 
+        this.saveButton.onclick = this.controller.onSaveButtonClick.bind(this.controller);
+        this.cancelButton.onclick = this.controller.onCancelButtonClick.bind(this.controller);
+        this.typeInputOption00.onclick = this.controller.onHandleTypeChange.bind(this.controller);
+        this.typeInputOption01.onclick = this.controller.onHandleTypeChange.bind(this.controller);
     }
 }
 
