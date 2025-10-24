@@ -7,20 +7,10 @@ class UserListWC extends HTMLElement
         const shadow = this.attachShadow({mode: 'open'});
         this.dashboardInstance = dashboardInstance;
         this.divDisplayer = divDisplayer;
-
-        console.log('🔍 UserListWC - Parámetros recibidos:', {
-            dashboardInstance: dashboardInstance,
-            divDisplayer: divDisplayer,
-            tieneDivDisplayer: !!divDisplayer
-        });
         
         this.dashboardInstance = dashboardInstance;
         this.divDisplayer = divDisplayer;
         
-        console.log('🔍 UserListWC - Antes de crear controller:', {
-            dashboardInstance: this.dashboardInstance,
-            divDisplayer: this.divDisplayer
-        });
         this.controller = new UserListController(this.dashboardInstance, this.divDisplayer);
         const style = document.createElement('style');
         style.textContent = `
