@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import rateLimit from "express-rate-limit";
 import { authenticateUser } from "../Models/AuthModel.js";
 import { createUser } from "../Models/UserManager.js";
@@ -11,6 +11,16 @@ import { searchUser } from "../Models/UserManager.js";
 import { listUser } from "../Models/UserManager.js";
 
 const router = express.Router();
+
+const jsonParser = express.json({ strict: true, type: "application/json" });
+
+router.use(jsonParser, (err, req, res, next) => {
+    if (err instanceof SyntaxError && "body" in err) 
+    {
+        return res.status(400).json({ status: false, result: "INVALID_JSON_FORMAT" });
+    }
+    next();
+});
 
 // === Limitadores ===
 const loginLimiter = rateLimit({
@@ -25,8 +35,66 @@ const userModificationLimiter = rateLimit({
     message: { status: false, result: "TOO_MANY_ATTEMPTS" }
 });
 
+function validateJsonInputStructureCreateUser(req) 
+{
+    const requiredFields = ["currentUsername", "currentUserPassword", "username", "password", "type"];
+    const body = req.body;
+
+    let response =
+    {
+        status: true,
+        result: "VALID_JSON_STRUCTURE",
+    }
+
+    // Validar que el body exista
+    if (!body || typeof body !== "object") 
+    {
+        response.status = false;
+        response.result = "INVALID_JSON_STRUCTURE";
+        return response;
+    }
+
+    // Recorrer los campos esperados
+    for (const field of requiredFields) 
+    {
+        const value = body[field];
+
+        // Campo faltante o null
+        if (value === undefined || value === null) 
+        {
+            response.status = false;
+            response.result = `${field.toUpperCase()}_NULL`;
+            return response;
+        }
+
+        // Tipo incorrecto
+        if (typeof value !== "string") 
+        {
+            response.status = false;
+            response.result = `${field.toUpperCase()}_INVALID_DATA_TYPE`;
+            return response;
+        }
+
+        // Validar type específicamente
+        if (field === "type") 
+        {
+            const validTypes = ["SUPERVISOR", "RECEPTIONIST"];
+            if (!validTypes.includes(value)) 
+            {
+                response.status = false;
+                response.result = "INVALID_EMPLOYEE_TYPE";
+                return response;
+            }
+        }
+    }
+
+    // Si pasa todas las validaciones
+    return response;
+}
+
+
 // Ruta de login
-router.post("/auth/login", loginLimiter, async (req, res) => {
+router.post("/auth/login", loginLimiter, jsonParser, async (req, res) => {
     try
     {
         const { username, password } = req.body;
@@ -46,26 +114,34 @@ router.post("/auth/login", loginLimiter, async (req, res) => {
     }
 });
 
-router.post("/user/create", userModificationLimiter, async (req, res) => {
+router.post("/user/create", userModificationLimiter, jsonParser, async (req, res) => {
     try {
+
+        const validation = validateJsonInputStructureCreateUser(req);
+        if (!validation.status) 
+        {
+            return res.status(400).json(validation);
+        }
+
         const { currentUsername, currentUserPassword, username, password, type} = req.body;
 
         const result = await createUser( currentUsername, currentUserPassword, username, password, type);
 
         if (result.status) 
         {
-          res.status(200).json(result);
+            res.status(200).json(result);
         } else 
         {
-          res.status(401).json(result);
+            res.status(401).json(result);
         }
+
     } catch (error) {
         console.error("Error en /user/create: ", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
 
-router.delete("/user/delete", userModificationLimiter, async (req, res) => {
+router.delete("/user/delete", userModificationLimiter, jsonParser, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, username} = req.body;
 
@@ -84,7 +160,7 @@ router.delete("/user/delete", userModificationLimiter, async (req, res) => {
     }
 });
 
-router.patch("/user/modify/enable", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify/enable", userModificationLimiter, jsonParser, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword } = req.body;
 
@@ -105,7 +181,7 @@ router.patch("/user/modify/enable", userModificationLimiter, async (req, res) =>
     }
 });
 
-router.patch("/user/modify/password", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify/password", userModificationLimiter, jsonParser, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, newPassword } = req.body;
 
@@ -126,7 +202,7 @@ router.patch("/user/modify/password", userModificationLimiter, async (req, res) 
     }
 });
 
-router.patch("/user/modify/type ", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify/type ", userModificationLimiter, jsonParser, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, newType } = req.body;
 
@@ -147,7 +223,7 @@ router.patch("/user/modify/type ", userModificationLimiter, async (req, res) => 
     }
 });
 
-router.patch("/user/modify", userModificationLimiter, async (req, res) => {
+router.patch("/user/modify", userModificationLimiter, jsonParser, async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, newPassword, newType } = req.body;
 
@@ -168,7 +244,7 @@ router.patch("/user/modify", userModificationLimiter, async (req, res) => {
     }
 });
 
-router.get("/user/search", async (req, res) => {
+router.get("/user/search", jsonParser, async (req, res) => {
     try {
         const currentUsername = req.headers["x-username"];
         const currentUserPassword = req.headers["x-password"];
@@ -188,7 +264,7 @@ router.get("/user/search", async (req, res) => {
 });
 
 
-router.get("/user/list", async (req, res) => {
+router.get("/user/list", jsonParser, async (req, res) => {
     try {
         const currentUsername = req.headers["x-username"];
         const currentUserPassword = req.headers["x-password"];
