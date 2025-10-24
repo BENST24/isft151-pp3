@@ -21,7 +21,7 @@ class CreateUserController
                 currentUserPassword:currentUserPassword,
                 username: username,
                 password: password,
-                type: 'user'
+                type: 'recepcionist'
             })
         })
         .then(function(response){return response.json();})

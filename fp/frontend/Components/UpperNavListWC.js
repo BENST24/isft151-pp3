@@ -79,7 +79,6 @@ class UpperNavListWC extends  HTMLElement
         this.list00.appendChild(this.aOption00);
         this.list01.appendChild(this.aOption01);
 
-    
         this.uUpperList00.appendChild(this.list00);
         this.uUpperList00.appendChild(this.list01);
 
