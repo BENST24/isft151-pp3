@@ -63,7 +63,7 @@ class UpperNavListWC extends  HTMLElement
         
         this.aOption00 = document.createElement('a');
         this.aOption00.href='#';
-        this.aOption00.textContent = 'Gestionar Empleados';
+        this.aOption00.textContent = 'Gestionar Usuarios';
         this.aOption00.className = 'upper-a-list';
         this.aOption00.id ='manage-employees';
 

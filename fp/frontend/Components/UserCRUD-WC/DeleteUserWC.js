@@ -1,5 +1,5 @@
-import {TableWC} from "../../Components/TableWC.js";
-class SearchRecepcionistWC extends HTMLElement
+import {TableWC} from "../TableWC.js";
+class DeleteUserWC extends HTMLElement
 {
     constructor()
     {
@@ -11,7 +11,7 @@ class SearchRecepcionistWC extends HTMLElement
         style.textContent =`
             :host
             {
-                background-color: rgba(180, 202, 102, 1);
+                background-color: rgba(102, 174, 202, 1);
                 min-height: 100vh;
                 width: 100%;
                 margin: 0;
@@ -32,7 +32,27 @@ class SearchRecepcionistWC extends HTMLElement
                 font-weight: 700;
             }
             
-            
+            .input-delete
+            {
+                height: 30px;
+            }
+
+            .span-search
+            {
+                margin: 20px;
+                width: 40px;
+                height: 40px;
+                background-color: rgba(204, 204, 204, 1);
+                color: black;
+            }
+
+            .search-icon
+            {
+                width: 40px;
+                height: 40px;
+                background-color: rgba(204, 204, 204, 1);
+                color: black;
+            }
         `;
         document.body.style.margin = '0';
         document.body.style.padding = '0';
@@ -45,7 +65,11 @@ class SearchRecepcionistWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Buscar Empleado';
+        this.mainTitle.textContent = 'Eliminar Usuario';
+        
+        this.deleteButton = document.createElement('button');
+        this.deleteButton.className= 'delete-button';
+        this.deleteButton.textContent ='Eliminar';
 
         this.divMainTitle.appendChild(this.mainTitle);
 
@@ -53,6 +77,7 @@ class SearchRecepcionistWC extends HTMLElement
         
         shadow.appendChild(this.divMainTitle);
         shadow.appendChild(this.table);
+        shadow.appendChild(this.deleteButton);
         shadow.appendChild(style);
     }
 
@@ -67,5 +92,5 @@ class SearchRecepcionistWC extends HTMLElement
     }
 }
 
-customElements.define('r-search', SearchRecepcionistWC);
-export{SearchRecepcionistWC}
+customElements.define('r-delete', DeleteUserWC);
+export{DeleteUserWC}
