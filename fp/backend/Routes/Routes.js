@@ -183,9 +183,7 @@ router.patch("/user/modify/enable", userModificationLimiter, jsonParser, async (
 
 router.patch("/user/modify/password", userModificationLimiter, jsonParser, async (req, res) => {
     try {
-        const { currentUsername, currentUserPassword, newPassword } = req.body;
-
-        const { username } = req.params;
+        const { currentUsername, currentUserPassword, username, newPassword } = req.body;
 
         const result = await modifyUserPassword( currentUsername, currentUserPassword, username, newPassword);
 
@@ -204,9 +202,7 @@ router.patch("/user/modify/password", userModificationLimiter, jsonParser, async
 
 router.patch("/user/modify/type ", userModificationLimiter, jsonParser, async (req, res) => {
     try {
-        const { currentUsername, currentUserPassword, newType } = req.body;
-
-        const { username } = req.params;
+        const { currentUsername, currentUserPassword, username, newType } = req.body;
 
         const result = await modifyUserType( currentUsername, currentUserPassword, username, newType);
 
@@ -225,9 +221,7 @@ router.patch("/user/modify/type ", userModificationLimiter, jsonParser, async (r
 
 router.patch("/user/modify", userModificationLimiter, jsonParser, async (req, res) => {
     try {
-        const { currentUsername, currentUserPassword, newPassword, newType } = req.body;
-
-        const { username } = req.params;
+        const { currentUsername, currentUserPassword, username, newPassword, newType } = req.body;
 
         const result = await modifyUser( currentUsername, currentUserPassword, username, newPassword, newType);
 
@@ -248,7 +242,7 @@ router.get("/user/search", jsonParser, async (req, res) => {
     try {
         const currentUsername = req.headers["x-username"];
         const currentUserPassword = req.headers["x-password"];
-        const { username } = req.params;
+        const { username } = req.query;
 
         const result = await searchUser(currentUsername, currentUserPassword, username);
 
@@ -281,5 +275,94 @@ router.get("/user/list", jsonParser, async (req, res) => {
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
+
+router.post("/activity/create", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, name, duration } = req.body;
+
+        const result = await createActivity(currentUsername, currentUserPassword, name, duration);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /activity/create: ", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.delete("/activity/delete", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, name } = req.body;
+
+        const result = await deleteActivity(currentUsername, currentUserPassword, name);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /activity/delete: ", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.patch("/activity/modify", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, name, newName, newDuration } = req.body;
+
+        const result = await modifyActivity(currentUsername, currentUserPassword, name, newName, newDuration);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /activity/modify: ", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.get("/activity/search", async (req, res) => {
+    try {
+        const currentUsername = req.headers["x-username"];
+        const currentUserPassword = req.headers["x-password"];
+        const { name } = req.query;
+
+        const result = await searchActivity(currentUsername, currentUserPassword, name);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /activity/search: ", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.get("/activity/list", async (req, res) => {
+    try {
+        const currentUsername = req.headers["x-username"];
+        const currentUserPassword = req.headers["x-password"];
+
+        const result = await listActivity(currentUsername, currentUserPassword);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /activity/list: ", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
 
 export default router;
