@@ -114,6 +114,8 @@ class CreateActivityWC extends HTMLElement
         this.inputDuration = document.createElement('input');
         this.inputDuration.className= 'input-duration';
         this.inputDuration.placeholder ='Ingrese la duracion de la actividad en minutos';
+        this.inputDuration.type = 'number';
+        this.inputDuration.min = '5';
 
 
         this.saveButton = document.createElement('button');
