@@ -92,8 +92,9 @@ function validateJsonInputStructureCreateUser(req)
     return response;
 }
 
-
-// Ruta de login
+// ----------------------------------------------------------------------------------------
+// Endpoint de Autenticación 
+// ----------------------------------------------------------------------------------------
 router.post("/auth/login", loginLimiter, jsonParser, async (req, res) => {
     try
     {
@@ -113,6 +114,10 @@ router.post("/auth/login", loginLimiter, jsonParser, async (req, res) => {
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
+
+// ----------------------------------------------------------------------------------------
+// Endpoints de Usuario
+// ----------------------------------------------------------------------------------------
 
 router.post("/user/create", userModificationLimiter, jsonParser, async (req, res) => {
     try {
@@ -276,92 +281,112 @@ router.get("/user/list", jsonParser, async (req, res) => {
     }
 });
 
+// ----------------------------------------------------------------------------------------
+// Endpoints de Actividades
+// ----------------------------------------------------------------------------------------
+
+// Crear una actividad
 router.post("/activity/create", async (req, res) => {
-    try {
-        const { currentUsername, currentUserPassword, name, duration } = req.body;
+  try {
+    const { currentUsername, currentUserPassword, name, duration } = req.body;
 
-        const result = await createActivity(currentUsername, currentUserPassword, name, duration);
+    const result = await createActivity(
+      currentUsername,
+      currentUserPassword,
+      name,
+      duration
+    );
 
-        if (result.status)
-            res.status(200).json(result);
-        else
-            res.status(401).json(result);
+    if (result.status)
+      res.status(200).json(result);
+    else
+      res.status(401).json(result);
 
-    } catch (error) {
-        console.error("Error en /activity/create: ", error);
-        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
-    }
+  } catch (error) {
+    console.error("Error en /activity/create: ", error);
+    res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+  }
 });
 
+// Eliminar una actividad por ID
 router.delete("/activity/delete", async (req, res) => {
-    try {
-        const { currentUsername, currentUserPassword, name } = req.body;
+  try {
+    const { currentUsername, currentUserPassword, id } = req.body;
 
-        const result = await deleteActivity(currentUsername, currentUserPassword, name);
+    const result = await deleteActivity(currentUsername, currentUserPassword, id);
 
-        if (result.status)
-            res.status(200).json(result);
-        else
-            res.status(401).json(result);
+    if (result.status)
+      res.status(200).json(result);
+    else
+      res.status(401).json(result);
 
-    } catch (error) {
-        console.error("Error en /activity/delete: ", error);
-        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
-    }
+  } catch (error) {
+    console.error("Error en /activity/delete: ", error);
+    res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+  }
 });
 
+// Modificar una actividad por ID
 router.patch("/activity/modify", async (req, res) => {
-    try {
-        const { currentUsername, currentUserPassword, name, newName, newDuration } = req.body;
+  try {
+    const { currentUsername, currentUserPassword, id, newName, newDuration } = req.body;
 
-        const result = await modifyActivity(currentUsername, currentUserPassword, name, newName, newDuration);
+    const result = await modifyActivity(
+      currentUsername,
+      currentUserPassword,
+      id,
+      newName,
+      newDuration
+    );
 
-        if (result.status)
-            res.status(200).json(result);
-        else
-            res.status(401).json(result);
+    if (result.status)
+      res.status(200).json(result);
+    else
+      res.status(401).json(result);
 
-    } catch (error) {
-        console.error("Error en /activity/modify: ", error);
-        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
-    }
+  } catch (error) {
+    console.error("Error en /activity/modify: ", error);
+    res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+  }
 });
 
+// Buscar una actividad por ID
 router.get("/activity/search", async (req, res) => {
-    try {
-        const currentUsername = req.headers["x-username"];
-        const currentUserPassword = req.headers["x-password"];
-        const { name } = req.query;
+  try {
+    const currentUsername = req.headers["x-username"];
+    const currentUserPassword = req.headers["x-password"];
+    const { id } = req.query;
 
-        const result = await searchActivity(currentUsername, currentUserPassword, name);
+    const result = await searchActivity(currentUsername, currentUserPassword, id);
 
-        if (result.status)
-            res.status(200).json(result);
-        else
-            res.status(401).json(result);
+    if (result.status)
+      res.status(200).json(result);
+    else
+      res.status(401).json(result);
 
-    } catch (error) {
-        console.error("Error en /activity/search: ", error);
-        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
-    }
+  } catch (error) {
+    console.error("Error en /activity/search: ", error);
+    res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+  }
 });
 
+// Listar todas las actividades
 router.get("/activity/list", async (req, res) => {
-    try {
-        const currentUsername = req.headers["x-username"];
-        const currentUserPassword = req.headers["x-password"];
+  try {
+    const currentUsername = req.headers["x-username"];
+    const currentUserPassword = req.headers["x-password"];
 
-        const result = await listActivity(currentUsername, currentUserPassword);
+    const result = await listActivity(currentUsername, currentUserPassword);
 
-        if (result.status)
-            res.status(200).json(result);
-        else
-            res.status(401).json(result);
+    if (result.status)
+      res.status(200).json(result);
+    else
+      res.status(401).json(result);
 
-    } catch (error) {
-        console.error("Error en /activity/list: ", error);
-        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
-    }
+  } catch (error) {
+    console.error("Error en /activity/list: ", error);
+    res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+  }
 });
 
 

@@ -1,12 +1,6 @@
 import { authenticateUser } from "./AuthModel.js";
-import { resetFailedloginCounterUser } from "../Services/UserService.js";
-import { getUserByName } from "../Services/UserService.js";
-import { createUserDB } from "../Services/UserService.js";
-import { deleteUserDB } from "../Services/UserService.js";
-import { updatePasswordUser } from "../Services/UserService.js";
-import { updateTypeUser } from "../Services/UserService.js";
-import { updateUser } from "../Services/UserService.js";
-import { getAllUsers } from "../Services/UserService.js";
+import { resetFailedloginCounterUser, getUserByName, createUserDB, 
+         deleteUserDB, updatePasswordUser, updateTypeUser, updateUser, getAllUsers  } from "../Services/UserService.js";
 
 
 // --------------------------------------------------------------------------
@@ -92,7 +86,7 @@ export async function createUser(currentUsername, currentUserPassword, username,
     {
         if (isAuthorizedUser(respond.type))
         {
-            if (! await getUserByName(username))
+            if (!await getUserByName(username))
             {
                 if(validatePass(password))
                 {
