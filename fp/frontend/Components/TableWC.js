@@ -104,7 +104,7 @@ class TableWC extends HTMLElement{
         cell.colSpan = 2;
         cell.textContent = 'No hay datos disponibles';
         cell.className = 'data-table';
-        cell.style.color = '#ffffffff';
+        cell.style.color = '#000000ff';
         row.appendChild(cell);
         this.table.appendChild(row);
     }
