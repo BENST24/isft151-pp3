@@ -37,7 +37,7 @@ export async function updateTypeUser(name, type)
 export async function updateUser(name, password, type) 
 {
     await db.execute(
-        "UPDATE user SET password = ?, type = ? WHERE name = ?",
+        "UPDATE user SET password ?, type = ? WHERE name = ?",
         [password, type, name]
     );
 }
