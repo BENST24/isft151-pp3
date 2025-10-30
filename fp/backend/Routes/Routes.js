@@ -1,14 +1,8 @@
 import express, { response } from "express";
 import rateLimit from "express-rate-limit";
 import { authenticateUser } from "../Models/AuthModel.js";
-import { createUser } from "../Models/UserManager.js";
-import { deleteUser } from "../Models/UserManager.js";
-import { enableBlockedUser } from "../Models/UserManager.js";
-import { modifyUserPassword } from "../Models/UserManager.js";
-import { modifyUserType } from "../Models/UserManager.js";
-import { modifyUser } from "../Models/UserManager.js";
-import { searchUser } from "../Models/UserManager.js";
-import { listUser } from "../Models/UserManager.js";
+import { createUser, deleteUser, enableBlockedUser, modifyUserPassword, modifyUserType, modifyUser, searchUser, listUser } from "../Models/UserManager.js";
+import { createActivity, deleteActivity, modifyActivity, searchActivity, listActivity } from "../Models/ActivityManager.js"
 
 const router = express.Router();
 
