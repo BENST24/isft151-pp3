@@ -14,6 +14,12 @@ CREATE TABLE user (
     isLocked BOOLEAN DEFAULT FALSE
 );
 
+CREATE TABLE `activity` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    duration DOUBLE NOT NULL
+);
+
 -- -----------------------------------------------------
 -- insert para el primer Supervisor precargado
 -- -----------------------------------------------------
