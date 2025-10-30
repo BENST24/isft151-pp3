@@ -2,6 +2,7 @@ import { CreateUserWC } from "../Components/UserCRUD-WC/CreateUserWC.js";
 import{DeleteUserWC} from "../Components/UserCRUD-WC/DeleteUserWC.js"
 import{SearchUserWC} from "../Components/UserCRUD-WC/SearchUserWC.js"
 import { ModifyUserWC } from "../Components/UserCRUD-WC/ModifyUserWC.js";
+import { ListUserWC } from "../Components/UserCRUD-WC/ListUserWC.js";
 
 class UserListController
 {
@@ -94,9 +95,13 @@ class UserListController
         if(event)
         {
             this.clearDivDisplayer();
-            let create = new CreateUserWC();
-            this.divDisplayer.appendChild(create);
-            this.currentDivDisplayer = create;
+            let list = new ListUserWC();
+            
+            list.setAttribute('current-username', this.dashboardInstance.currentUsername);
+            list.setAttribute('current-userpassword', this.dashboardInstance.currentPassword);
+
+            this.divDisplayer.appendChild(list);
+            this.currentDivDisplayer = list;
         }
     }
 

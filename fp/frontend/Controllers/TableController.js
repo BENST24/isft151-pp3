@@ -16,6 +16,12 @@ class TableController
         let currentUserPassword = this.view.getAttribute('current-userpassword');
 
 
+        if(this.view.getMode() === 'list' && !username)
+        {
+            this.listAllUsers(currentUsername, currentUserPassword);
+            return;
+        }
+
         if(!username)
         {
             window.alert('Por favor completar todos los campos');
@@ -39,6 +45,28 @@ class TableController
                     window.alert('Error: '+ result.result);
                     this.view.clear();
                 }
+        }.bind(this))
+    }
+
+    listAllUsers(currentUsername, currentUserPassword){
+        fetch(`http://localhost:3000/api/user/list`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-username': currentUsername,
+                'x-password': currentUserPassword
+            }
+        })
+        .then(function(response){return response.json();})
+        .then(function(result){
+            console.log("Respuesta de listar todos: ", result);
+            if(result.status || (result.response && result.response.length > 0)){
+                const data =  result.response || result.data || result.result || [];
+                this.loadData(data);
+            }else{
+                window.alert('Error: ' +result.result);
+                this.view.clear();
+            }
         }.bind(this))
     }
 
@@ -70,7 +98,7 @@ class TableController
 
         let tbody = document.createElement('tbody');
 
-        for(let j = 0; j < data.length; j++){
+        for(let j = 0; j < dataArray.length; j++){
 
             let user = dataArray[j];
             let row = document.createElement('tr');
