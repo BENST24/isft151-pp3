@@ -50,6 +50,9 @@ class UserListController
         {
             this.clearDivDisplayer();
             let deleteInstance = new DeleteUserWC();
+            deleteInstance.setAttribute('current-username', this.dashboardInstance.currentUsername);
+            deleteInstance.setAttribute('current-userpassword', this.dashboardInstance.currentPassword);
+            
             this.divDisplayer.appendChild(deleteInstance);
             this.currentDivDisplayer = deleteInstance;
         }
@@ -72,6 +75,10 @@ class UserListController
         {
             this.clearDivDisplayer();
             let search = new SearchUserWC();
+            
+            search.setAttribute('current-username', this.dashboardInstance.currentUsername);
+            search.setAttribute('current-userpassword', this.dashboardInstance.currentPassword);
+
             this.divDisplayer.appendChild(search);
             this.currentDivDisplayer = search;
         }

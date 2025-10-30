@@ -1,4 +1,6 @@
 import {TableWC} from "../TableWC.js";
+import { DeleteUserController } from "../../Controllers/UserCRUDControllers/DeleteUserController.js";
+
 class DeleteUserWC extends HTMLElement
 {
     constructor()
@@ -6,21 +8,21 @@ class DeleteUserWC extends HTMLElement
         super();
 
         const shadow = this.attachShadow({mode: 'open'});
-
+        this.controller = new DeleteUserController(this);
         const style= document.createElement('style');
         style.textContent =`
             :host
             {
-                background-color: rgba(102, 174, 202, 1);
-                min-height: 100vh;
-                width: 100%;
+                background-color: rgba(233, 231, 231, 0.79);
+                min-height: 60vh;
+                width: 60%;
                 margin: 0;
                 padding: 0;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
                 align-items: center;
-                
+                border-radius: 20px;
+                box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
             }
             
             .title-main 
@@ -35,23 +37,6 @@ class DeleteUserWC extends HTMLElement
             .input-delete
             {
                 height: 30px;
-            }
-
-            .span-search
-            {
-                margin: 20px;
-                width: 40px;
-                height: 40px;
-                background-color: rgba(204, 204, 204, 1);
-                color: black;
-            }
-
-            .search-icon
-            {
-                width: 40px;
-                height: 40px;
-                background-color: rgba(204, 204, 204, 1);
-                color: black;
             }
         `;
         document.body.style.margin = '0';
@@ -70,7 +55,7 @@ class DeleteUserWC extends HTMLElement
         this.deleteButton = document.createElement('button');
         this.deleteButton.className= 'delete-button';
         this.deleteButton.textContent ='Eliminar';
-
+        
         this.divMainTitle.appendChild(this.mainTitle);
 
         this.table = new TableWC();
@@ -78,12 +63,23 @@ class DeleteUserWC extends HTMLElement
         shadow.appendChild(this.divMainTitle);
         shadow.appendChild(this.table);
         shadow.appendChild(this.deleteButton);
+        
         shadow.appendChild(style);
     }
 
     connectedCallback()
     {
+
         
+        this.deleteButton.onclick = this.controller.onDeleteButtonClick.bind(this.controller);
+
+        const currentUsername = this.getAttribute('current-username');
+        const currentUserPassword = this.getAttribute('current-userpassword');
+        if(currentUsername && currentUserPassword)
+        {
+            this.table.setAttribute('current-username', currentUsername);
+            this.table.setAttribute('current-userpassword', currentUserPassword);
+        }
     }
 
     disconnectedCallback()

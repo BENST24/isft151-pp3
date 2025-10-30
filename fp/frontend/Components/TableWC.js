@@ -1,15 +1,16 @@
-
+import { TableController } from "../Controllers/TableController.js";
 
 class TableWC extends HTMLElement{
     constructor(){
         super();
         const shadow = this.attachShadow({mode: 'open'});
+        this.controller = new TableController(this);
         const style = document.createElement('style');
         style.textContent = `
             .data-table{
                 width: 100%;
                 border-collapse: collapse;
-                background-color: #979797;
+                background-color: #ffffffff;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                 overflow-x: auto;
             }
@@ -26,7 +27,7 @@ class TableWC extends HTMLElement{
             .data-table td{
                 padding: 10px 12px;
                 border-bottom: 1px solid #eee;
-                color: black;
+                color: #212529;
             }
             
             .input-search
@@ -86,60 +87,12 @@ class TableWC extends HTMLElement{
 
     connectedCallback()
     {
-        this.spanSearch.onclick = this.loadData.bind(this.table);
+        this.spanSearch.onclick = this.controller.onSearchButtonClick.bind(this.controller);
     }
-
-    loadData(data){
-        this.fullData = data;
-        //this.clearTable();
-        
-        if(!data || data.length === 0){
-            this.showNoData();
-            return;
-        }
-
-        let thead = document.createElement('thead');
-        let headerRow = document.createElement('tr');
-        headerRow.className = 'data-table';
-
-        const customHeaders=['Usuario', 'Rol'];
-
-        for(let i = 0 ; i < customHeaders.length; i++){
-            let th = document.createElement('th');
-            th.textContent = customHeaders[i];
-            headerRow.appendChild(th);
-        }
-
-        thead.appendChild(headerRow);
-        this.appendChild(thead);
-
-        let tbody = document.createElement('tbody');
-
-        for(let j = 0; j < data.length; j++){
-
-            let user = data[j];
-            let row = document.createElement('tr');
-
-            let tdId = document.createElement('td');
-            tdId.textContent = user.id;
-            row.appendChild(tdId);
-
-            let tdUser = document.createElement('td');
-            tdUser.textContent = user.username;
-            row.appendChild(tdUser);
-
-            tbody.appendChild(row);
-        }
-
-        this.appendChild(tbody);
-
-    }
-
-    
 
     clearTable(){
-        while(this.firstChild){
-            this.removeChild(this.firstChild);
+        while(this.table.firstChild){
+            this.table.removeChild(this.table.firstChild);
         }
     }
 
@@ -151,7 +104,7 @@ class TableWC extends HTMLElement{
         cell.colSpan = 2;
         cell.textContent = 'No hay datos disponibles';
         cell.className = 'data-table';
-        cell.style.color = '#666';
+        cell.style.color = '#ffffffff';
         row.appendChild(cell);
         this.table.appendChild(row);
     }
