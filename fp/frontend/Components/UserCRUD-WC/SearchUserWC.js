@@ -11,15 +11,16 @@ class SearchUserWC extends HTMLElement
         style.textContent =`
             :host
             {
-                background-color: rgba(180, 202, 102, 1);
-                min-height: 100vh;
-                width: 100%;
+                background-color: rgba(233, 231, 231, 0.79);
+                min-height: 60vh;
+                width: 60%;
                 margin: 0;
                 padding: 0;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
                 align-items: center;
+                border-radius: 20px;
+                box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
                 
             }
             
@@ -58,7 +59,13 @@ class SearchUserWC extends HTMLElement
 
     connectedCallback()
     {
-        
+        const currentUsername = this.getAttribute('current-username');
+        const currentUserPassword = this.getAttribute('current-userpassword');
+        if(currentUsername && currentUserPassword)
+        {
+            this.table.setAttribute('current-username', currentUsername);
+            this.table.setAttribute('current-userpassword', currentUserPassword);
+        }
     }
 
     disconnectedCallback()
