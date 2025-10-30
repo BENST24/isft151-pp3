@@ -37,14 +37,14 @@ export async function updateTypeUser(name, type)
 export async function updateUser(name, password, type) 
 {
     await db.execute(
-        "UPDATE user SET password, type = ? WHERE name = ?",
+        "UPDATE user SET password ?, type = ? WHERE name = ?",
         [password, type, name]
     );
 }
 
 export async function deleteUserDB(username) 
 {
-    await db.execute("DELETE FROM user WHERE id = ?", [username]);
+    await db.execute("DELETE FROM user WHERE name = ?", [username]);
 }
 
 export async function getAllUsers() 
