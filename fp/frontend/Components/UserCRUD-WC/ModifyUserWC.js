@@ -1,13 +1,14 @@
-import { CreateUserController } from "../../Controllers/UserCRUDControllers/CreateUserController.js";
+import { ModifyUserController } from "../../Controllers/UserCRUDControllers/ModifyUserController.js";
+import { TableWC } from "../TableWC.js";
 
-class CreateUserWC extends HTMLElement
+class ModifyUserWC extends HTMLElement
 {
     constructor()
     {
         super();
         
         const shadow = this.attachShadow({mode: 'open'});
-        this.controller = new CreateUserController(this);
+        this.controller = new ModifyUserController(this);
         const style = document.createElement('style');
         style.textContent =`
             :host
@@ -90,19 +91,8 @@ class CreateUserWC extends HTMLElement
         document.documentElement.style.padding = '0';
 
         this.titleMain = document.createElement('h2');
-        this.titleMain.textContent = 'Añadir Usuario';
+        this.titleMain.textContent = 'Modificar Usuario';
         this.titleMain.className ='title-main';
-
-        this.divUser = document.createElement('div');
-        this.divUser.className= 'user-div';
-
-        this.labelUser = document.createElement('label');
-        this.labelUser.className= 'label-user';
-        this.labelUser.textContent ='Usuario:';
-
-        this.inputUser = document.createElement('input');
-        this.inputUser.className= 'input-user';
-        this.inputUser.placeholder ='Ingrese el nombre de usuario';
 
         this.divPassword = document.createElement('div');
         this.divPassword.className= 'password-div';
@@ -157,16 +147,13 @@ class CreateUserWC extends HTMLElement
         this.typeInputOption01.id = 'RECEPTIONIST';
         this.typeInputOption01.value = 'RECEPTIONIST';
 
-        this.saveButton = document.createElement('button');
-        this.saveButton.className= 'save-button';
-        this.saveButton.textContent ='Guardar';
+        this.modifyButton = document.createElement('button');
+        this.modifyButton.className= 'save-button';
+        this.modifyButton.textContent ='Guardar Modificacion';
 
         this.cancelButton = document.createElement('button');
         this.cancelButton.className= 'cancel-button';
         this.cancelButton.textContent ='Cancelar';
-
-        this.divUser.appendChild(this.labelUser);
-        this.divUser.appendChild(this.inputUser);
 
         this.divPassword.appendChild(this.labelPassword);
         this.divPassword.appendChild(this.inputPassword);
@@ -182,23 +169,35 @@ class CreateUserWC extends HTMLElement
 
         this.divType.appendChild(this.divTypeOptions);
 
+        this.table = new TableWC();
+
         shadow.appendChild(this.titleMain);
-        shadow.appendChild(this.divUser);
+        shadow.appendChild(this.table);
         shadow.appendChild(this.divPassword);
         shadow.appendChild(this.divType);
-        shadow.appendChild(this.saveButton);
+        shadow.appendChild(this.modifyButton);
         shadow.appendChild(this.cancelButton);
         shadow.appendChild(style);
     }
 
     connectedCallback()
     {
-        this.saveButton.onclick = this.controller.onSaveButtonClick.bind(this.controller);
+        this.modifyButton.onclick = this.controller.onModifyButtonClick.bind(this.controller);
         this.cancelButton.onclick = this.controller.onCancelButtonClick.bind(this.controller);
         this.typeInputOption00.onclick = this.controller.onHandleTypeChange.bind(this.controller);
         this.typeInputOption01.onclick = this.controller.onHandleTypeChange.bind(this.controller);
+
+        const currentUsername = this.getAttribute('current-username');
+        const currentUserPassword = this.getAttribute('current-userpassword');
+        if(currentUsername && currentUserPassword)
+        {
+            this.table.setAttribute('current-username', currentUsername);
+            this.table.setAttribute('current-userpassword', currentUserPassword);
+        }
+
+        this.controller.setUpTableListeners(this.table);
     }
 }
 
-customElements.define('r-create', CreateUserWC);
-export{CreateUserWC}
+customElements.define('r-modify', ModifyUserWC);
+export{ModifyUserWC}

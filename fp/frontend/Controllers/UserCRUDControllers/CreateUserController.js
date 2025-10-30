@@ -23,6 +23,15 @@
             let currentUsername = this.view.getAttribute('current-username');
             let currentUserPassword = this.view.getAttribute('current-userpassword');
 
+            console.log('🔍 Datos que se enviarán:', {
+                currentUsername,
+                currentUserPassword: currentUserPassword ? '***' : 'undefined',
+                username,
+                password: password ? '***' : 'undefined', 
+                type
+            });
+
+
             if(!username || !password || !type)
             {
                 window.alert('Por favor completar todos los campos');
