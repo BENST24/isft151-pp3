@@ -1,14 +1,12 @@
 import {TableWC} from "../TableWC.js";
-import { DeleteUserController } from "../../Controllers/UserCRUDControllers/DeleteUserController.js";
-
-class DeleteUserWC extends HTMLElement
+class ListUserWC extends HTMLElement
 {
     constructor()
     {
         super();
 
         const shadow = this.attachShadow({mode: 'open'});
-        this.controller = new DeleteUserController(this);
+
         const style= document.createElement('style');
         style.textContent =`
             :host
@@ -23,6 +21,7 @@ class DeleteUserWC extends HTMLElement
                 align-items: center;
                 border-radius: 20px;
                 box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
+                
             }
             
             .title-main 
@@ -35,10 +34,7 @@ class DeleteUserWC extends HTMLElement
                 font-weight: 700;
             }
             
-            .input-delete
-            {
-                height: 30px;
-            }
+            
         `;
         document.body.style.margin = '0';
         document.body.style.padding = '0';
@@ -51,29 +47,24 @@ class DeleteUserWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Eliminar Usuario';
-        
-        this.deleteButton = document.createElement('button');
-        this.deleteButton.className= 'delete-button';
-        this.deleteButton.textContent ='Eliminar';
-        
+        this.mainTitle.textContent = 'Listar Usuarios';
+
         this.divMainTitle.appendChild(this.mainTitle);
 
         this.table = new TableWC();
+
+        this.listButton= document.createElement('button');
+        this.listButton.className = 'list-button';
+        this.listButton.textContent = 'Listar todos los usuarios';
         
         shadow.appendChild(this.divMainTitle);
+        shadow.appendChild(this.listButton);
         shadow.appendChild(this.table);
-        shadow.appendChild(this.deleteButton);
-        
         shadow.appendChild(style);
     }
 
     connectedCallback()
     {
-
-        
-        this.deleteButton.onclick = this.controller.onDeleteButtonClick.bind(this.controller);
-
         const currentUsername = this.getAttribute('current-username');
         const currentUserPassword = this.getAttribute('current-userpassword');
         if(currentUsername && currentUserPassword)
@@ -81,6 +72,9 @@ class DeleteUserWC extends HTMLElement
             this.table.setAttribute('current-username', currentUsername);
             this.table.setAttribute('current-userpassword', currentUserPassword);
         }
+
+        this.table.setMode('list');
+        this.listButton.onclick = function(){this.table.controller.onSearchButtonClick();}.bind(this);
     }
 
     disconnectedCallback()
@@ -89,5 +83,5 @@ class DeleteUserWC extends HTMLElement
     }
 }
 
-customElements.define('r-delete', DeleteUserWC);
-export{DeleteUserWC}
+customElements.define('r-list', ListUserWC);
+export{ListUserWC}

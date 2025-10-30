@@ -26,9 +26,10 @@ class SearchUserWC extends HTMLElement
             
             .title-main 
             {
-                margin: 0;
-                padding: 30px;
-                color: rgba(255, 255, 255, 1);
+                margin: 20px;
+                padding: 0;
+                color: rgba(51, 51, 51, 1);
+                text-shadow: 2px 2px 4px rgba(255, 255, 255, 1);
                 font-size: 40px;
                 font-weight: 700;
             }

@@ -51,6 +51,11 @@ class TableWC extends HTMLElement{
                 background-color: rgba(204, 204, 204, 1);
                 color: black;
             }
+            
+            .hidden
+            {
+                display: none !important;
+            }
         `;
         
         this.divSearch = document.createElement('div');
@@ -83,11 +88,29 @@ class TableWC extends HTMLElement{
         shadow.appendChild(style);
 
         this.fullData = null;
+        this.mode = 'search';
     }
 
     connectedCallback()
     {
+        const mode = this.getAttribute('mode');
+        if(mode){
+            this.setMode(mode);
+        }
+
         this.spanSearch.onclick = this.controller.onSearchButtonClick.bind(this.controller);
+    }
+
+    setMode(mode)
+    {
+        this.mode = mode;
+        if(mode === 'list'){
+            this.divSearch.classList.add('hidden');
+            this.inputSearch.placeholder = 'Presione buscar para listar todos los usuarios...'
+        }else{
+            this.divSearch.classList.remove('hidden');
+            this.inputSearch.placeholder = 'Ingrese el nombre de usuario...';
+        }
     }
 
     clearTable(){
@@ -112,6 +135,11 @@ class TableWC extends HTMLElement{
     clear(){
         this.clearTable();
         this.showNoData();
+    }
+
+    getMode()
+    {
+        return this.mode;
     }
 }
 
