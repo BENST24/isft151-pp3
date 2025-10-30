@@ -1,3 +1,5 @@
+import { ActivityListController } from "../Controllers/ActivityListController.js";
+
 class ActivityListWC extends HTMLElement
 {
     constructor(dashboardInstance, divDisplayer)
@@ -5,6 +7,13 @@ class ActivityListWC extends HTMLElement
         super();
         const shadow = this.attachShadow({mode: 'open'});
 
+        this.dashboardInstance = dashboardInstance;
+        this.divDisplayer = divDisplayer;
+        
+        this.dashboardInstance = dashboardInstance;
+        this.divDisplayer = divDisplayer;
+        
+        this.controller = new ActivityListController(this.dashboardInstance, this.divDisplayer);
         const style = document.createElement('style');
         style.textContent = `
             
@@ -104,7 +113,20 @@ class ActivityListWC extends HTMLElement
 
     connectedCallback()
     {
+        this.leftList00.onclick = this.controller.onAddActivity.bind(this.controller);
+        this.leftList01.onclick = this.controller.onDeleteActivity.bind(this.controller);
+        this.leftList02.onclick = this.controller.onModifyActivity.bind(this.controller);
+        this.leftList03.onclick = this.controller.onSearchActivity.bind(this.controller);
+        this.leftList04.onclick = this.controller.onListActivities.bind(this.controller);
+    }
 
+    disconnectedCallback()
+    {
+        this.leftList00.onclick = null;
+        this.leftList01.onclick = null;
+        this.leftList02.onclick = null;
+        this.leftList03.onclick = null;
+        this.leftList04.onclick = null;
     }
 }
 
