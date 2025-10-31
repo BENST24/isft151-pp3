@@ -37,7 +37,7 @@ CREATE TABLE `appointment` (
     dni INT NOT NULL,
     date DATE NOT NULL,
     hour TIME NOT NULL,
-    id_activity INT NO NULL,
+    id_activity INT NOT NULL,
     state VARCHAR(25) NOT NULL DEFAULT 'PENDING',
     CHECK (state IN ('CANCELED', 'PENDING_RESCHEDULING', 'PENDING', 'ATTENDED'))
 );
