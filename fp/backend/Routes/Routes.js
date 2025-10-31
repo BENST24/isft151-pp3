@@ -3,7 +3,7 @@ import rateLimit from "express-rate-limit";
 import { authenticateUser } from "../Models/AuthModel.js";
 import { createUser, deleteUser, enableBlockedUser, modifyUserPassword, modifyUserType, modifyUser, searchUser, listUser } from "../Models/UserManager.js";
 import { createActivity, deleteActivity, modifyActivity, searchActivity, listActivity } from "../Models/ActivityManager.js"
-import { createWorkingDay, searchWorkingDay, modifyWorkingDay, deleteWorkingDay, listWorkingDay } from "../Models/WorkingDayModel.js";
+import { createWorkingDay, searchWorkingDay, modifyWorkingDay, deleteWorkingDay, listWorkingDay } from "../Models/WorkingDayManager.js";
 
 const router = express.Router();
 
