@@ -14,12 +14,14 @@ function isAuthorizedUser(type)
 }
 
 
-function isValidTimeFormat(timeString) {
+function isValidTimeFormat(timeString) 
+{
     const regex = /^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/;
     return regex.test(timeString);
 }
 
-function isStartBeforeEnd(start, end) {
+function isStartBeforeEnd(start, end) 
+{
     const toMinutes = t => {
         const [h, m, s] = t.split(':').map(Number);
         return h * 60 + m + (s ? s / 60 : 0);
