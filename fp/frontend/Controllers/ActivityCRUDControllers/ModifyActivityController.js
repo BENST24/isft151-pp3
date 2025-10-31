@@ -5,17 +5,8 @@
         constructor(view)
         {
             this.view = view;
-            this.selectedType = null;
-            this.table = view.table;
-            this.originalUsername = null;
-        }
-
-        onHandleTypeChange(event)
-        {
-            if(event.target.checked)
-            {
-                this.selectedType = event.target.value;
-            }
+            this.currentActivityId = null;
+            this.originalActivityName = null;
         }
 
         setUpTableListeners(table)
@@ -29,58 +20,56 @@
                 originalLoadData.call(this, data);
 
                 if(data && (Array.isArray(data) ? data.length > 0 : data)){
-                    const user = Array.isArray(data) ? data[0] : data;
-                    controller.autofillForm([user]);
+                    const activity = Array.isArray(data) ? data[0] : data;
+                    controller.autofillForm([activity]);
                 }
-            }.bind(this.table);
+            }.bind(this.table.controller);
         }
 
         onModifyButtonClick()
         {
             
-            let password = this.view.inputPassword.value;
-            let type = this.selectedType;
+            let newName = this.view.inputActivity.value;
+            let newDuration = this.view.inputDuration.value;
             let currentUsername = this.view.getAttribute('current-username');
             let currentUserPassword = this.view.getAttribute('current-userpassword');
 
-            let targetUsername = null;
-
-            if(this.table.controller.fullData && this.table.controller.fullData.length > 0)
+            if(!this.currentActivityId)
             {
-                targetUsername = this.table.controller.fullData[0].name || this.table.controller.fullData[0].username;
-            }
-
-            if(!targetUsername)
-            {
-                window.alert('Debe buscar un usuario primero');
+                window.alert('Debe buscar una actividad primero');
                 return;
             }
 
-            let endpoint = '';
+            if(!newName && !newDuration)
+            {
+                window.alert('Debe especificar al menos un cambio(nombre o duración)');
+                return;
+            }
+
+            if(newDuration && (isNaN(newDuration) || newDuration <=0))
+            {
+                window.alert('La duración debe ser un número mayo a 0');
+                return;
+            }
+
             let requestBody ={
                 currentUsername: currentUsername,
                 currentUserPassword: currentUserPassword,
-                username: targetUsername
+                id: this.currentActivityId
             };
 
-            if(password&& type){
-                endpoint = '/user/modify';
-                requestBody.newPassword = password;
-                requestBody.newType = type;
-            }else if(password){
-                endpoint = '/user/modify/password';
-                requestBody.newPassword = password;
-            }else if(type){
-                endpoint = '/user/modify/type';
-                requestBody.newType = type;
-            }else{
-                window.alert('Debe especificar al menos una modificacion(contraseña o rol)');
-                return;
+            if(newName)
+            {
+                requestBody.newName = newName;
+            }
+            if(newDuration)
+            {
+                requestBody.newDuration = parseInt(newDuration);
             }
 
-            fetch(`http://localhost:3000/api${endpoint}`,{
+            fetch('http://localhost:3000/api/activity/modify',{
                 method: 'PATCH',
-                headers:{
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestBody)
@@ -89,41 +78,42 @@
                 return response.json();
             })
             .then(function(result){
-                console.log("Respuesta de modificacion", result);
+                console.log("Respuesta de modificación", result);
                 if(result.status){
-                    window.alert("Usuario modificado correctamente");
+                    window.alert("Actividad modificada correctamente");
                     this.onCancelButtonClick();
                     this.view.table.clear();
                 }else{
                     window.alert('Error: ' + result.result);
                 }
             }.bind(this));
+            
         }
 
-        autofillForm(userData)
+        autofillForm(activityData)
         {
-            if(userData && userData.length > 0)
+            if(activityData && activityData.length > 0)
             {
-                const user = userData[0];
+                const activity = activityData[0];
 
-                if(user.type ==='SUPERVISOR')
-                {
-                    this.view.typeInputOption00.checked = true;
-                    this.selectedType = 'SUPERVISOR';
-                }else if(user.type === 'RECEPTIONIST'){
-                    this.view.typeInputOption01.checked = true;
-                    this.selectedType ='RECEPTIONIST';
-                }
-                this.view.inputPassword.value = '';
+                this.currentActivityId = activity.id;
+                this.originalActivityName = activity.name;
+
+                this.view.inputActivity.placeholder = `Actual: ${activity.name}`;
+                this.view.inputDuration.placeholder = `Actual: ${activity.duration} minutos`;
+
+                this.view.inputActivity.value = '';
+                this.view.inputDuration.value = '';
             }
         }
         onCancelButtonClick()
         {
-            this.view.inputPassword.value = '';
-
-            this.view.typeInputOption00.checked = false;
-            this.view.typeInputOption01.checked = false;
-            this.selectedType = null;
+            this.view.inputActivity.value = '';
+            this.view.inputDuration.value = '';
+            this.view.inputActivity.placeholder = 'Ingrese el nuevo nombre';
+            this.view.inputDuration.placeholder = 'Ingrese la nueva duracion en minutos';
+            this.currentActivityId = null;
+            this.originalActivityName = null;
         }
     }
 

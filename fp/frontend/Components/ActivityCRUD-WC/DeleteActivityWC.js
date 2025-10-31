@@ -51,7 +51,7 @@ class DeleteActivityWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Eliminar Usuario';
+        this.mainTitle.textContent = 'Eliminar Actividad';
         
         this.deleteButton = document.createElement('button');
         this.deleteButton.className= 'delete-button';
