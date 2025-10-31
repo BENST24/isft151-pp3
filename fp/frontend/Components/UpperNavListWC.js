@@ -10,10 +10,10 @@ class UpperNavListWC extends  HTMLElement
             {
                 display: flex;
                 display-direction: row;
-                margin-left: 500px;
-                margin-right: 500px;
+                margin-left: 350px;
+                margin-right: 350px;
                 padding: 20px;
-                width: 30%;
+                width: 54%;
                 margin-top: 50px;
                 background-color: rgba(255, 255, 255, 1);
                 border-radius: 20px;
@@ -76,11 +76,33 @@ class UpperNavListWC extends  HTMLElement
         this.aOption01.className = 'upper-a-list';
         this.aOption01.id ='manage-activities';
 
+        this.list02 = document.createElement('li');
+        this.list02.className = 'upper-list';
+        
+        this.aOption02 = document.createElement('a');
+        this.aOption02.href='#';
+        this.aOption02.textContent = 'Gestionar Dias Laborables';
+        this.aOption02.className = 'upper-a-list';
+        this.aOption02.id ='manage-activities';
+
+        this.list03 = document.createElement('li');
+        this.list03.className = 'upper-list';
+        
+        this.aOption03 = document.createElement('a');
+        this.aOption03.href='#';
+        this.aOption03.textContent = 'Gestionar Turnos';
+        this.aOption03.className = 'upper-a-list';
+        this.aOption03.id ='manage-activities';
+
         this.list00.appendChild(this.aOption00);
         this.list01.appendChild(this.aOption01);
+        this.list02.appendChild(this.aOption02);
+        this.list03.appendChild(this.aOption03);
 
         this.uUpperList00.appendChild(this.list00);
         this.uUpperList00.appendChild(this.list01);
+        this.uUpperList00.appendChild(this.list02);
+        this.uUpperList00.appendChild(this.list03);
 
         shadow.appendChild(this.uUpperList00);
         shadow.appendChild(style);
