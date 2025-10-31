@@ -9,6 +9,7 @@ class DashboardController
 
         this.onManageUser = this.onManageUser.bind(this);
         this.onManageActivities = this.onManageActivities.bind(this);
+        this.onManageWorkingDays = this.onManageWorkingDays.bind(this);
         this.onLogoutClick = this.onLogoutClick.bind(this);
     }
 
@@ -47,6 +48,7 @@ class DashboardController
 
             this.dashboardInstance.uUserList.style.display = 'block';
             this.dashboardInstance.uActivityList.style.display = 'none';
+            this.dashboardInstance.uWorkingDayList.style.display = 'none';
 
             this.currentLeftNav = this.dashboardInstance.uUserList;
         }
@@ -60,6 +62,21 @@ class DashboardController
 
             this.dashboardInstance.uUserList.style.display = 'none';
             this.dashboardInstance.uActivityList.style.display = 'block';
+            this.dashboardInstance.uWorkingDayList.style.display = 'none';
+
+            this.currentLeftNav = this.dashboardInstance.uActivityList;
+        }
+    }
+
+    onManageWorkingDays(event)
+    {
+        if(event)
+        {
+            this.clearLeftNav();
+
+            this.dashboardInstance.uUserList.style.display = 'none';
+            this.dashboardInstance.uActivityList.style.display = 'none';
+            this.dashboardInstance.uWorkingDayList.style.display = 'block';
 
             this.currentLeftNav = this.dashboardInstance.uActivityList;
         }
