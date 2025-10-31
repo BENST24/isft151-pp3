@@ -1,5 +1,5 @@
 import { authenticateUser } from "./AuthModel.js";
-import { getActivityByName, getActivityById, createActivityDB, updateActivity, deleteActivityDB, getAllActivities } from "../Services/ActivityServis.js"
+import { getActivityByName, getActivityById, createActivityDB, updateActivity, deleteActivityDB, getAllActivities } from "../Services/ActivityService.js"
 
 function isAuthorizedUser(type)
 {   
