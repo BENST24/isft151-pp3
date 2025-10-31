@@ -66,7 +66,9 @@ class ActivityTableWC extends HTMLElement{
 
         this.inputSearch = document.createElement('input');
         this.inputSearch.className = 'input-search';
-        this.inputSearch.placeholder ='Ingrese el nombre de usuario...';
+        this.inputSearch.placeholder ='Ingrese el id de la actividad...';
+        this.inputSearch.type = 'number';
+        this.inputSearch.min = '1';
 
         this.spanSearch = document.createElement('span');
         this.spanSearch.className = 'span-search';
@@ -106,10 +108,10 @@ class ActivityTableWC extends HTMLElement{
         this.mode = mode;
         if(mode === 'list'){
             this.divSearch.classList.add('hidden');
-            this.inputSearch.placeholder = 'Presione buscar para listar todos los usuarios...'
+            this.inputSearch.placeholder = 'Presione buscar para listar todos las actividades...'
         }else{
             this.divSearch.classList.remove('hidden');
-            this.inputSearch.placeholder = 'Ingrese el nombre de usuario...';
+            this.inputSearch.placeholder = 'Ingrese el nombre de la actividad...';
         }
     }
 
@@ -124,7 +126,7 @@ class ActivityTableWC extends HTMLElement{
         const row = document.createElement('tr');
         const cell = document.createElement('td');
 
-        cell.colSpan = 2;
+        cell.colSpan = 3;
         cell.textContent = 'No hay datos disponibles';
         cell.className = 'data-table';
         cell.style.color = '#000000ff';

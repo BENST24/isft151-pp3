@@ -11,23 +11,30 @@ class ActivityTableController
 
     onSearchButtonClick()
     {
-        let username = this.view.inputSearch.value;
+        let activityId = this.view.inputSearch.value;
         let currentUsername = this.view.getAttribute('current-username');
         let currentUserPassword = this.view.getAttribute('current-userpassword');
 
 
-        if(this.view.getMode() === 'list' && !username)
+        if(this.view.getMode() === 'list' && !activityId)
         {
-            this.listAllUsers(currentUsername, currentUserPassword);
+            this.listAllActivities(currentUsername, currentUserPassword);
             return;
         }
 
-        if(!username)
+        if(!activityId)
         {
             window.alert('Por favor completar todos los campos');
             return;
         }
-        fetch(`http://localhost:3000/api/user/search?username=${encodeURIComponent(username)}`,{
+
+        if(isNaN(activityId) || activityId <=0 )
+        {
+            window.alert('El ID debe ser mayor a 0');
+            return;
+        }
+
+        fetch(`http://localhost:3000/api/activity/search?id=${encodeURIComponent(activityId)}`,{
             method: 'GET',
             headers: {
                 'Content-Type':'application/json',
@@ -48,8 +55,8 @@ class ActivityTableController
         }.bind(this))
     }
 
-    listAllUsers(currentUsername, currentUserPassword){
-        fetch(`http://localhost:3000/api/user/list`,{
+    listAllActivities(currentUsername, currentUserPassword){
+        fetch(`http://localhost:3000/api/activity/list`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +92,7 @@ class ActivityTableController
         let headerRow = document.createElement('tr');
         headerRow.className = 'data-table';
 
-        const customHeaders=['Usuario', 'Rol'];
+        const customHeaders=['Id','Actividad', 'Duracion (min)'];
 
         for(let i = 0 ; i < customHeaders.length; i++){
             let th = document.createElement('th');
@@ -100,16 +107,20 @@ class ActivityTableController
 
         for(let j = 0; j < dataArray.length; j++){
 
-            let user = dataArray[j];
+            let activity = dataArray[j];
             let row = document.createElement('tr');
 
-            let tdUser = document.createElement('td');
-            tdUser.textContent = user.name || user.username;
-            row.appendChild(tdUser);
+            let tdId = document.createElement('td');
+            tdId.textContent = activity.id;
+            row.appendChild(tdId);
 
-            let tdType = document.createElement('td');
-            tdType.textContent = user.type;
-            row.appendChild(tdType);
+            let tdActivity = document.createElement('td');
+            tdActivity.textContent = activity.name;
+            row.appendChild(tdActivity);
+
+            let tdDuration = document.createElement('td');
+            tdDuration.textContent = activity.duration;
+            row.appendChild(tdDuration);
 
             tbody.appendChild(row);
         }
