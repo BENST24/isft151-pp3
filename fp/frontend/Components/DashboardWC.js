@@ -2,6 +2,8 @@ import { UpperNavListWC } from "./UpperNavListWC.js";
 import { UserListWC } from "./UserListWC.js";
 import { ActivityListWC } from "./ActivityListWC .js";
 import { WorkingDayListWC } from "./WorkingDayListWC.js";
+import { AppointmentListWC } from "./AppointmentListWC.js";
+
 import { DashboardController } from "../Controllers/DashboardController.js";
 
 class DashboardWC extends HTMLElement
@@ -114,11 +116,13 @@ class DashboardWC extends HTMLElement
 
         this.uUserList = new UserListWC(this, this.divDisplayer);
         this.uActivityList = new ActivityListWC(this, this.divDisplayer);
-        this.uWorkingDayList = new WorkingDayListWC(this, this.divDisplayer);       
+        this.uWorkingDayList = new WorkingDayListWC(this, this.divDisplayer);
+        this.uAppointmentList = new AppointmentListWC(this, this.divDisplayer);       
 
         this.uUserList.style.display= 'none';
         this.uActivityList.style.display= 'none';
         this.uWorkingDayList.style.display= 'none';
+        this.uAppointmentList.style.display= 'none';
 
         this.upperNav.appendChild(this.welcomeTitle);
         this.upperNav.appendChild(this.upperNavComponent);
@@ -127,6 +131,7 @@ class DashboardWC extends HTMLElement
         this.leftNav.appendChild(this.uUserList);
         this.leftNav.appendChild(this.uActivityList);
         this.leftNav.appendChild(this.uWorkingDayList);
+        this.leftNav.appendChild(this.uAppointmentList);
 
         this.divMain00.appendChild(this.upperNav);
         this.divMain01.appendChild(this.leftNav);
@@ -144,6 +149,7 @@ class DashboardWC extends HTMLElement
         this.upperNavComponent.aOption00.onclick = this.controller.onManageUser.bind(this.controller);
         this.upperNavComponent.aOption01.onclick = this.controller.onManageActivities.bind(this.controller);
         this.upperNavComponent.aOption02.onclick = this.controller.onManageWorkingDays.bind(this.controller);
+        this.upperNavComponent.aOption03.onclick = this.controller.onManageAppointment.bind(this.controller);
         this.logOutButton.onclick = this.onLogoutClick;
         this.controller.init();
     }
