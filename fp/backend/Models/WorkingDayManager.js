@@ -1,6 +1,6 @@
 import { authenticateUser } from "./AuthModel.js";
 import { createWorkingDayDB, getWorkingDayDB, updateWorkingDayDB, deleteWorkingDayDB, getAllWorkingDaysDB } from "../Services/WorkingDayService.js"
-import { getActivityById } from "../db/activity.db.js";
+import { getActivityById } from "../Services/ActivityService.js";
 
 function isAuthorizedUser(type)
 {   
