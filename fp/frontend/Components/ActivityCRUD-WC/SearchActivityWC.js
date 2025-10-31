@@ -47,7 +47,7 @@ class SearchActivityWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Buscar Usuario';
+        this.mainTitle.textContent = 'Buscar Actividad';
 
         this.divMainTitle.appendChild(this.mainTitle);
 
