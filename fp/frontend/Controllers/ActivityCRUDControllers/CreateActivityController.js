@@ -64,12 +64,8 @@
 
         onCancelButtonClick()
         {
-            this.view.inputUser.value = '';
-            this.view.inputPassword.value = '';
-
-            this.view.typeInputOption00.checked = false;
-            this.view.typeInputOption01.checked = false;
-            this.selectedType = null;
+            this.view.inputActivity.value = '';
+            this.view.inputDuration.value = '';
         }
     }
 

@@ -15,23 +15,29 @@ class DeleteActivityController
         let currentUserPassword = this.view.getAttribute('current-userpassword');
 
         const tableController = this.view.table.controller;
-        const userData = tableController.fullData;
+        const activityData = tableController.fullData;
 
-        if(!userData || userData.length === 0)
+        if(!activityData || activityData.length === 0)
         {
             window.alert('Primero debe buscar un usuario para eliminar');
             return;
         }
 
-        const user = userData[0];
-        const usernameToDelete = user.name || user.username;
+        const activity = activityData[0];
+        const activityId = activity.id;
 
-        if(!usernameToDelete){
-            window.alert('No se puede indentificar el usuario a eliminar');
+        if(!activityId){
+            window.alert('No se puede indentificar la actividad a eliminar');
             return;
         }
 
-        fetch(`http://localhost:3000/api/user/delete`,{
+        const confirmDelete = window.confirm(`¿Estas seguro que desea eliminar la actividad"${activity.name}?"`);
+
+        if(!confirmDelete){
+            return;
+        }
+
+        fetch(`http://localhost:3000/api/activity/delete`,{
             method: 'DELETE',
             headers:{
                 'Content-Type': 'application/json'
@@ -39,7 +45,7 @@ class DeleteActivityController
             body: JSON.stringify({
                 currentUsername: currentUsername,
                 currentUserPassword: currentUserPassword,
-                username : usernameToDelete
+                id: activityId
             })
         })
         .then(function(response){
@@ -49,7 +55,7 @@ class DeleteActivityController
             console.log("Respuesta de eliminacion", result);
             if(result.status)
             {
-                window.alert("Usuario eliminado correctamente");
+                window.alert("Actividad eliminada correctamente");
                 this.view.table.clear();
                 this.view.table.inputSearch.value = '';
             }else

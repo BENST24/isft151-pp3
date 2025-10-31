@@ -31,6 +31,12 @@ class DeleteUserController
             return;
         }
 
+        const confirmDelete = window.confirm(`¿Estas seguro que desea eliminar la actividad"${user.name}?"`);
+
+        if(!confirmDelete){
+            return;
+        }
+
         fetch(`http://localhost:3000/api/user/delete`,{
             method: 'DELETE',
             headers:{

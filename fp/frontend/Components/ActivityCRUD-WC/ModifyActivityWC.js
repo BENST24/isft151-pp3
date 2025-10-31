@@ -36,36 +36,36 @@ class ModifyActivityWC extends HTMLElement
                 font-weight: 700;
             }
 
-            .user-div
+            .activity-div
             {
                 padding-bottom: 20px;
                 font-size:20px;
                 font-weight: 700;
             }
 
-            .label-user
+            .label-activity
             {
                 padding-bottom: 20px;
             }
 
-            .input-user
+            .input-activity
             {
                 border-radius:20px;
             }
                 
-            .password-div
+            .duration-div
             {
                 padding-bottom: 20px;
                 font-size:20px;
                 font-weight: 700;
             }
 
-            .label-password
+            .label-duration
             {
                 padding-bottom: 20px;
             }
 
-            .input-password
+            .input-duration
             {
                 border-radius:20px;
             }
@@ -91,102 +91,61 @@ class ModifyActivityWC extends HTMLElement
         document.documentElement.style.padding = '0';
 
         this.titleMain = document.createElement('h2');
-        this.titleMain.textContent = 'Modificar Usuario';
+        this.titleMain.textContent = 'Modificar Actividad';
         this.titleMain.className ='title-main';
 
-        this.divPassword = document.createElement('div');
-        this.divPassword.className= 'password-div';
+        this.table = new ActivityTableWC();
 
-        this.labelPassword = document.createElement('label');
-        this.labelPassword.className= 'label-password';
-        this.labelPassword.textContent ='Contraseña: ';
+        this.divActivity = document.createElement('div');
+        this.divActivity.className= 'activity-div';
 
-        this.inputPassword = document.createElement('input');
-        this.inputPassword.className= 'input-password';
-        this.inputPassword.placeholder ='Ingrese la contraseña';
-        this.inputPassword.type = 'password';
+        this.labelActivity = document.createElement('label');
+        this.labelActivity.className= 'label-activity';
+        this.labelActivity.textContent ='Actividad:';
 
-        this.divType = document.createElement('div');
-        this.divType.className = 'type-div';
-        
-        this.labelType = document.createElement('label');
-        this.labelType.className = 'label-type';
-        this.labelType.textContent = 'Seleccionar rol:';
+        this.inputActivity = document.createElement('input');
+        this.inputActivity.className= 'input-activity';
+        this.inputActivity.placeholder ='Ingrese el nuevo nombre de la actividad';
 
-        this.divTypeOptions = document.createElement('div');
-        this.divTypeOptions.className = 'type-options-div';
+        this.divDuration = document.createElement('div');
+        this.divDuration.className= 'duration-div';
 
-        /*----------------Opcion 1----------------*/ 
-        this.typeContainer00 = document.createElement('div');
-        this.typeContainer00.className = 'type-container';
+        this.labelDuration = document.createElement('label');
+        this.labelDuration.className= 'label-duration';
+        this.labelDuration.textContent ='Duracion: ';
 
-        this.typeLabelOption00 = document.createElement('label');
-        this.typeLabelOption00.className = 'type-option-name';
-        this.typeLabelOption00.textContent = 'Administrador';
-
-        this.typeInputOption00 = document.createElement('input');
-        this.typeInputOption00.className = 'type-option-radio';
-        this.typeInputOption00.type = 'radio';
-        this.typeInputOption00.name = 'userType';
-        this.typeInputOption00.id = 'SUPERVISOR';
-        this.typeInputOption00.value = 'SUPERVISOR';
+        this.inputDuration = document.createElement('input');
+        this.inputDuration.className= 'input-duration';
+        this.inputDuration.placeholder ='Ingrese la nueva duracion en minutos';
+        this.inputDuration.type = 'number';
+        this.inputDuration.min = '5';
 
 
-        /*----------------Opcion 2----------------*/ 
-        this.typeContainer01 = document.createElement('div');
-        this.typeContainer01.className = 'type-container';
-    
-        this.typeLabelOption01 = document.createElement('label');
-        this.typeLabelOption01.className = 'type-option-name';
-        this.typeLabelOption01.textContent = 'Empleado';
-
-        this.typeInputOption01 = document.createElement('input');
-        this.typeInputOption01.className = 'type-option-radio';
-        this.typeInputOption01.type = 'radio';
-        this.typeInputOption01.name = 'userType';
-        this.typeInputOption01.id = 'RECEPTIONIST';
-        this.typeInputOption01.value = 'RECEPTIONIST';
-
-        this.modifyButton = document.createElement('button');
-        this.modifyButton.className= 'save-button';
-        this.modifyButton.textContent ='Guardar Modificacion';
+        this.saveButton = document.createElement('button');
+        this.saveButton.className= 'save-button';
+        this.saveButton.textContent ='Guardar Modificación';
 
         this.cancelButton = document.createElement('button');
         this.cancelButton.className= 'cancel-button';
         this.cancelButton.textContent ='Cancelar';
 
-        this.divPassword.appendChild(this.labelPassword);
-        this.divPassword.appendChild(this.inputPassword);
+        this.divActivity.appendChild(this.labelActivity);
+        this.divActivity.appendChild(this.inputActivity);
 
-        this.typeContainer00.appendChild(this.typeLabelOption00);
-        this.typeContainer00.appendChild(this.typeInputOption00);
-
-        this.typeContainer01.appendChild(this.typeLabelOption01);
-        this.typeContainer01.appendChild(this.typeInputOption01);
-
-        this.divTypeOptions.appendChild(this.typeContainer00);
-        this.divTypeOptions.appendChild(this.typeContainer01);
-
-        this.divType.appendChild(this.divTypeOptions);
-
-        this.table = new ActivityTableWC();
+        this.divDuration.appendChild(this.labelDuration);
+        this.divDuration.appendChild(this.inputDuration);
 
         shadow.appendChild(this.titleMain);
         shadow.appendChild(this.table);
-        shadow.appendChild(this.divPassword);
-        shadow.appendChild(this.divType);
-        shadow.appendChild(this.modifyButton);
+        shadow.appendChild(this.divActivity);
+        shadow.appendChild(this.divDuration);
+        shadow.appendChild(this.saveButton);
         shadow.appendChild(this.cancelButton);
         shadow.appendChild(style);
     }
 
     connectedCallback()
     {
-        this.modifyButton.onclick = this.controller.onModifyButtonClick.bind(this.controller);
-        this.cancelButton.onclick = this.controller.onCancelButtonClick.bind(this.controller);
-        this.typeInputOption00.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption01.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-
         const currentUsername = this.getAttribute('current-username');
         const currentUserPassword = this.getAttribute('current-userpassword');
         if(currentUsername && currentUserPassword)
@@ -196,6 +155,9 @@ class ModifyActivityWC extends HTMLElement
         }
 
         this.controller.setUpTableListeners(this.table);
+        
+        this.saveButton.onclick = this.controller.onModifyButtonClick.bind(this.controller);
+        this.cancelButton.onclick = this.controller.onCancelButtonClick.bind(this.controller);
     }
 }
 

@@ -47,7 +47,7 @@ class ListActivityWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Listar Usuarios';
+        this.mainTitle.textContent = 'Listar Actividades';
 
         this.divMainTitle.appendChild(this.mainTitle);
 
@@ -65,7 +65,7 @@ class ListActivityWC extends HTMLElement
 
     connectedCallback()
     {
-        const currentActivityname = this.getAttribute('current-username');
+        const currentUsername = this.getAttribute('current-username');
         const currentUserPassword = this.getAttribute('current-userpassword');
         if(currentUsername && currentUserPassword)
         {
