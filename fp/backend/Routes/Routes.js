@@ -1,9 +1,11 @@
 import express, { response } from "express";
 import rateLimit from "express-rate-limit";
-import { authenticateUser } from "../Models/AuthModel.js";
-import { createUser, deleteUser, enableBlockedUser, modifyUserPassword, modifyUserType, modifyUser, searchUser, listUser } from "../Models/UserManager.js";
-import { createActivity, deleteActivity, modifyActivity, searchActivity, listActivity } from "../Models/ActivityManager.js"
-import { createWorkingDay, searchWorkingDay, modifyWorkingDay, deleteWorkingDay, listWorkingDay } from "../Models/WorkingDayManager.js";
+import { authenticateUser } from "../Managers/AuthModel.js";
+import { createUser, deleteUser, enableBlockedUser, modifyUserPassword, modifyUserType, modifyUser, searchUser, listUser } from "../Managers/UserManager.js";
+import { createActivity, deleteActivity, modifyActivity, searchActivity, listActivity } from "../Managers/ActivityManager.js"
+import { createWorkingDay, searchWorkingDay, modifyWorkingDay, deleteWorkingDay, listWorkingDay } from "../Managers/WorkingDayManager.js";
+import { availabilityByActivity, availabilityByDay, serachAppointmentByDateTime, serachAppointmentByDate, 
+         modifyDataClient, rescheduleAppointment, createAppointment, CanceledAppointment, listFutureAppointments, listAllAppointments } from "../Models/AppointmentModel.js";
 
 const router = express.Router();
 
@@ -472,6 +474,220 @@ router.get("/workingday/list", async (req, res) => {
 
     } catch (error) {
         console.error("Error en /workingday/list:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+// ----------------------------------------------------------------------------------------
+// Endpoints de Turnos
+// ----------------------------------------------------------------------------------------
+
+
+// -----------------------------------------------------------
+//  DISPONIBILIDAD
+// -----------------------------------------------------------
+
+// Disponibilidad por Actividad (próximos 30 días)
+router.get("/appointment/availability/activity", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, idActivity } = req.body;
+
+        const result = await availabilityByActivity(currentUsername, currentUserPassword, idActivity);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(400).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/availability/activity:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// Disponibilidad por Día específico
+router.get("/appointment/availability/day", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, idActivity, date } = req.body;
+
+        const result = await availabilityByDay(currentUsername, currentUserPassword, idActivity, date);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(400).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/availability/day:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// -----------------------------------------------------------
+//  BÚSQUEDA DE TURNOS
+// -----------------------------------------------------------
+
+// Buscar turno por Fecha y Hora
+router.get("/appointment/search/datetime", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, date, time } = req.body;
+
+        const result = await serachAppointmentByDateTime(currentUsername, currentUserPassword, date, time);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(404).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/search/datetime:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// Buscar todos los turnos de una fecha
+router.get("/appointment/search/date", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, date } = req.body;
+
+        const result = await serachAppointmentByDate(currentUsername, currentUserPassword, date);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(404).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/search/date:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// -----------------------------------------------------------
+//  MODIFICACIONES DE TURNOS
+// -----------------------------------------------------------
+
+// Modificar datos del cliente
+router.patch("/appointment/modify/client", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, oldDate, oldTime, newNameClient, newSurnameClient, newDniClient } = req.body;
+
+        const result = await modifyDataClient(currentUsername, currentUserPassword, oldDate, oldTime, newNameClient, newSurnameClient, newDniClient);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(400).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/modify/client:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// Reagendar turno
+router.patch("/appointment/modify/reschedule", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, oldDate, oldTime, newDate, newTime } = req.body;
+
+        const result = await rescheduleAppointment(currentUsername, currentUserPassword, oldDate, oldTime, newDate, newTime);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(400).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/modify/reschedule:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// -----------------------------------------------------------
+//  CREAR Y CANCELAR TURNOS
+// -----------------------------------------------------------
+
+// Crear turno
+router.post("/appointment/create", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, nameClient, surnameClient, dni, data, hour, idActivity } = req.body;
+
+        const result = await createAppointment(currentUsername, currentUserPassword, nameClient, surnameClient, dni, data, hour, idActivity);
+
+        if (result.status)
+            res.status(201).json(result);
+        else
+            res.status(400).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/create:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// Cancelar turno
+router.patch("/appointment/cancel", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, date, time, idActivity } = req.body;
+
+        const result = await CanceledAppointment(currentUsername, currentUserPassword, date, time, idActivity);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(400).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/cancel:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// -----------------------------------------------------------
+//  LISTADOS
+// -----------------------------------------------------------
+
+// Listar turnos futuros
+router.get("/appointment/list/future", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword } = req.body;
+
+        const result = await listFutureAppointments(currentUsername, currentUserPassword);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(404).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/list/future:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+
+// Listar todos los turnos (histórico)
+router.get("/appointment/list/all", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword } = req.body;
+
+        const result = await listAllAppointments(currentUsername, currentUserPassword);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(404).json(result);
+
+    } catch (error) {
+        console.error("Error en /appointment/list/all:", error);
         res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
     }
 });
