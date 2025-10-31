@@ -47,15 +47,15 @@ class ListWorkingDayWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Listar Actividades';
+        this.mainTitle.textContent = 'Listar Dias Laborables';
 
         this.divMainTitle.appendChild(this.mainTitle);
 
-        this.table = new ActivityTableWC();
+        this.table = new WorkingDayTableWC();
 
         this.listButton= document.createElement('button');
         this.listButton.className = 'list-button';
-        this.listButton.textContent = 'Listar todos los usuarios';
+        this.listButton.textContent = 'Listar todos los días laborables';
         
         shadow.appendChild(this.divMainTitle);
         shadow.appendChild(this.listButton);
@@ -74,7 +74,7 @@ class ListWorkingDayWC extends HTMLElement
         }
 
         this.table.setMode('list');
-        this.listButton.onclick = function(){this.table.controller.onSearchButtonClick();}.bind(this);
+        this.listButton.onclick = function(){this.table.controller.listAllWorkingDaysAutomatically();}.bind(this);
     }
 
     disconnectedCallback()

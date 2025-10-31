@@ -51,7 +51,7 @@ class SearchWorkingDayWC extends HTMLElement
 
         this.divMainTitle.appendChild(this.mainTitle);
 
-        this.table = new ActivityTableWC();
+        this.table = new WorkingDayTableWC();
         
         shadow.appendChild(this.divMainTitle);
         shadow.appendChild(this.table);
