@@ -51,7 +51,7 @@ BEGIN
     UPDATE `appointment`
     SET `state` = 'ATTENDED'
     WHERE `state` = 'PENDING' -- 1. Solo los que están PENDIENTES
-    -- 2. Combina la fecha y hora de la cita y la compara con la fecha y hora actual
+    -- Combina la fecha y hora de la cita y la compara con la fecha y hora actual
     AND CONCAT(data, ' ', hour) < NOW(); 
 END //
 
