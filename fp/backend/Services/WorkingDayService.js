@@ -1,4 +1,4 @@
-import { db } from "../database/connection.js";
+import { db } from "../DB/db.js";
 
 // Crear un día laboral
 export async function createWorkingDayDB(day, start_hour, end_hour, id_activity) 
