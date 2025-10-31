@@ -3,6 +3,7 @@ import rateLimit from "express-rate-limit";
 import { authenticateUser } from "../Models/AuthModel.js";
 import { createUser, deleteUser, enableBlockedUser, modifyUserPassword, modifyUserType, modifyUser, searchUser, listUser } from "../Models/UserManager.js";
 import { createActivity, deleteActivity, modifyActivity, searchActivity, listActivity } from "../Models/ActivityManager.js"
+import { createWorkingDay, searchWorkingDay, modifyWorkingDay, deleteWorkingDay, listWorkingDay } from "../Models/WorkingDayModel.js";
 
 const router = express.Router();
 
@@ -383,5 +384,96 @@ router.get("/activity/list", async (req, res) => {
   }
 });
 
+// ----------------------------------------------------------------------------------------
+// Endpoints de dias laborables 
+// ----------------------------------------------------------------------------------------
+
+router.post("/workingday/create", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, day, start_hour, end_hour, id_activity } = req.body;
+
+        const result = await createWorkingDay(currentUsername, currentUserPassword, day, start_hour, end_hour, id_activity);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+            
+    } catch (error) {
+        console.error("Error en /workingday/create:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.get("/workingday/search", async (req, res) => {
+    try {
+        const currentUsername = req.headers["x-username"];
+        const currentUserPassword = req.headers["x-password"];
+        const { day } = req.query;
+
+        const result = await searchWorkingDay(currentUsername, currentUserPassword, day);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /workingday/search:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.patch("/workingday/modify", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, day, new_start_hour, new_end_hour, new_id_activity } = req.body;
+
+        const result = await modifyWorkingDay(currentUsername, currentUserPassword, day, new_start_hour, new_end_hour, new_id_activity);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /workingday/modify:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.delete("/workingday/delete", async (req, res) => {
+    try {
+        const { currentUsername, currentUserPassword, day } = req.body;
+
+        const result = await deleteWorkingDay(currentUsername, currentUserPassword, day);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /workingday/delete:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
+
+router.get("/workingday/list", async (req, res) => {
+    try {
+        const currentUsername = req.headers["x-username"];
+        const currentUserPassword = req.headers["x-password"];
+
+        const result = await listWorkingDay(currentUsername, currentUserPassword);
+
+        if (result.status)
+            res.status(200).json(result);
+        else
+            res.status(401).json(result);
+
+    } catch (error) {
+        console.error("Error en /workingday/list:", error);
+        res.status(500).json({ status: false, result: "INTERNAL_SERVER_ERROR" });
+    }
+});
 
 export default router;

@@ -20,6 +20,16 @@ CREATE TABLE `activity` (
     duration DOUBLE NOT NULL
 );
 
+CREATE TABLE `working_day` (
+    day varchar(15) PRIMARY KEY,
+    start_hour TIME NOT NULL,
+    end_hour TIME NOT NULL,
+    id_activity INT,
+    FOREIGN KEY (id_activity) REFERENCES activity(id),
+    CHECK (day IN ('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY')),
+    CHECK (start_hour < end_hour)
+);
+
 -- -----------------------------------------------------
 -- insert para el primer Supervisor precargado
 -- -----------------------------------------------------
