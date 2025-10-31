@@ -5,7 +5,7 @@ import { createUser, deleteUser, enableBlockedUser, modifyUserPassword, modifyUs
 import { createActivity, deleteActivity, modifyActivity, searchActivity, listActivity } from "../Managers/ActivityManager.js"
 import { createWorkingDay, searchWorkingDay, modifyWorkingDay, deleteWorkingDay, listWorkingDay } from "../Managers/WorkingDayManager.js";
 import { availabilityByActivity, availabilityByDay, serachAppointmentByDateTime, serachAppointmentByDate, 
-         modifyDataClient, rescheduleAppointment, createAppointment, CanceledAppointment, listFutureAppointments, listAllAppointments } from "../Managers/AppointmentModel.js";
+         modifyDataClient, rescheduleAppointment, createAppointment, CanceledAppointment, listFutureAppointments, listAllAppointments } from "../Managers/AppointmentManager.js";
 
 const router = express.Router();
 
