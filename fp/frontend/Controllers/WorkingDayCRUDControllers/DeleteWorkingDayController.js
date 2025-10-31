@@ -5,39 +5,45 @@ class DeleteWorkingDayController
     constructor(view)
     {
         this.view = view;
-        this.onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
     }
 
     onDeleteButtonClick()
     {
-        
-        let currentUsername = this.view.getAttribute('current-username');
-        let currentUserPassword = this.view.getAttribute('current-userpassword');
+        const currentUsername = this.view.getAttribute('current-username');
+        const currentUserPassword = this.view.getAttribute('current-userpassword');
+        const workingDayData = this.view.table.controller.fullData;
 
-        const tableController = this.view.table.controller;
-        const activityData = tableController.fullData;
-
-        if(!activityData || activityData.length === 0)
+        if(!workingDayData || workingDayData.length === 0)
         {
-            window.alert('Primero debe buscar un usuario para eliminar');
+            window.alert('Primero debe seleccionar un día laborable para eliminar');
             return;
         }
 
-        const activity = activityData[0];
-        const activityId = activity.id;
+        const workingDay = workingDayData[0];
+        const day = workingDay.day;
 
-        if(!activityId){
-            window.alert('No se puede indentificar la actividad a eliminar');
+        if(!day){
+            window.alert('No se puede identificar el día laborable a eliminar');
             return;
         }
 
-        const confirmDelete = window.confirm(`¿Estas seguro que desea eliminar la actividad"${activity.name}?"`);
+        const dayNames = {
+            'MONDAY': 'Lunes',
+            'TUESDAY': 'Martes',
+            'WEDNESDAY': 'Miércoles', 
+            'THURSDAY': 'Jueves',
+            'FRIDAY': 'Viernes',
+            'SATURDAY': 'Sábado',
+            'SUNDAY': 'Domingo'
+        };
+
+        const confirmDelete = window.confirm('¿Está seguro que desea eliminar el día laborable del ' + (dayNames[day] || day) + '?');
 
         if(!confirmDelete){
             return;
         }
 
-        fetch(`http://localhost:3000/api/activity/delete`,{
+        fetch('http://localhost:3000/api/workingday/delete',{
             method: 'DELETE',
             headers:{
                 'Content-Type': 'application/json'
@@ -45,24 +51,34 @@ class DeleteWorkingDayController
             body: JSON.stringify({
                 currentUsername: currentUsername,
                 currentUserPassword: currentUserPassword,
-                id: activityId
+                day: day
             })
         })
         .then(function(response){
             return response.json();
         })
         .then(function(result){
-            console.log("Respuesta de eliminacion", result);
+            console.log("Respuesta de eliminación:", result);
             if(result.status)
             {
-                window.alert("Actividad eliminada correctamente");
+                window.alert("Día laborable eliminado correctamente");
                 this.view.table.clear();
-                this.view.table.inputSearch.value = '';
+                this.view.table.controller.clearRadioSelection();
             }else
             {
-                window.alert('Error: '+ result.result);
+                let errorMessage = 'Error: ' + result.result;
+                if (result.result === 'WORKING_DAY_NOT_FOUND') {
+                    errorMessage = 'Error: No se encontró el día laborable';
+                } else if (result.result === 'USER_NOT_AUTHORIZED') {
+                    errorMessage = 'Error: Usuario no autorizado para esta acción';
+                }
+                window.alert(errorMessage);
             }
-        }.bind(this));   
+        }.bind(this))
+        .catch(function(error){
+            console.error('Error en la eliminación:', error);
+            window.alert('Error al eliminar el día laborable');
+        });   
     }
 }
 

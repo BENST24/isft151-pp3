@@ -119,8 +119,9 @@ class CreateWorkingDayWC extends HTMLElement
 
         this.inputActivity = document.createElement('input');
         this.inputActivity.className= 'input-activity';
-        this.inputActivity.placeholder ='Ingrese el id de la actividad';
-
+        this.inputActivity.placeholder ='Ingrese el ID de la actividad';
+        this.inputActivity.type= 'number';
+        this.inputActivity.min = '1';
 
         this.divStart = document.createElement('div');
         this.divStart.className= 'start-div';
@@ -131,7 +132,10 @@ class CreateWorkingDayWC extends HTMLElement
 
         this.inputStart = document.createElement('input');
         this.inputStart.className= 'input-start';
-        this.inputStart.placeholder ='Ingrese el horario de inicio';
+        this.inputStart.placeholder ='HH:MM(ej: 08:00)';
+        this.inputStart.pattern ='[0-9]{2}:[0-9]{2}';
+        this.inputStart.title ='Formato: HH:MM (24 horas)';
+        this.inputStart.maxLength = 5;
 
         this.divEnd = document.createElement('div');
         this.divEnd.className= 'end-div';
@@ -142,14 +146,17 @@ class CreateWorkingDayWC extends HTMLElement
 
         this.inputEnd = document.createElement('input');
         this.inputEnd.className= 'input-end';
-        this.inputEnd.placeholder ='Ingrese el horario de finzalizacion';
+        this.inputEnd.placeholder ='HH:MM(ej: 08:00)';
+        this.inputEnd.pattern ='[0-9]{2}:[0-9]{2}';
+        this.inputEnd.title ='Formato: HH:MM (24 horas)';
+        this.inputEnd.maxLength = 5;
 
         this.divType = document.createElement('div');
         this.divType.className = 'type-div';
         
         this.labelType = document.createElement('label');
         this.labelType.className = 'label-type';
-        this.labelType.textContent = 'Seleccionar Dias:';
+        this.labelType.textContent = 'Seleccionar Dia:';
 
         this.divTypeOptions = document.createElement('div');
         this.divTypeOptions.className = 'type-options-div';
@@ -322,13 +329,23 @@ class CreateWorkingDayWC extends HTMLElement
     {
         this.saveButton.onclick = this.controller.onSaveButtonClick.bind(this.controller);
         this.cancelButton.onclick = this.controller.onCancelButtonClick.bind(this.controller);
-        this.typeInputOption00.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption01.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption02.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption03.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption04.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption05.onclick = this.controller.onHandleTypeChange.bind(this.controller);
-        this.typeInputOption06.onclick = this.controller.onHandleTypeChange.bind(this.controller);
+
+        this.typeInputOption00.onclick = this.controller.onHandleDayChange.bind(this.controller);
+        this.typeInputOption01.onclick = this.controller.onHandleDayChange.bind(this.controller);
+        this.typeInputOption02.onclick = this.controller.onHandleDayChange.bind(this.controller);
+        this.typeInputOption03.onclick = this.controller.onHandleDayChange.bind(this.controller);
+        this.typeInputOption04.onclick = this.controller.onHandleDayChange.bind(this.controller);
+        this.typeInputOption05.onclick = this.controller.onHandleDayChange.bind(this.controller);
+        this.typeInputOption06.onclick = this.controller.onHandleDayChange.bind(this.controller);
+
+        var controller = this.controller;
+        this.inputStart.addEventListener('input', function(e) {
+            controller.autoFormatTime(e.target);
+        });
+
+        this.inputEnd.addEventListener('input', function(e) {
+            controller.autoFormatTime(e.target);
+        });
     }
 }
 

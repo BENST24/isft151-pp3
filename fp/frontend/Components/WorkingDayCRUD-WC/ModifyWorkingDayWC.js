@@ -91,35 +91,51 @@ class ModifyWorkingDayWC extends HTMLElement
         document.documentElement.style.padding = '0';
 
         this.titleMain = document.createElement('h2');
-        this.titleMain.textContent = 'Modificar Actividad';
+        this.titleMain.textContent = 'Modificar Dia Laborable';
         this.titleMain.className ='title-main';
-
-        this.table = new WorkingDayTableWC();
 
         this.divActivity = document.createElement('div');
         this.divActivity.className= 'activity-div';
 
         this.labelActivity = document.createElement('label');
         this.labelActivity.className= 'label-activity';
-        this.labelActivity.textContent ='Actividad:';
+        this.labelActivity.textContent ='ID de la Actividad:';
 
         this.inputActivity = document.createElement('input');
         this.inputActivity.className= 'input-activity';
-        this.inputActivity.placeholder ='Ingrese el nuevo nombre de la actividad';
+        this.inputActivity.placeholder ='Ingrese el ID de la actividad';
+        this.inputActivity.type= 'number';
+        this.inputActivity.min = '1';
 
-        this.divDuration = document.createElement('div');
-        this.divDuration.className= 'duration-div';
+        this.divStart = document.createElement('div');
+        this.divStart.className= 'start-div';
 
-        this.labelDuration = document.createElement('label');
-        this.labelDuration.className= 'label-duration';
-        this.labelDuration.textContent ='Duracion: ';
+        this.labelStart = document.createElement('label');
+        this.labelStart.className= 'label-start';
+        this.labelStart.textContent ='Inicio:';
 
-        this.inputDuration = document.createElement('input');
-        this.inputDuration.className= 'input-duration';
-        this.inputDuration.placeholder ='Ingrese la nueva duracion en minutos';
-        this.inputDuration.type = 'number';
-        this.inputDuration.min = '5';
+        this.inputStart = document.createElement('input');
+        this.inputStart.className= 'input-start';
+        this.inputStart.placeholder ='HH:MM(ej: 08:00)';
+        this.inputStart.pattern ='[0-9]{2}:[0-9]{2}';
+        this.inputStart.title ='Formato: HH:MM (24 horas)';
+        this.inputStart.maxLength = 5;
 
+        this.divEnd = document.createElement('div');
+        this.divEnd.className= 'end-div';
+
+        this.labelEnd = document.createElement('label');
+        this.labelEnd.className= 'label-end';
+        this.labelEnd.textContent ='Finalizacion:';
+
+        this.inputEnd = document.createElement('input');
+        this.inputEnd.className= 'input-end';
+        this.inputEnd.placeholder ='HH:MM(ej: 08:00)';
+        this.inputEnd.pattern ='[0-9]{2}:[0-9]{2}';
+        this.inputEnd.title ='Formato: HH:MM (24 horas)';
+        this.inputEnd.maxLength = 5;
+
+        this.table = new WorkingDayTableWC();
 
         this.saveButton = document.createElement('button');
         this.saveButton.className= 'save-button';
@@ -132,13 +148,17 @@ class ModifyWorkingDayWC extends HTMLElement
         this.divActivity.appendChild(this.labelActivity);
         this.divActivity.appendChild(this.inputActivity);
 
-        this.divDuration.appendChild(this.labelDuration);
-        this.divDuration.appendChild(this.inputDuration);
+        this.divStart.appendChild(this.labelStart);
+        this.divStart.appendChild(this.inputStart);
+
+        this.divEnd.appendChild(this.labelEnd);
+        this.divEnd.appendChild(this.inputEnd);
 
         shadow.appendChild(this.titleMain);
         shadow.appendChild(this.table);
         shadow.appendChild(this.divActivity);
-        shadow.appendChild(this.divDuration);
+        shadow.appendChild(this.divStart);
+        shadow.appendChild(this.divEnd);
         shadow.appendChild(this.saveButton);
         shadow.appendChild(this.cancelButton);
         shadow.appendChild(style);
@@ -148,7 +168,7 @@ class ModifyWorkingDayWC extends HTMLElement
     {
         const currentUsername = this.getAttribute('current-username');
         const currentUserPassword = this.getAttribute('current-userpassword');
-        if(currentUsername && currentUserPassword)
+        if(currentUsername && currentUserPassword)  
         {
             this.table.setAttribute('current-username', currentUsername);
             this.table.setAttribute('current-userpassword', currentUserPassword);
@@ -158,6 +178,15 @@ class ModifyWorkingDayWC extends HTMLElement
         
         this.saveButton.onclick = this.controller.onModifyButtonClick.bind(this.controller);
         this.cancelButton.onclick = this.controller.onCancelButtonClick.bind(this.controller);
+        
+        var controller = this.controller;
+        this.inputStart.addEventListener('input', function(e) {
+            controller.autoFormatTime(e.target);
+        });
+
+        this.inputEnd.addEventListener('input', function(e) {
+            controller.autoFormatTime(e.target);
+        });
     }
 }
 

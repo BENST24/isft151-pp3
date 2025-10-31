@@ -51,12 +51,12 @@ class DeleteWorkingDayWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Eliminar Actividad';
-        
+        this.mainTitle.textContent = 'Eliminar Día Laborable';
+
         this.deleteButton = document.createElement('button');
         this.deleteButton.className= 'delete-button';
         this.deleteButton.textContent ='Eliminar';
-        
+
         this.divMainTitle.appendChild(this.mainTitle);
 
         this.table = new WorkingDayTableWC();
@@ -81,12 +81,14 @@ class DeleteWorkingDayWC extends HTMLElement
             this.table.setAttribute('current-username', currentUsername);
             this.table.setAttribute('current-userpassword', currentUserPassword);
         }
+
     }
 
     disconnectedCallback()
     {
 
     }
+    
 }
 
 customElements.define('r-delete-working-day', DeleteWorkingDayWC);
