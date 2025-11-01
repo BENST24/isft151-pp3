@@ -165,7 +165,7 @@ export async function updateClientData(id, name, surname, dni) {
 export async function rescheduleAppointmentDB(id, newDate, newHour) {
     const sql = `
         UPDATE appointment 
-        SET date = ?, hour = ?, state = 'PENDING_RESCHEDULING' 
+        SET date = ?, hour = ?, state = 'PENDING' 
         WHERE id = ?;
     `;
     
