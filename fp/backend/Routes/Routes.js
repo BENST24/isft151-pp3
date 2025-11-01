@@ -488,7 +488,7 @@ router.get("/workingday/list", async (req, res) => {
 // -----------------------------------------------------------
 
 // Disponibilidad por Actividad (próximos 30 días)
-router.get("/appointment/availability/activity", async (req, res) => {
+router.post("/appointment/availability/activity", async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, idActivity } = req.body;
 
@@ -507,7 +507,7 @@ router.get("/appointment/availability/activity", async (req, res) => {
 
 
 // Disponibilidad por Día específico
-router.get("/appointment/availability/day", async (req, res) => {
+router.post("/appointment/availability/day", async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, idActivity, date } = req.body;
 
@@ -530,7 +530,7 @@ router.get("/appointment/availability/day", async (req, res) => {
 // -----------------------------------------------------------
 
 // Buscar turno por Fecha y Hora
-router.get("/appointment/search/datetime", async (req, res) => {
+router.post("/appointment/search/datetime", async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, date, time } = req.body;
 
@@ -549,7 +549,7 @@ router.get("/appointment/search/datetime", async (req, res) => {
 
 
 // Buscar todos los turnos de una fecha
-router.get("/appointment/search/date", async (req, res) => {
+router.post("/appointment/search/date", async (req, res) => {
     try {
         const { currentUsername, currentUserPassword, date } = req.body;
 

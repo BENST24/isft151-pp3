@@ -10,18 +10,18 @@ import { db } from "../DB/db.js";
  * Función auxiliar para verificar si un slot está ocupado.
  * Devuelve 'true' si está disponible, 'false' si está ocupado.
  */
-export async function isSlotAvailable(data, hour, idActivity) {
+export async function isSlotAvailable(date, hour, idActivity) {
     const sql = `
         SELECT COUNT(id) AS count 
         FROM appointment 
-        WHERE data = ? 
+        WHERE date = ? 
           AND hour = ? 
           AND id_activity = ? 
           AND state IN ('PENDING', 'PENDING_RESCHEDULING');
     `;
     
     // db.execute devuelve [rows, fields]
-    const [rows] = await db.execute(sql, [data, hour, idActivity]);
+    const [rows] = await db.execute(sql, [date, hour, idActivity]);
     
     // Si count es 0, está disponible
     return rows[0].count === 0; 
