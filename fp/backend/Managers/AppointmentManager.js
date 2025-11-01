@@ -87,7 +87,7 @@ function generatePossibleSlots(startDate, endDate, workingDays, activityDuration
             while (currentSlotStartMinutes + durationInMinutes <= workHours.end) {
 
                 possibleSlots.push({
-                    data: dateSQL,
+                    date: dateSQL,
                     hour: minutesToTime(currentSlotStartMinutes)
                 });
 
@@ -161,8 +161,8 @@ export async function availabilityByActivity(currentUsername, currentUserPasswor
         
         // Convertir ocupados a un Set para búsquedas rápidas 'YYYY-MM-DDTHH:MM:SS'
         const bookedSet = new Set(bookedSlots.map(slot => {
-            // Formatear la fecha que viene de la DB (puede ser Date o string)
-            const dateSQL = (slot.data instanceof Date) ? formatDateToSQL(slot.data) : slot.data.split('T')[0];
+            // Formatear la fecha que viene de la DB (puede ser Date o string) - CORREGIDO a slot.date
+            const dateSQL = (slot.date instanceof Date) ? formatDateToSQL(slot.date) : slot.date.split('T')[0];
             return `${dateSQL}T${slot.hour}`; 
         }));
 
@@ -173,7 +173,7 @@ export async function availabilityByActivity(currentUsername, currentUserPasswor
         });
 
         api_return.status = true;
-        api_return.respond = availableSlots; // La lista de {data, hour} disponibles
+        api_return.respond = availableSlots; // La lista de {date, hour} disponibles
         api_return.result = 'REQUEST_SUCCESSFUL';
     }
     else
@@ -464,7 +464,7 @@ export async function rescheduleAppointment(currentUsername, currentUserPassword
 /**
  * Crea un nuevo turno (previa verificación de disponibilidad).
  */
-export async function createAppointment(currentUsername, currentUserPassword, nameClient, surnameClient, dni, data, hour, idActivity)
+export async function createAppointment(currentUsername, currentUserPassword, nameClient, surnameClient, dni, date, hour, idActivity)
 {
     let api_return = 
     {
@@ -478,7 +478,7 @@ export async function createAppointment(currentUsername, currentUserPassword, na
     if (respond.status)
     {
         // Validación de datos de entrada
-        if (!nameClient || !surnameClient || !dni || !data || !hour || !idActivity) {
+        if (!nameClient || !surnameClient || !dni || !date || !hour || !idActivity) {
             api_return.result = 'MISSING_DATA';
             return api_return;
         }
@@ -493,16 +493,15 @@ export async function createAppointment(currentUsername, currentUserPassword, na
 
         // Validación de Negocio: ¿Está disponible el turno?
         // (Usamos la helper function 'isSlotAvailable' del servicio)
-        const available = await isSlotAvailable(data, hour, idActivity);
+        const available = await isSlotAvailable(date, hour, idActivity);
 
         if (!available) {
             api_return.result = 'SLOT_NOT_AVAILABLE';
             return api_return; // El turno está ocupado
         }
 
-        // Creación (Llamada al servicio)
-        // Usamos 'createAppointmentDB' (el import renombrado)
-        const newAppointmentId = await createAppointmentDB(nameClient, surnameClient, dni, data, hour, idActivity);
+        // Creación (Llamada al servicio) - CORREGIDO a 'date'
+        const newAppointmentId = await createAppointmentDB(nameClient, surnameClient, dni, date, hour, idActivity);
 
         // Respuesta
         if (newAppointmentId) {

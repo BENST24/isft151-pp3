@@ -33,11 +33,11 @@ export async function isSlotAvailable(date, hour, idActivity) {
  */
 export async function getBookedSlotsByMonth(idActivity, startDate, endDate) {
     const sql = `
-        SELECT data, hour 
+        SELECT date, hour 
         FROM appointment 
         WHERE id_activity = ? 
           AND state IN ('PENDING', 'PENDING_RESCHEDULING') 
-          AND data BETWEEN ? AND ?;
+          AND date BETWEEN ? AND ?;
     `;
     
     const [rows] = await db.execute(sql, [idActivity, startDate, endDate]);
@@ -53,7 +53,7 @@ export async function getBookedSlotsByDay(idActivity, specificDate) {
         FROM appointment 
         WHERE id_activity = ? 
           AND state IN ('PENDING', 'PENDING_RESCHEDULING') 
-          AND data = ?;
+          AND date = ?;
     `;
     
     const [rows] = await db.execute(sql, [idActivity, specificDate]);
@@ -70,27 +70,27 @@ export async function getBookedSlotsByDay(idActivity, specificDate) {
 /**
  * Busca un turno específico por fecha y hora.
  */
-export async function getAppointmentByDateTime(data, hour) {
+export async function getAppointmentByDateTime(date, hour) {
     const sql = `
         SELECT * FROM appointment 
-        WHERE data = ? AND hour = ?;
+        WHERE date = ? AND hour = ?;
     `;
     
-    const [rows] = await db.execute(sql, [data, hour]);
+    const [rows] = await db.execute(sql, [date, hour]);
     return rows[0] || null; // Devuelve el turno o null
 }
 
 /**
  * Busca todos los turnos de una fecha específica.
  */
-export async function getAppointmentsByDate(data) {
+export async function getAppointmentsByDate(date) {
     const sql = `
         SELECT * FROM appointment 
-        WHERE data = ? 
+        WHERE date = ? 
         ORDER BY hour ASC;
     `;
     
-    const [rows] = await db.execute(sql, [data]);
+    const [rows] = await db.execute(sql, [date]);
     return rows;
 }
 
@@ -98,15 +98,15 @@ export async function getAppointmentsByDate(data) {
  * Busca un turno específico por fecha, hora Y ACTIVIDAD.
  * Esto sí es un identificador único.
  */
-export async function getAppointmentByDateTimeActivity(data, hour, idActivity) {
+export async function getAppointmentByDateTimeActivity(date, hour, idActivity) {
     const sql = `
         SELECT * FROM appointment 
-        WHERE data = ? 
+        WHERE date = ? 
           AND hour = ? 
           AND id_activity = ?;
     `;
     
-    const [rows] = await db.execute(sql, [data, hour, idActivity]);
+    const [rows] = await db.execute(sql, [date, hour, idActivity]);
     return rows[0] || null; // Devuelve el turno específico o null
 }
 
@@ -121,16 +121,16 @@ export async function getAppointmentByDateTimeActivity(data, hour, idActivity) {
  * Crea un nuevo turno (asume que la disponibilidad ya fue verificada).
  * Devuelve el ID del nuevo turno.
  */
-export async function createAppointmentDB(name, surname, dni, data, hour, idActivity) {
+export async function createAppointmentDB(name, surname, dni, date, hour, idActivity) {
     const sql = `
         INSERT INTO appointment 
-            (name_client, surname_client, dni, data, hour, id_activity) 
+            (name_client, surname_client, dni, date, hour, id_activity) 
         VALUES 
             (?, ?, ?, ?, ?, ?);
     `;
     
     // db.execute devuelve [result, fields]
-    const [result] = await db.execute(sql, [name, surname, dni, data, hour, idActivity]);
+    const [result] = await db.execute(sql, [name, surname, dni, date, hour, idActivity]);
     
     return result.insertId; // Devuelve el ID del turno creado
 }
@@ -162,14 +162,14 @@ export async function updateClientData(id, name, surname, dni) {
  * (Asume que la disponibilidad ya fue verificada).
  * Devuelve 1 si se actualizó, 0 si no se encontró.
  */
-export async function rescheduleAppointmentDB(id, newData, newHour) {
+export async function rescheduleAppointmentDB(id, newDate, newHour) {
     const sql = `
         UPDATE appointment 
-        SET data = ?, hour = ?, state = 'PENDING_RESCHEDULING' 
+        SET date = ?, hour = ?, state = 'PENDING_RESCHEDULING' 
         WHERE id = ?;
     `;
     
-    const [result] = await db.execute(sql, [newData, newHour, id]);
+    const [result] = await db.execute(sql, [newDate, newHour, id]);
     return result.affectedRows;
 }
 
@@ -208,9 +208,9 @@ export async function cancelAppointment(id) {
 export async function getFutureAppointments() {
     const sql = `
         SELECT * FROM appointment 
-        WHERE data >= CURDATE() 
+        WHERE date >= CURDATE() 
           AND state != 'CANCELED' 
-        ORDER BY data ASC, hour ASC;
+        ORDER BY date ASC, hour ASC;
     `;
     
     const [rows] = await db.execute(sql);
@@ -223,7 +223,7 @@ export async function getFutureAppointments() {
 export async function getAllAppointments() {
     const sql = `
         SELECT * FROM appointment 
-        ORDER BY data DESC, hour DESC;
+        ORDER BY date DESC, hour DESC;
     `;
     
     const [rows] = await db.execute(sql);
