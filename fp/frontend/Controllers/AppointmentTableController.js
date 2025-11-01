@@ -52,7 +52,7 @@ class AppointmentTableController {
             row.appendChild(tdDni);
 
             let tdDate = document.createElement('td');
-            tdDate.textContent = appointment.data;
+            tdDate.textContent = appointment.date;
             row.appendChild(tdDate);
 
             let tdTime = document.createElement('td');
@@ -86,15 +86,13 @@ class AppointmentTableController {
         }
 
         return fetch('http://localhost:3000/api/appointment/search/datetime', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-username': currentUsername,
-                'x-password': currentUserPassword
+                'X-HTTP-Method-Override': 'GET'
             },
             body: JSON.stringify({
-                date: date,
-                time: time
+                currentUsername, currentUserPassword, date, time
             })
         })
         .then(function(response) { return response.json(); })
@@ -125,14 +123,13 @@ class AppointmentTableController {
         }
 
         return fetch('http://localhost:3000/api/appointment/search/date', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-username': currentUsername,
-                'x-password': currentUserPassword
+                'X-HTTP-Method-Override': 'GET'
             },
             body: JSON.stringify({
-                date: date
+                currentUsername, currentUserPassword, date
             })
         })
         .then(function(response) { return response.json(); })
@@ -158,16 +155,12 @@ class AppointmentTableController {
     // Método para listar citas futuras
     listFutureAppointments(currentUsername, currentUserPassword) {
         return fetch('http://localhost:3000/api/appointment/list/future', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-username': currentUsername,
-                'x-password': currentUserPassword
+                'X-HTTP-Method-Override': 'GET'
             },
-            body: JSON.stringify({
-                currentUsername: currentUsername,
-                currentUserPassword: currentUserPassword
-            })
+            body: JSON.stringify({ currentUsername, currentUserPassword })
         })
         .then(function(response) { return response.json(); })
         .then(function(result) {
@@ -192,16 +185,12 @@ class AppointmentTableController {
     // Método para listar todas las citas
     listAllAppointments(currentUsername, currentUserPassword) {
         return fetch('http://localhost:3000/api/appointment/list/all', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-username': currentUsername,
-                'x-password': currentUserPassword
+                'X-HTTP-Method-Override': 'GET'
             },
-            body: JSON.stringify({
-                currentUsername: currentUsername,
-                currentUserPassword: currentUserPassword
-            })
+            body: JSON.stringify({ currentUsername, currentUserPassword })
         })
         .then(function(response) { return response.json(); })
         .then(function(result) {

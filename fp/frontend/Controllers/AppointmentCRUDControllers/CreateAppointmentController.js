@@ -16,7 +16,6 @@ class CreateAppointmentController {
             return;
         }
 
-        // CORREGIDO: Incluir todas las credenciales en el body
         const requestBody = {
             currentUsername: currentUsername,
             currentUserPassword: currentUserPassword,
@@ -27,9 +26,10 @@ class CreateAppointmentController {
         console.log("Enviando verificación de disponibilidad:", requestBody);
 
         fetch('http://localhost:3000/api/appointment/availability/day', {
-            method: 'POST',
+            method: 'POST', // Usamos POST para poder enviar un body
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-HTTP-Method-Override': 'GET' // Le decimos al backend que lo trate como GET
             },
             body: JSON.stringify(requestBody)
         })
@@ -100,7 +100,7 @@ class CreateAppointmentController {
             nameClient: nameClient,
             surnameClient: surnameClient,
             dni: parseInt(dni),
-            data: data,
+            data: data, // CORREGIDO: Enviar como 'data' para que coincida con el backend
             hour: formattedHour,
             idActivity: parseInt(idActivity)
         };

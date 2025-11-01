@@ -34,7 +34,6 @@
             return timeFormat;
         }
 
-
         onModifyButtonClick()
         {
             
@@ -108,8 +107,14 @@
                 this.currentActivityId = activity.id;
                 this.originalActivityName = activity.name;
 
+                // Función para convertir 'HH:MM:SS' a minutos
+                const timeToMinutes = (timeStr) => {
+                    const [hours, minutes] = timeStr.split(':').map(Number);
+                    return hours * 60 + minutes;
+                };
+
                 this.view.inputActivity.placeholder = `Actual: ${activity.name}`;
-                this.view.inputDuration.placeholder = `Actual: ${activity.duration} minutos`;
+                this.view.inputDuration.placeholder = `Actual: ${timeToMinutes(activity.duration)} minutos`;
 
                 this.view.inputActivity.value = '';
                 this.view.inputDuration.value = '';
