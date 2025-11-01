@@ -105,6 +105,12 @@ class ActivityTableController
 
         let tbody = document.createElement('tbody');
 
+        // Función para convertir 'HH:MM:SS' a minutos
+        const timeToMinutes = (timeStr) => {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        };
+
         for(let j = 0; j < dataArray.length; j++){
 
             let activity = dataArray[j];
@@ -119,7 +125,7 @@ class ActivityTableController
             row.appendChild(tdActivity);
 
             let tdDuration = document.createElement('td');
-            tdDuration.textContent = activity.duration;
+            tdDuration.textContent = timeToMinutes(activity.duration);
             row.appendChild(tdDuration);
 
             tbody.appendChild(row);

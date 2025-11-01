@@ -18,15 +18,13 @@ class ModifyAppointmentController {
         }
 
         fetch('http://localhost:3000/api/appointment/search/datetime', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-username': currentUsername,
-                'x-password': currentUserPassword
+                'X-HTTP-Method-Override': 'GET'
             },
             body: JSON.stringify({
-                date: date,
-                time: time
+                currentUsername, currentUserPassword, date, time
             })
         })
         .then(function(response) { return response.json(); })
