@@ -658,7 +658,8 @@ router.patch("/appointment/cancel", async (req, res) => {
 // Listar turnos futuros
 router.get("/appointment/list/future", async (req, res) => {
     try {
-        const { currentUsername, currentUserPassword } = req.body;
+        const currentUsername = req.headers["x-username"];
+        const currentUserPassword = req.headers["x-password"];
 
         const result = await listFutureAppointments(currentUsername, currentUserPassword);
 
@@ -677,7 +678,8 @@ router.get("/appointment/list/future", async (req, res) => {
 // Listar todos los turnos (histórico)
 router.get("/appointment/list/all", async (req, res) => {
     try {
-        const { currentUsername, currentUserPassword } = req.body;
+        const currentUsername = req.headers["x-username"];
+        const currentUserPassword = req.headers["x-password"];
 
         const result = await listAllAppointments(currentUsername, currentUserPassword);
 
