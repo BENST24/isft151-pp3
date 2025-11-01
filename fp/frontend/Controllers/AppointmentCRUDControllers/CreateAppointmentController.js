@@ -16,19 +16,29 @@ class CreateAppointmentController {
             return;
         }
 
+        // CORREGIDO: Incluir todas las credenciales en el body
+        const requestBody = {
+            currentUsername: currentUsername,
+            currentUserPassword: currentUserPassword,
+            idActivity: parseInt(idActivity),
+            date: date
+        };
+
+        console.log("Enviando verificación de disponibilidad:", requestBody);
+
         fetch('http://localhost:3000/api/appointment/availability/day', {
-            method: 'GET',
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'x-username': currentUsername,
-                'x-password': currentUserPassword
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                idActivity: parseInt(idActivity),
-                date: date
-            })
+            body: JSON.stringify(requestBody)
         })
-        .then(function(response) { return response.json(); })
+        .then(function(response) { 
+            if (!response.ok) {
+                throw new Error('Error HTTP: ' + response.status);
+            }
+            return response.json(); 
+        })
         .then(function(result) {
             console.log("Respuesta de disponibilidad:", result);
             if (result.status) {
@@ -48,7 +58,7 @@ class CreateAppointmentController {
         }.bind(this))
         .catch(function(error) {
             console.error('Error al verificar disponibilidad:', error);
-            window.alert('Error al verificar la disponibilidad');
+            window.alert('Error al verificar la disponibilidad: ' + error.message);
         });
     }
 
@@ -78,6 +88,12 @@ class CreateAppointmentController {
             return;
         }
 
+        // CORREGIDO: Asegurar formato de hora correcto
+        let formattedHour = hour;
+        if (hour.length === 5) { // Formato HH:MM
+            formattedHour = hour + ':00';
+        }
+
         const requestBody = {
             currentUsername: currentUsername,
             currentUserPassword: currentUserPassword,
@@ -85,9 +101,11 @@ class CreateAppointmentController {
             surnameClient: surnameClient,
             dni: parseInt(dni),
             data: data,
-            hour: hour + ':00', // Asegurar formato HH:MM:SS
+            hour: formattedHour,
             idActivity: parseInt(idActivity)
         };
+
+        console.log("Enviando creación de cita:", requestBody);
 
         fetch('http://localhost:3000/api/appointment/create', {
             method: 'POST',
@@ -96,7 +114,12 @@ class CreateAppointmentController {
             },
             body: JSON.stringify(requestBody)
         })
-        .then(function(response) { return response.json(); })
+        .then(function(response) { 
+            if (!response.ok) {
+                throw new Error('Error HTTP: ' + response.status);
+            }
+            return response.json(); 
+        })
         .then(function(result) {
             console.log("Respuesta de creación:", result);
             if (result.status) {
@@ -108,13 +131,15 @@ class CreateAppointmentController {
                     errorMessage = 'Error: El horario seleccionado no está disponible';
                 } else if (result.result === 'ACTIVITY_NOT_FOUND') {
                     errorMessage = 'Error: No se encontró la actividad con el ID proporcionado';
+                } else if (result.result === 'MISSING_DATA') {
+                    errorMessage = 'Error: Faltan datos obligatorios';
                 }
                 window.alert(errorMessage);
             }
         }.bind(this))
         .catch(function(error) {
             console.error('Error en la creación:', error);
-            window.alert('Error al crear la cita');
+            window.alert('Error al crear la cita: ' + error.message);
         });
     }
 

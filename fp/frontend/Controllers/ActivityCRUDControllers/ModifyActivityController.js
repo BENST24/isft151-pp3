@@ -26,6 +26,15 @@
             }.bind(this.table.controller);
         }
 
+        // Convertir minutos a formato TIME (HH:MM:SS)
+        minutesToTimeFormat(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            const timeFormat = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:00`;
+            return timeFormat;
+        }
+
+
         onModifyButtonClick()
         {
             
@@ -64,7 +73,7 @@
             }
             if(newDuration)
             {
-                requestBody.newDuration = parseInt(newDuration);
+                requestBody.newDuration = this.minutesToTimeFormat(parseInt(newDuration));
             }
 
             fetch('http://localhost:3000/api/activity/modify',{
