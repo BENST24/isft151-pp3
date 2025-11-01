@@ -155,12 +155,12 @@ class AppointmentTableController {
     // Método para listar citas futuras
     listFutureAppointments(currentUsername, currentUserPassword) {
         return fetch('http://localhost:3000/api/appointment/list/future', {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-HTTP-Method-Override': 'GET'
-            },
-            body: JSON.stringify({ currentUsername, currentUserPassword })
+                'x-username': currentUsername,
+                'x-password': currentUserPassword
+            }
         })
         .then(function(response) { return response.json(); })
         .then(function(result) {
@@ -185,12 +185,12 @@ class AppointmentTableController {
     // Método para listar todas las citas
     listAllAppointments(currentUsername, currentUserPassword) {
         return fetch('http://localhost:3000/api/appointment/list/all', {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-HTTP-Method-Override': 'GET'
-            },
-            body: JSON.stringify({ currentUsername, currentUserPassword })
+                'x-username': currentUsername,
+                'x-password': currentUserPassword
+            }
         })
         .then(function(response) { return response.json(); })
         .then(function(result) {
