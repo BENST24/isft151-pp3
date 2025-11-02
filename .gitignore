@@ -1,3 +1,5 @@
-~$I_Documentation.docx
+# Ignorar dependencias de Node
+node_modules
 
-node_modules/
+# Ignorar archivo de variables de entorno locales
+.env
