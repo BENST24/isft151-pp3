@@ -39,6 +39,24 @@ class DeleteWorkingDayWC extends HTMLElement
             {
                 height: 30px;
             }
+
+            .delete-button
+            {
+                width: 200px;
+                margin: 10px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .delete-button:hover {
+                background-color: #8a121eff;
+            }
         `;
         document.body.style.margin = '0';
         document.body.style.padding = '0';

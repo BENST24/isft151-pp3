@@ -34,6 +34,26 @@ class ListWorkingDayWC extends HTMLElement
                 font-weight: 700;
             }
             
+            .list-button
+            {
+                width: 200px;
+                margin: 10px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #6c757d;
+                color: white;
+            }
+
+            .list-button:hover
+            {
+                background-color: #313335ff;
+                color: white;
+            }
+        
             
         `;
         document.body.style.margin = '0';

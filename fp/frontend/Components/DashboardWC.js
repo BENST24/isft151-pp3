@@ -103,7 +103,7 @@ class DashboardWC extends HTMLElement
 
         this.logOutButton = document.createElement('img');
         this.logOutButton.href='';
-        this.logOutButton.src = '/fp/frontend/assets/cerrar-sesion.png';
+        this.logOutButton.src = '/assets/cerrar-sesion.png';
         this.logOutButton.className ='log-out-button';
 
         /*---------------------NAV VERTICAL--------------------------*/

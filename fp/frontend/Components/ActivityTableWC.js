@@ -32,7 +32,12 @@ class ActivityTableWC extends HTMLElement{
             
             .input-search
             {
-                height: 30px;
+                border-radius: 20px;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                text-align: center;
+                width: 220px;
             }
 
             .span-search
@@ -40,7 +45,6 @@ class ActivityTableWC extends HTMLElement{
                 margin: 20px;
                 width: 40px;
                 height: 40px;
-                background-color: rgba(204, 204, 204, 1);
                 color: black;
             }
 
@@ -48,7 +52,6 @@ class ActivityTableWC extends HTMLElement{
             {
                 width: 40px;
                 height: 40px;
-                background-color: rgba(204, 204, 204, 1);
                 color: black;
             }
             
@@ -75,7 +78,7 @@ class ActivityTableWC extends HTMLElement{
 
         this.searchIcon = document.createElement('img');
         this.searchIcon.className = 'search-icon';
-        this.searchIcon.src ='/fp/frontend/assets/buscar.png';
+        this.searchIcon.src ='/assets/buscar.png';
 
         this.spanSearch.appendChild(this.searchIcon);
         this.labelSearch.appendChild(this.spanSearch);
