@@ -35,67 +35,64 @@ class CreateWorkingDayWC extends HTMLElement
                 font-weight: 700;
             }
 
-            .activity-div
+            .activity-div, .start-div, .end-div
             {
                 padding-bottom: 20px;
                 font-size:20px;
                 font-weight: 700;
             }
 
-            .label-activity
+            .input-activity, .input-start, .input-end
             {
-                padding-bottom: 20px;
+                border-radius: 20px;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                text-align: center;
+                width: 220px;
             }
 
-            .input-activity
+            .label-start, .label-end, .label-activity, .type-option-name
             {
-                border-radius:20px;
-            }
-
-            .start-div
-            {
-                padding-bottom: 20px;
-                font-size:20px;
+                padding-bottom: 10px;
+                margin-bottom: 5px;
                 font-weight: 700;
             }
-
-            .label-start
-            {
-                padding-bottom: 20px;
-            }
-
-            .input-start
-            {
-                border-radius:20px;
-            }
-                
-            .end-div
-            {
-                padding-bottom: 20px;
-                font-size:20px;
-                font-weight: 700;
-            }
-
-            .label-end
-            {
-                padding-bottom: 20px;
-            }
-
-            .input-end
-            {
-                border-radius:20px;
-            }
+            
             .save-button
             {
-                width: 20%;
-                margin-bottom: 10px;
-                border-radius:20px;
+                width: 200px;
+                margin: 10px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #28a745;
+                color: white;
+            }
+
+            .save-button:hover {
+                background-color: #218838;
             }
 
             .cancel-button
             {
-                width: 20%;
-                border-radius:20px;
+                width: 200px;
+                margin: 10px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #6c757d;
+                color: white;
+            }
+
+            .cancel-button:hover {
+                background-color: #545b62;
             }
             
         `;

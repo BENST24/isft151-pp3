@@ -36,50 +36,68 @@ class ModifyUserWC extends HTMLElement
                 font-weight: 700;
             }
 
-            .user-div
+            .user-div, .password-div
             {
                 padding-bottom: 20px;
-                font-size:20px;
+                font-size: 20px;
+                font-weight: 700;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .label-user, .label-password, .type-option-name
+            {
+                padding-bottom: 10px;
+                margin-bottom: 5px;
                 font-weight: 700;
             }
 
-            .label-user
+            .input-user, .input-password
             {
-                padding-bottom: 20px;
+                border-radius: 20px;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                text-align: center;
+                width: 220px;
             }
 
-            .input-user
-            {
-                border-radius:20px;
-            }
-                
-            .password-div
-            {
-                padding-bottom: 20px;
-                font-size:20px;
-                font-weight: 700;
-            }
-
-            .label-password
-            {
-                padding-bottom: 20px;
-            }
-
-            .input-password
-            {
-                border-radius:20px;
-            }
             .save-button
             {
-                width: 20%;
-                margin-bottom: 10px;
-                border-radius:20px;
+                width: 200px;
+                margin: 10px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #28a745;
+                color: white;
+            }
+
+            .save-button:hover {
+                background-color: #218838;
             }
 
             .cancel-button
             {
-                width: 20%;
-                border-radius:20px;
+                width: 200px;
+                margin: 10px;
+                border-radius: 20px;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+                background-color: #6c757d;
+                color: white;
+            }
+
+            .cancel-button:hover {
+                background-color: #545b62;
             }
             
         `;

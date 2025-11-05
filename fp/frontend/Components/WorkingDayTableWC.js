@@ -32,7 +32,12 @@ class WorkingDayTableWC extends HTMLElement{
             
             .input-search
             {
-                height: 30px;
+                border-radius: 20px;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                text-align: center;
+                width: 220px;
             }
 
             .span-search
@@ -40,7 +45,6 @@ class WorkingDayTableWC extends HTMLElement{
                 margin: 20px;
                 width: 40px;
                 height: 40px;
-                background-color: rgba(204, 204, 204, 1);
                 color: black;
             }
 
@@ -48,8 +52,14 @@ class WorkingDayTableWC extends HTMLElement{
             {
                 width: 40px;
                 height: 40px;
-                background-color: rgba(204, 204, 204, 1);
                 color: black;
+            }
+
+            .label-type ,.type-option-name
+            {
+                padding-bottom: 10px;
+                margin-bottom: 5px;
+                font-weight: bold;
             }
             
             .hidden
