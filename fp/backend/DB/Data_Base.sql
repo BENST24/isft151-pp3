@@ -32,7 +32,7 @@ CREATE TABLE `working_day` (
 
 CREATE TABLE `appointment` (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name_client VARCHAR(100) UNIQUE NOT NULL,
+    name_client VARCHAR(100) NOT NULL,
     surname_client VARCHAR(100) NOT NULL,
     dni INT NOT NULL,
     date DATE NOT NULL,
