@@ -47,7 +47,7 @@ class SearchWorkingDayWC extends HTMLElement
 
         this.mainTitle = document.createElement('h2');
         this.mainTitle.className = 'title-main';
-        this.mainTitle.textContent = 'Buscar Actividad';
+        this.mainTitle.textContent = 'Buscar Día laboral';
 
         this.divMainTitle.appendChild(this.mainTitle);
 
