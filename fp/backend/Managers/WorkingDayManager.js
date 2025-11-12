@@ -81,10 +81,16 @@ export async function createWorkingDay(currentUsername, currentUserPassword, day
             }
 
             // Crear día laboral
-            await createWorkingDayDB(day, start_hour, end_hour, id_activity);
+            const created = await createWorkingDayDB(day, start_hour, end_hour, id_activity);
 
-            api_return.status = true;
-            api_return.result = 'WORKING_DAY_CREATED';
+            if (created)
+            {
+                api_return.status = true;
+                api_return.result = 'WORKING_DAY_CREATED';
+            } else
+            {
+                api_return.result = 'CREATE_FAILED';
+            }
         }
         else
         {

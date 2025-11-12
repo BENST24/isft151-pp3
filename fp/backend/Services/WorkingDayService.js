@@ -3,11 +3,12 @@ import { db } from "../DB/db.js";
 // Crear un día laboral
 export async function createWorkingDayDB(day, start_hour, end_hour, id_activity) 
 {
-    await db.execute(
+    const [result] = await db.execute(
         `INSERT INTO working_day (day, start_hour, end_hour, id_activity)
          VALUES (?, ?, ?, ?)`,
         [day, start_hour, end_hour, id_activity]
     );
+    return result.affectedRows > 0;
 }
 
 // Buscar un día laboral (por nombre del día)
