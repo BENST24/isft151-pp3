@@ -82,7 +82,7 @@ class DashboardController
             this.dashboardInstance.uWorkingDayList.style.display = 'block';
             this.dashboardInstance.uAppointmentList.style.display = 'none';
 
-            this.currentLeftNav = this.dashboardInstance.uActivityList;
+            this.currentLeftNav = this.dashboardInstance.uWorkingDayList;
         }
     }
 
